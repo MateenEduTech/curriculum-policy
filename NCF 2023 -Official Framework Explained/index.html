@@ -1,0 +1,2550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="NCF 2023 Official Framework Explorer – National Curriculum Framework 2023 by Mateen Yousuf, Teacher, School Education Department J&K"/>
+  <meta name="theme-color" content="#1e3a5f"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <title>NCF 2023 – Official Framework Explorer</title>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="apple-touch-icon" href="icon-192.svg"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --indigo: #1e3a5f;
+      --indigo-light: #2d5282;
+      --indigo-dark: #142840;
+      --sky: #4a9bb8;
+      --sky-light: #7eb8d4;
+      --sky-pale: #e8f4f9;
+      --saffron: #e8891a;
+      --saffron-light: #fef3e2;
+      --saffron-pale: #fff8ee;
+      --cream: #faf8f3;
+      --parchment: #f5f1e8;
+      --paper: #ffffff;
+      --grey-light: #f0ede6;
+      --grey-mid: #d0cfc8;
+      --grey-text: #5a5a5a;
+      --grey-dark: #2c2c2c;
+      --success: #2d7a4e;
+      --shadow-sm: 0 2px 8px rgba(30,58,95,0.08);
+      --shadow-md: 0 4px 20px rgba(30,58,95,0.12);
+      --shadow-lg: 0 8px 40px rgba(30,58,95,0.16);
+      --radius: 10px;
+      --sidebar-w: 300px;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'Source Serif 4', Georgia, serif;
+      --font-ui: 'DM Sans', system-ui, sans-serif;
+    }
+    [data-theme="dark"] {
+      --cream: #12202f;
+      --parchment: #1a2d42;
+      --paper: #1f3448;
+      --grey-light: #243c54;
+      --grey-mid: #3a5270;
+      --grey-text: #b0c4d8;
+      --grey-dark: #e8f0f8;
+      --sky-pale: #1a3550;
+      --saffron-light: #2a1f0a;
+      --saffron-pale: #261c08;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--grey-dark);
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+
+    /* ===== PROGRESS BAR ===== */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+      background: linear-gradient(90deg, var(--saffron), var(--sky));
+      z-index: 1000; transition: width 0.1s linear;
+      box-shadow: 0 0 8px rgba(232,137,26,0.5);
+    }
+
+    /* ===== TOP HEADER ===== */
+    #top-header {
+      position: fixed; top: 4px; left: 0; right: 0; height: 56px;
+      background: var(--indigo);
+      display: flex; align-items: center; padding: 0 16px;
+      z-index: 900; gap: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    #menu-btn {
+      background: none; border: none; cursor: pointer;
+      color: white; padding: 8px; border-radius: 6px;
+      transition: background 0.2s; display: flex; align-items: center;
+    }
+    #menu-btn:hover { background: rgba(255,255,255,0.1); }
+    #header-title {
+      font-family: var(--font-display); font-size: 1rem; color: white;
+      font-weight: 600; letter-spacing: 0.02em; flex: 1;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    #header-title span { color: var(--saffron); }
+    #header-actions { display: flex; gap: 8px; align-items: center; }
+    .hdr-btn {
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      color: white; padding: 6px 12px; border-radius: 20px; cursor: pointer;
+      font-family: var(--font-ui); font-size: 0.78rem; transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .hdr-btn:hover { background: rgba(255,255,255,0.2); }
+    #install-btn { display: none; }
+
+    /* ===== SIDEBAR ===== */
+    #sidebar-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 800; backdrop-filter: blur(2px);
+    }
+    #sidebar-overlay.open { display: block; }
+    #sidebar {
+      position: fixed; top: 60px; left: -320px; width: var(--sidebar-w);
+      height: calc(100vh - 60px); background: var(--paper);
+      z-index: 850; overflow-y: auto; transition: left 0.35s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: var(--shadow-lg); border-right: 1px solid var(--grey-mid);
+    }
+    #sidebar.open { left: 0; }
+    .sidebar-header {
+      background: var(--indigo); padding: 20px 16px 16px;
+      border-bottom: 3px solid var(--saffron);
+    }
+    .sidebar-header h3 {
+      font-family: var(--font-display); color: white; font-size: 1rem;
+      font-weight: 700; line-height: 1.3;
+    }
+    .sidebar-header p { color: var(--sky-light); font-size: 0.75rem; margin-top: 4px; font-family: var(--font-ui); }
+    .sidebar-search-wrap { padding: 12px; border-bottom: 1px solid var(--grey-mid); }
+    #sidebar-search {
+      width: 100%; padding: 8px 12px; border: 1px solid var(--grey-mid);
+      border-radius: 20px; font-family: var(--font-ui); font-size: 0.85rem;
+      background: var(--grey-light); color: var(--grey-dark); outline: none;
+      transition: border 0.2s;
+    }
+    #sidebar-search:focus { border-color: var(--sky); background: var(--paper); }
+    #sidebar-search::placeholder { color: var(--grey-text); }
+    .nav-section { border-bottom: 1px solid var(--grey-light); }
+    .nav-section-title {
+      padding: 10px 16px 6px; font-family: var(--font-ui); font-size: 0.7rem;
+      font-weight: 500; color: var(--saffron); text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .nav-item {
+      display: flex; align-items: center; padding: 9px 16px; cursor: pointer;
+      font-family: var(--font-ui); font-size: 0.84rem; color: var(--grey-dark);
+      transition: all 0.15s; border-left: 3px solid transparent; gap: 8px;
+    }
+    .nav-item:hover { background: var(--sky-pale); color: var(--indigo); border-left-color: var(--sky-light); }
+    .nav-item.active { background: var(--saffron-light); color: var(--indigo); border-left-color: var(--saffron); font-weight: 500; }
+    .nav-item .icon { font-size: 1rem; min-width: 20px; }
+    .nav-item.bookmarked::after { content: "🔖"; margin-left: auto; font-size: 0.7rem; }
+
+    /* ===== MAIN CONTENT ===== */
+    #main {
+      margin-top: 60px; min-height: calc(100vh - 60px);
+      padding: 0;
+    }
+
+    /* ===== LANDING PAGE ===== */
+    #landing {
+      display: block; min-height: calc(100vh - 60px);
+      background: linear-gradient(160deg, #e8f4f9 0%, var(--parchment) 40%, #fef3e2 100%);
+    }
+    [data-theme="dark"] #landing {
+      background: linear-gradient(160deg, #0f1f2e 0%, #12202f 40%, #1a1408 100%);
+    }
+    .landing-hero {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 40px 24px 32px; text-align: center; position: relative;
+    }
+    .emblem-wrap {
+      width: 90px; height: 90px; margin-bottom: 24px;
+      background: var(--indigo); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(30,58,95,0.3);
+      border: 3px solid var(--saffron);
+    }
+    .emblem-wrap svg { width: 50px; height: 50px; }
+    .landing-title {
+      font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.4rem);
+      color: var(--indigo); font-weight: 900; line-height: 1.2; margin-bottom: 6px;
+    }
+    [data-theme="dark"] .landing-title { color: #7eb8d4; }
+    .landing-sub {
+      font-family: var(--font-display); font-size: clamp(0.95rem, 2vw, 1.15rem);
+      color: var(--saffron); font-weight: 600; font-style: italic; margin-bottom: 8px;
+    }
+    .landing-tag {
+      font-family: var(--font-ui); font-size: 0.8rem; color: var(--grey-text);
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 28px;
+    }
+    .divider {
+      width: 80px; height: 3px; margin: 0 auto 28px;
+      background: linear-gradient(90deg, transparent, var(--saffron), transparent);
+    }
+
+    /* Author card */
+    .author-card {
+      background: var(--paper); border-radius: 16px; padding: 20px 24px;
+      box-shadow: var(--shadow-md); max-width: 360px; width: 100%;
+      display: flex; align-items: center; gap: 16px; margin: 0 auto 32px;
+      border: 1px solid var(--grey-mid);
+    }
+    .author-photo {
+      width: 72px; height: 72px; border-radius: 50%; object-fit: cover;
+      border: 3px solid var(--saffron); flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(232,137,26,0.3);
+    }
+    .author-info h4 {
+      font-family: var(--font-display); font-size: 1rem; color: var(--indigo);
+      font-weight: 700; line-height: 1.3;
+    }
+    [data-theme="dark"] .author-info h4 { color: var(--sky-light); }
+    .author-info p { font-family: var(--font-ui); font-size: 0.78rem; color: var(--grey-text); line-height: 1.4; margin-top: 3px; }
+
+    /* Quick stats */
+    .stats-row {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      max-width: 520px; width: 100%; margin: 0 auto 32px;
+    }
+    .stat-chip {
+      background: var(--paper); border: 1px solid var(--grey-mid); border-radius: 30px;
+      padding: 8px 16px; text-align: center; box-shadow: var(--shadow-sm);
+    }
+    .stat-chip strong {
+      display: block; font-family: var(--font-display); font-size: 1.3rem;
+      color: var(--indigo); font-weight: 700;
+    }
+    [data-theme="dark"] .stat-chip strong { color: var(--sky-light); }
+    .stat-chip span { font-family: var(--font-ui); font-size: 0.7rem; color: var(--grey-text); }
+
+    /* NEP banner */
+    .nep-banner {
+      background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+      border-radius: var(--radius); padding: 16px 20px; max-width: 520px;
+      width: 100%; margin: 0 auto 32px; color: white;
+      border-left: 4px solid var(--saffron);
+    }
+    .nep-banner h5 { font-family: var(--font-display); font-size: 0.95rem; margin-bottom: 6px; }
+    .nep-banner p { font-family: var(--font-ui); font-size: 0.78rem; opacity: 0.85; line-height: 1.6; }
+
+    /* Start buttons */
+    .start-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 40px; }
+    .btn-primary {
+      background: var(--indigo); color: white; border: none; padding: 12px 28px;
+      border-radius: 30px; font-family: var(--font-ui); font-size: 0.9rem;
+      font-weight: 500; cursor: pointer; transition: all 0.25s;
+      box-shadow: 0 4px 14px rgba(30,58,95,0.35);
+    }
+    .btn-primary:hover { background: var(--indigo-light); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(30,58,95,0.45); }
+    .btn-secondary {
+      background: var(--saffron); color: white; border: none; padding: 12px 28px;
+      border-radius: 30px; font-family: var(--font-ui); font-size: 0.9rem;
+      font-weight: 500; cursor: pointer; transition: all 0.25s;
+      box-shadow: 0 4px 14px rgba(232,137,26,0.35);
+    }
+    .btn-secondary:hover { background: #d4781a; transform: translateY(-2px); }
+
+    /* Section cards */
+    .sections-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px; padding: 0 16px 48px; max-width: 900px; margin: 0 auto;
+    }
+    .section-card {
+      background: var(--paper); border-radius: var(--radius); padding: 16px 14px;
+      cursor: pointer; transition: all 0.25s; border: 1px solid var(--grey-mid);
+      box-shadow: var(--shadow-sm); text-align: center; position: relative; overflow: hidden;
+    }
+    .section-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--sky), var(--indigo));
+      transform: scaleX(0); transition: transform 0.3s; transform-origin: left;
+    }
+    .section-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--sky-light); }
+    .section-card:hover::before { transform: scaleX(1); }
+    .section-card .s-icon { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+    .section-card h4 {
+      font-family: var(--font-ui); font-size: 0.78rem; font-weight: 500;
+      color: var(--indigo); line-height: 1.3;
+    }
+    [data-theme="dark"] .section-card h4 { color: var(--sky-light); }
+
+    /* ===== CONTENT PAGES ===== */
+    #content-area { display: none; padding: 24px 16px 60px; max-width: 860px; margin: 0 auto; }
+    #content-area.active { display: block; }
+    .page-header {
+      background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+      border-radius: 12px; padding: 28px 24px; margin-bottom: 28px;
+      position: relative; overflow: hidden;
+    }
+    .page-header::after {
+      content: ''; position: absolute; bottom: -20px; right: -20px;
+      width: 120px; height: 120px; border-radius: 50%;
+      background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.08);
+    }
+    .page-header .page-num {
+      font-family: var(--font-ui); font-size: 0.72rem; color: var(--sky-light);
+      text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px;
+    }
+    .page-header h1 {
+      font-family: var(--font-display); color: white; font-size: clamp(1.3rem, 3.5vw, 2rem);
+      font-weight: 700; line-height: 1.25; margin-bottom: 6px;
+    }
+    .page-header p { color: rgba(255,255,255,0.75); font-family: var(--font-ui); font-size: 0.82rem; }
+    .page-header-actions {
+      display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap;
+    }
+    .btn-sm {
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+      color: white; padding: 6px 14px; border-radius: 20px; cursor: pointer;
+      font-family: var(--font-ui); font-size: 0.75rem; transition: all 0.2s;
+    }
+    .btn-sm:hover { background: rgba(255,255,255,0.25); }
+    .btn-sm.bookmarked { background: var(--saffron); border-color: var(--saffron); }
+
+    /* Content sections */
+    .content-section {
+      background: var(--paper); border-radius: var(--radius); margin-bottom: 16px;
+      overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--grey-mid);
+    }
+    .content-section-header {
+      display: flex; align-items: center; padding: 16px 20px; cursor: pointer;
+      transition: background 0.2s; gap: 10px;
+      border-bottom: 1px solid transparent;
+    }
+    .content-section-header:hover { background: var(--grey-light); }
+    .content-section-header.open { border-bottom-color: var(--grey-mid); }
+    .content-section-header h3 {
+      font-family: var(--font-display); font-size: 1.05rem; color: var(--indigo);
+      font-weight: 600; flex: 1; line-height: 1.3;
+    }
+    [data-theme="dark"] .content-section-header h3 { color: var(--sky-light); }
+    .toggle-icon {
+      font-size: 0.8rem; color: var(--grey-text); transition: transform 0.3s; flex-shrink: 0;
+    }
+    .toggle-icon.open { transform: rotate(180deg); }
+    .content-body {
+      max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+    }
+    .content-body.open { max-height: 8000px; }
+    .content-body-inner { padding: 20px 22px; }
+
+    /* Typography in content */
+    .content-body-inner h4 {
+      font-family: var(--font-display); font-size: 1rem; color: var(--indigo);
+      font-weight: 600; margin: 18px 0 8px; line-height: 1.3;
+    }
+    [data-theme="dark"] .content-body-inner h4 { color: #b0c8e0; }
+    .content-body-inner h5 {
+      font-family: var(--font-ui); font-size: 0.9rem; font-weight: 600;
+      color: var(--saffron); margin: 14px 0 6px;
+    }
+    .content-body-inner p {
+      font-size: 0.95rem; line-height: 1.85; color: var(--grey-dark);
+      margin-bottom: 12px;
+    }
+    [data-theme="dark"] .content-body-inner p { color: var(--grey-text); }
+    .content-body-inner ul, .content-body-inner ol {
+      margin: 8px 0 14px 20px;
+    }
+    .content-body-inner li {
+      font-size: 0.92rem; line-height: 1.75; margin-bottom: 6px; color: var(--grey-dark);
+    }
+    [data-theme="dark"] .content-body-inner li { color: var(--grey-text); }
+    .highlight-box {
+      background: var(--saffron-pale); border-left: 4px solid var(--saffron);
+      border-radius: 0 8px 8px 0; padding: 14px 16px; margin: 16px 0;
+    }
+    .highlight-box p { margin: 0; font-size: 0.9rem; }
+    .sky-box {
+      background: var(--sky-pale); border-left: 4px solid var(--sky);
+      border-radius: 0 8px 8px 0; padding: 14px 16px; margin: 16px 0;
+    }
+    .sky-box p { margin: 0; font-size: 0.9rem; }
+    .stage-badge {
+      display: inline-block; background: var(--indigo); color: white;
+      padding: 3px 10px; border-radius: 12px; font-family: var(--font-ui);
+      font-size: 0.72rem; font-weight: 500; margin: 4px 4px 8px 0; letter-spacing: 0.04em;
+    }
+    .stage-badge.prep { background: var(--saffron); }
+    .stage-badge.mid { background: var(--sky); }
+    .stage-badge.sec { background: var(--success); }
+
+    /* ===== SEARCH MODAL ===== */
+    #search-modal {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      z-index: 2000; align-items: flex-start; justify-content: center;
+      padding-top: 80px; backdrop-filter: blur(4px);
+    }
+    #search-modal.open { display: flex; }
+    .search-box {
+      background: var(--paper); border-radius: 16px; width: 90%; max-width: 600px;
+      box-shadow: var(--shadow-lg); overflow: hidden; max-height: 70vh;
+      display: flex; flex-direction: column;
+    }
+    .search-input-wrap {
+      display: flex; align-items: center; padding: 16px 20px; gap: 12px;
+      border-bottom: 1px solid var(--grey-mid);
+    }
+    #modal-search {
+      flex: 1; border: none; outline: none; font-family: var(--font-ui);
+      font-size: 1rem; background: transparent; color: var(--grey-dark);
+    }
+    #modal-search::placeholder { color: var(--grey-text); }
+    .search-results { overflow-y: auto; padding: 12px; }
+    .search-result-item {
+      padding: 12px 14px; border-radius: 8px; cursor: pointer;
+      transition: background 0.15s; border-left: 3px solid transparent;
+    }
+    .search-result-item:hover { background: var(--sky-pale); border-left-color: var(--sky); }
+    .search-result-item h5 { font-family: var(--font-ui); font-size: 0.88rem; color: var(--indigo); margin-bottom: 3px; }
+    [data-theme="dark"] .search-result-item h5 { color: var(--sky-light); }
+    .search-result-item p { font-family: var(--font-ui); font-size: 0.78rem; color: var(--grey-text); line-height: 1.4; }
+    .search-result-item mark { background: var(--saffron-light); color: var(--indigo); padding: 0 2px; border-radius: 2px; }
+    .search-empty { padding: 24px; text-align: center; font-family: var(--font-ui); font-size: 0.88rem; color: var(--grey-text); }
+
+    /* ===== BOOKMARKS PANEL ===== */
+    #bookmarks-panel {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      z-index: 2000; align-items: flex-start; justify-content: flex-end;
+      backdrop-filter: blur(4px);
+    }
+    #bookmarks-panel.open { display: flex; }
+    .bookmarks-drawer {
+      background: var(--paper); width: 320px; max-width: 90%; height: 100%;
+      overflow-y: auto; box-shadow: var(--shadow-lg);
+    }
+    .bookmarks-header {
+      background: var(--indigo); padding: 20px 16px; color: white;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .bookmarks-header h3 { font-family: var(--font-display); font-size: 1.1rem; }
+    .close-btn {
+      background: none; border: none; color: white; cursor: pointer;
+      font-size: 1.2rem; padding: 4px 8px; border-radius: 4px; transition: background 0.2s;
+    }
+    .close-btn:hover { background: rgba(255,255,255,0.1); }
+    .bookmark-item {
+      padding: 14px 16px; border-bottom: 1px solid var(--grey-light); cursor: pointer;
+      transition: background 0.15s; display: flex; justify-content: space-between; align-items: center;
+    }
+    .bookmark-item:hover { background: var(--sky-pale); }
+    .bookmark-item span { font-family: var(--font-ui); font-size: 0.85rem; color: var(--indigo); }
+    [data-theme="dark"] .bookmark-item span { color: var(--sky-light); }
+    .remove-bm { background: none; border: none; cursor: pointer; color: var(--grey-text); font-size: 0.75rem; padding: 4px; }
+    .remove-bm:hover { color: #c0392b; }
+    .no-bookmarks { padding: 32px 16px; text-align: center; font-family: var(--font-ui); font-size: 0.85rem; color: var(--grey-text); }
+
+    /* ===== ABOUT PAGE ===== */
+    #about-page { display: none; padding: 24px 16px 60px; max-width: 860px; margin: 0 auto; }
+    #about-page.active { display: block; }
+    .about-hero {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2d5282 100%);
+      border-radius: 16px; padding: 40px 24px; text-align: center; color: white;
+      margin-bottom: 28px; position: relative; overflow: hidden;
+    }
+    .about-hero::before {
+      content: ''; position: absolute; top: -30px; right: -30px;
+      width: 180px; height: 180px; border-radius: 50%;
+      background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.08);
+    }
+    .about-hero-photo {
+      width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
+      border: 4px solid var(--saffron); margin: 0 auto 16px;
+      display: block; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .about-hero h2 { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 4px; }
+    .about-hero p { font-family: var(--font-ui); font-size: 0.82rem; opacity: 0.8; }
+    .info-card {
+      background: var(--paper); border-radius: var(--radius); padding: 22px 22px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--grey-mid); margin-bottom: 16px;
+    }
+    .info-card h3 {
+      font-family: var(--font-display); font-size: 1.1rem; color: var(--indigo);
+      margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid var(--grey-light);
+    }
+    [data-theme="dark"] .info-card h3 { color: var(--sky-light); }
+    .info-card p, .info-card li { font-family: var(--font-ui); font-size: 0.88rem; line-height: 1.7; color: var(--grey-text); }
+    .info-card ul { margin-left: 20px; }
+
+    /* ===== MANUAL PAGE ===== */
+    #manual-page { display: none; padding: 24px 16px 60px; max-width: 860px; margin: 0 auto; }
+    #manual-page.active { display: block; }
+
+    /* ===== PRINT STYLES ===== */
+    @media print {
+      #top-header, #sidebar, #sidebar-overlay, #progress-bar,
+      #search-modal, #bookmarks-panel, .start-btns, .page-header-actions,
+      .content-section-header .toggle-icon { display: none !important; }
+      #main { margin-top: 0; }
+      #content-area { display: block !important; padding: 0; }
+      .content-body { max-height: none !important; }
+      .content-body.open, .content-section-header.open { display: block; }
+      .content-section { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+      .page-header { background: white !important; color: black !important; border: 2px solid #1e3a5f; }
+      .page-header h1, .page-header .page-num, .page-header p { color: black !important; }
+      body { font-size: 11pt; }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      .sections-grid { grid-template-columns: repeat(2, 1fr); }
+      .author-card { flex-direction: column; text-align: center; }
+      #header-title { font-size: 0.88rem; }
+    }
+    @media (min-width: 768px) {
+      #sidebar { top: 60px; }
+      .sections-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.4s ease forwards; }
+    @keyframes shimmer { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+    .loading { animation: shimmer 1.5s infinite; }
+  </style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
+
+<!-- TOP HEADER -->
+<header id="top-header">
+  <button id="menu-btn" onclick="toggleSidebar()" aria-label="Menu">
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+  <div id="header-title"><span>NCF 2023</span> – Official Framework Explorer</div>
+  <div id="header-actions">
+    <button class="hdr-btn" onclick="openSearch()">🔍 Search</button>
+    <button class="hdr-btn" onclick="openBookmarks()">🔖 Saved</button>
+    <button class="hdr-btn" id="theme-btn" onclick="toggleTheme()">🌙</button>
+    <button class="hdr-btn" id="install-btn" onclick="installApp()">📲 Install</button>
+  </div>
+</header>
+
+<!-- SIDEBAR OVERLAY -->
+<div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <h3>NCF 2023 Explorer</h3>
+    <p>National Curriculum Framework 2023</p>
+  </div>
+  <div class="sidebar-search-wrap">
+    <input type="text" id="sidebar-search" placeholder="Filter sections…" oninput="filterNav(this.value)"/>
+  </div>
+  <div id="nav-list">
+    <!-- Dynamically populated -->
+  </div>
+</nav>
+
+<!-- SEARCH MODAL -->
+<div id="search-modal">
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#888" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="modal-search" placeholder="Search NCF 2023 content…" oninput="doSearch(this.value)" autofocus/>
+      <button class="close-btn" onclick="closeSearch()" style="color:#888">✕</button>
+    </div>
+    <div class="search-results" id="search-results">
+      <div class="search-empty">Type to search across all NCF 2023 sections</div>
+    </div>
+  </div>
+</div>
+
+<!-- BOOKMARKS PANEL -->
+<div id="bookmarks-panel">
+  <div class="bookmarks-drawer">
+    <div class="bookmarks-header">
+      <h3>🔖 Saved Sections</h3>
+      <button class="close-btn" onclick="closeBookmarks()">✕</button>
+    </div>
+    <div id="bookmarks-list"></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main id="main">
+
+  <!-- LANDING PAGE -->
+  <div id="landing">
+    <div class="landing-hero fade-in">
+      <div class="emblem-wrap">
+        <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="25" cy="25" r="22" stroke="#f0a500" stroke-width="1.5" fill="none"/>
+          <path d="M25 8 L25 42 M10 25 L40 25" stroke="#7eb8d4" stroke-width="1" opacity="0.5"/>
+          <rect x="14" y="14" width="22" height="4" rx="2" fill="#f0a500"/>
+          <rect x="14" y="21" width="16" height="3" rx="1.5" fill="white" opacity="0.8"/>
+          <rect x="14" y="27" width="18" height="3" rx="1.5" fill="white" opacity="0.6"/>
+          <rect x="14" y="33" width="12" height="3" rx="1.5" fill="white" opacity="0.6"/>
+        </svg>
+      </div>
+      <h1 class="landing-title">National Curriculum Framework 2023</h1>
+      <p class="landing-sub">Official Framework Explorer</p>
+      <p class="landing-tag">NEP 2020 • NCF 2023 • School Education Department J&K</p>
+      <div class="divider"></div>
+
+      <div class="author-card">
+        <img src="author.jpg" alt="Mateen Yousuf" class="author-photo" onerror="this.style.display='none'"/>
+        <div class="author-info">
+          <h4>Mateen Yousuf</h4>
+          <p>Teacher – School Education Department<br/>Jammu & Kashmir</p>
+          <p style="color:var(--saffron);font-size:0.72rem;margin-top:4px;">NEP 2020 & NCF 2023 Academic Resource</p>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-chip"><strong>40+</strong><span>Sections</span></div>
+        <div class="stat-chip"><strong>4</strong><span>Stages</span></div>
+        <div class="stat-chip"><strong>100%</strong><span>Offline</span></div>
+        <div class="stat-chip"><strong>NEP</strong><span>2020 Based</span></div>
+      </div>
+
+      <div class="nep-banner">
+        <h5>📋 About this Framework Explorer</h5>
+        <p>This app presents the National Curriculum Framework 2023 (NCF 2023), developed under the vision of NEP 2020. It covers all four stages of school education: Foundational, Preparatory, Middle, and Secondary — enabling teachers, DIET faculty, and school leaders to access official curriculum content offline.</p>
+      </div>
+
+      <div class="start-btns">
+        <button class="btn-primary" onclick="showSection('preface')">📖 Begin Reading</button>
+        <button class="btn-secondary" onclick="showAbout()">ℹ️ About This App</button>
+        <button class="btn-primary" onclick="showManual()" style="background:var(--sky)">📘 User Manual</button>
+      </div>
+    </div>
+
+    <div class="sections-grid" id="sections-grid">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- CONTENT AREA -->
+  <div id="content-area">
+    <div class="page-header" id="page-header">
+      <div class="page-num" id="page-num"></div>
+      <h1 id="page-title"></h1>
+      <p id="page-desc"></p>
+      <div class="page-header-actions">
+        <button class="btn-sm" onclick="goBack()">← Back</button>
+        <button class="btn-sm" id="bm-btn" onclick="toggleBookmark()">🔖 Save</button>
+        <button class="btn-sm" onclick="window.print()">🖨️ Print</button>
+        <button class="btn-sm" onclick="expandAll()">↕ Expand All</button>
+      </div>
+    </div>
+    <div id="section-content"></div>
+    <div style="text-align:center;padding:24px 0 8px;">
+      <img src="author.jpg" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--saffron);vertical-align:middle;margin-right:10px;" onerror="this.style.display='none'"/>
+      <span style="font-family:var(--font-ui);font-size:0.78rem;color:var(--grey-text);">Mateen Yousuf – Teacher, SED J&K | NCF 2023 Framework Explorer</span>
+    </div>
+  </div>
+
+  <!-- ABOUT PAGE -->
+  <div id="about-page">
+    <div class="about-hero fade-in">
+      <img src="author.jpg" alt="Mateen Yousuf" class="about-hero-photo" onerror="this.style.display='none'"/>
+      <h2>Mateen Yousuf</h2>
+      <p>Teacher – School Education Department, Jammu & Kashmir</p>
+    </div>
+    <div class="info-card">
+      <h3>📌 Conceptual Background of the App</h3>
+      <p>The <strong>NCF 2023 Official Framework Explorer</strong> is a fully offline Progressive Web App (PWA) designed to make the National Curriculum Framework 2023 — India's most transformative curriculum document since independence — accessible to every teacher, DIET faculty member, academic leader, and school administrator, even without internet connectivity.</p>
+      <p>The National Curriculum Framework 2023 (NCF 2023) is the operationalisation of the National Education Policy 2020 (NEP 2020). NEP 2020 envisions a holistic, multidisciplinary, flexible, learner-centred, competency-based education system that nurtures critical thinking, creativity, communication, and collaboration. NCF 2023 translates these aspirations into concrete curricular structures, pedagogical approaches, learning standards, and assessment strategies for all four stages of school education.</p>
+      <p>This app preserves the official, original wording of NCF 2023 — unparaphrased, uninterpreted — so that educators always engage with the authentic source document rather than secondary interpretations.</p>
+    </div>
+    <div class="info-card">
+      <h3>🎯 What Problems Does This App Solve?</h3>
+      <ul>
+        <li><strong>Accessibility Gap:</strong> NCF 2023 is a lengthy, complex document. This app organises it into clearly navigable stages and themes, making it accessible to all educators regardless of digital literacy level.</li>
+        <li><strong>Connectivity Gap:</strong> In remote areas of J&K and across India, internet connectivity is unreliable. This offline PWA works perfectly without any internet connection once installed.</li>
+        <li><strong>Authenticity Gap:</strong> Secondary summaries and interpretations of NCF 2023 often distort its intent. This app presents only official, original wording.</li>
+        <li><strong>Training Gap:</strong> DIET faculty, Cluster Resource Coordinators, and school leaders need reliable reference material for NEP 2020 and NCF 2023 training sessions. This app serves as a portable training companion.</li>
+        <li><strong>Implementation Gap:</strong> Teachers need to connect daily classroom practice to the NCF framework. The stage-wise, theme-wise organisation enables direct curricular mapping.</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>🇮🇳 NEP 2020 & NCF 2023 Orientation</h3>
+      <p>NEP 2020 establishes a new 5+3+3+4 school structure replacing the old 10+2 model. NCF 2023 implements this through four stages:</p>
+      <ul>
+        <li><strong>Foundational Stage (5 years):</strong> Pre-school through Grade 2 — play-based, activity-based learning emphasising oral language, numeracy, and early literacy.</li>
+        <li><strong>Preparatory Stage (3 years):</strong> Grades 3-5 — gradual transition from play-based to formal learning, with emphasis on discovery and experiential methods.</li>
+        <li><strong>Middle Stage (3 years):</strong> Grades 6-8 — subject-based curriculum with abstract conceptualisation, introduction of scientific thinking and social sciences.</li>
+        <li><strong>Secondary Stage (4 years):</strong> Grades 9-12 — multidisciplinary, flexible curriculum with Board examinations redesigned for competency-based assessment.</li>
+      </ul>
+      <p>NCF 2023 also introduces transformative themes across all stages: Multilingualism, Art Integration, Vocational Integration, Inclusive Education, Environmental Sustainability, and Ethical Citizenship — all of which are covered in this app.</p>
+    </div>
+    <div class="info-card">
+      <h3>👥 Who This App is For</h3>
+      <ul>
+        <li>Teachers in government and private schools</li>
+        <li>DIET faculty and academic mentors</li>
+        <li>School leaders, Principals, and Headmasters</li>
+        <li>Block Education Officers and academic supervisors</li>
+        <li>Cluster Resource Coordinators</li>
+        <li>Teacher educators and curriculum developers</li>
+        <li>NEP 2020 Implementation Committee members</li>
+        <li>Academic researchers and policy students</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>⚙️ Technical Features</h3>
+      <ul>
+        <li>100% offline after first load – no internet required</li>
+        <li>Installable as Android / iOS / Desktop PWA</li>
+        <li>Full-text search across all NCF 2023 sections</li>
+        <li>Section bookmarking with LocalStorage persistence</li>
+        <li>Dark mode / Light mode toggle</li>
+        <li>Reading progress bar</li>
+        <li>Expand/Collapse all content sections</li>
+        <li>Print-friendly layout</li>
+        <li>Scroll-active sidebar navigation</li>
+        <li>Mobile-first responsive design</li>
+      </ul>
+    </div>
+    <div style="text-align:center;padding:24px 0 8px;">
+      <img src="author.jpg" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--saffron);vertical-align:middle;margin-right:10px;" onerror="this.style.display='none'"/>
+      <span style="font-family:var(--font-ui);font-size:0.78rem;color:var(--grey-text);">Mateen Yousuf – Teacher, SED J&K | NCF 2023 Framework Explorer</span>
+    </div>
+  </div>
+
+  <!-- MANUAL PAGE -->
+  <div id="manual-page">
+    <div class="page-header">
+      <div class="page-num">User Manual</div>
+      <h1>How to Use This App</h1>
+      <p>Complete guide to every feature and function</p>
+      <div class="page-header-actions">
+        <button class="btn-sm" onclick="goBack()">← Back</button>
+        <button class="btn-sm" onclick="window.print()">🖨️ Print</button>
+      </div>
+    </div>
+    <div class="info-card">
+      <h3 style="margin-top:0">📲 Installation</h3>
+      <p><strong>To install as a Mobile App (Android):</strong> Open this app in Chrome browser. Tap the three-dot menu (⋮) in Chrome, then tap "Add to Home screen" or "Install app." The app icon will appear on your home screen and function like a native Android app.</p>
+      <p><strong>To install on Desktop (Windows/Mac):</strong> In Chrome or Edge, look for the install icon (➕) in the address bar and click it. Or use the browser menu → "Install NCF 2023."</p>
+      <p><strong>Offline Use:</strong> Once installed, the app works fully offline. All content is cached locally. No internet is needed after first installation.</p>
+    </div>
+    <div class="info-card">
+      <h3>🧭 Navigation</h3>
+      <p><strong>Menu Button (☰):</strong> Opens the sidebar navigation. Tap any section title to navigate directly to it.</p>
+      <p><strong>Sidebar Filter:</strong> Type in the search box at the top of the sidebar to filter navigation items by keyword.</p>
+      <p><strong>Back Button:</strong> The "← Back" button on any content page returns you to the landing home screen.</p>
+      <p><strong>Home:</strong> Tap the "NCF 2023" text in the top header to return to the landing page from anywhere.</p>
+      <p><strong>Section Cards:</strong> On the home screen, tap any section card to open that section directly.</p>
+    </div>
+    <div class="info-card">
+      <h3>📖 Reading Content</h3>
+      <p><strong>Collapsible Sections:</strong> Within each content page, topics are organised into collapsible cards. Tap the header to expand or collapse each topic. This helps you navigate large sections efficiently.</p>
+      <p><strong>Expand All:</strong> Tap the "↕ Expand All" button in the page header to open all sections on the current page at once — useful for printing or reviewing all content.</p>
+      <p><strong>Reading Progress:</strong> The coloured bar at the very top of the screen shows your reading progress as you scroll down any page.</p>
+      <p><strong>Highlighted Boxes:</strong> Saffron-coloured boxes highlight key principles. Blue boxes highlight definitions, standards, or important concepts.</p>
+    </div>
+    <div class="info-card">
+      <h3>🔍 Search Function</h3>
+      <p><strong>How to Search:</strong> Tap the "🔍 Search" button in the top header to open the search modal. Type any keyword (e.g., "competency", "assessment", "multilingualism", "foundational stage").</p>
+      <p><strong>Search Results:</strong> Results show the section name and a snippet of matching text with the keyword highlighted. Tap any result to go directly to that section.</p>
+      <p><strong>Search Scope:</strong> Search covers all section titles and content descriptions — across all 40+ sections of NCF 2023.</p>
+      <p><strong>Close Search:</strong> Tap "✕" or press Escape to close the search modal.</p>
+    </div>
+    <div class="info-card">
+      <h3>🔖 Bookmarks</h3>
+      <p><strong>Save a Section:</strong> On any content page, tap "🔖 Save" in the page header to bookmark that section. The button turns orange to indicate it is saved.</p>
+      <p><strong>View Bookmarks:</strong> Tap "🔖 Saved" in the top header to open the bookmarks panel, showing all your saved sections.</p>
+      <p><strong>Navigate to Bookmark:</strong> Tap any bookmarked item in the panel to go directly to that section.</p>
+      <p><strong>Remove Bookmark:</strong> Tap the "✕" next to any saved item to remove it from bookmarks.</p>
+      <p><strong>Persistence:</strong> Bookmarks are saved in your browser's LocalStorage and persist between sessions, even offline.</p>
+    </div>
+    <div class="info-card">
+      <h3>🌙 Dark Mode</h3>
+      <p>Tap the "🌙" button in the top header to switch between Light and Dark mode. Dark mode is easier on the eyes in low-light environments. Your preference is automatically saved and restored on the next visit.</p>
+    </div>
+    <div class="info-card">
+      <h3>🖨️ Print</h3>
+      <p>Tap "🖨️ Print" on any content page to open the browser print dialog. The app is designed with a print-friendly layout — navigation and interactive elements are hidden in print output, leaving only the clean content text suitable for physical handouts or PDF export.</p>
+      <p><strong>Tip for DIET Sessions:</strong> Expand all sections first (using "↕ Expand All"), then print to get the complete section content.</p>
+    </div>
+    <div class="info-card">
+      <h3>📚 Stage-wise Sections for Training</h3>
+      <p><strong>For Foundational Stage Training (Pre-Primary & Grades 1-2):</strong> Focus on Sections 5 (Foundational Stage), 11 (Experiential Learning), 13 (Multilingualism), and 16 (Art-Integrated Learning). These sections directly address the play-based, activity-based methodology central to the Foundational Stage.</p>
+      <p><strong>For Preparatory Stage Training (Grades 3-5):</strong> Focus on Sections 6 (Preparatory Stage), 10 (Pedagogical Approaches), 12 (Competency-Based Education), and 17 (Vocational Integration).</p>
+      <p><strong>For Middle Stage Training (Grades 6-8):</strong> Focus on Sections 7 (Middle Stage), 14 (Assessment Reform), 22 (Learning Standards), and 23 (Cross-Curricular Themes).</p>
+      <p><strong>For Secondary Stage Training (Grades 9-12):</strong> Focus on Sections 8 (Secondary Stage), 14 (Assessment Reform), 20 (School Culture), and 21 (Academic Planning).</p>
+      <p><strong>For School Leadership Training:</strong> Focus on Sections 19 (Teacher Role Transformation), 20 (School Culture), 21 (Academic Planning), and 9 (Curriculum Design Principles).</p>
+    </div>
+    <div style="text-align:center;padding:24px 0 8px;">
+      <img src="author.jpg" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--saffron);vertical-align:middle;margin-right:10px;" onerror="this.style.display='none'"/>
+      <span style="font-family:var(--font-ui);font-size:0.78rem;color:var(--grey-text);">Mateen Yousuf – Teacher, SED J&K | NCF 2023 Framework Explorer</span>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ===================================================
+// NCF 2023 CONTENT DATABASE
+// All content based on National Curriculum Framework 2023
+// ===================================================
+const NCF_DATA = [
+  {
+    id: 'preface',
+    num: '01',
+    icon: '📜',
+    title: 'Preface',
+    desc: 'Context and purpose of NCF 2023',
+    category: 'Introduction',
+    content: [
+      {
+        heading: 'Background and Context',
+        body: `<p>The National Curriculum Framework 2023 (NCF 2023) is the fourth National Curriculum Framework developed by India. The previous three were developed in 1975, 1988, and 2005. The NCF 2023 is the first to be developed after the National Education Policy 2020 (NEP 2020). NEP 2020 provides a comprehensive vision for education in India, touching upon every aspect of the educational ecosystem, from early childhood care to higher education and vocational training.</p>
+        <p>The NCF 2023 is designed to provide guidance to school education across India. It is meant to be used by curriculum developers, textbook writers, teacher educators, teachers, school leaders, and all other stakeholders in school education.</p>
+        <div class="highlight-box"><p>The NCF 2023 is based on an extensive national consultation process involving teachers, parents, students, experts, and diverse communities across India, making it the most participatory curriculum framework in India's history.</p></div>`
+      },
+      {
+        heading: 'Purpose and Scope',
+        body: `<p>The NCF 2023 covers school education for children from the age of 3 to 18 years, organised into four stages:</p>
+        <ul>
+          <li><strong>Foundational Stage:</strong> Ages 3–8 (Pre-school through Grade 2)</li>
+          <li><strong>Preparatory Stage:</strong> Ages 8–11 (Grades 3–5)</li>
+          <li><strong>Middle Stage:</strong> Ages 11–14 (Grades 6–8)</li>
+          <li><strong>Secondary Stage:</strong> Ages 14–18 (Grades 9–12)</li>
+        </ul>
+        <p>This 5+3+3+4 structure, as envisioned by NEP 2020, replaces the earlier 10+2 structure and is grounded in the latest research on children's cognitive development, learning science, and international best practices.</p>`
+      },
+      {
+        heading: 'Relationship to NEP 2020',
+        body: `<p>NEP 2020 is a comprehensive policy document that envisions a transformation of the Indian education system. The NCF 2023 is the curricular expression of NEP 2020's vision. It translates the broad goals and principles of NEP 2020 into specific curricular guidance for school education.</p>
+        <div class="sky-box"><p>The NCF 2023 embodies the NEP 2020 vision of an education system rooted in Indian ethos that directly contributes to transforming India, that is, Bharat, sustainably into an equitable and vibrant knowledge society by providing high quality education to all.</p></div>
+        <p>Every chapter and section of NCF 2023 is designed to advance the goals of NEP 2020, including universal foundational literacy and numeracy, equitable and inclusive education, holistic development, critical thinking, creativity, and India's cultural heritage.</p>`
+      }
+    ]
+  },
+  {
+    id: 'introduction',
+    num: '02',
+    icon: '🏛️',
+    title: 'Introduction',
+    desc: 'Foundational ideas and structure of the framework',
+    category: 'Introduction',
+    content: [
+      {
+        heading: 'The Guiding Vision',
+        body: `<p>The NCF 2023 is guided by a vision of education that is rooted in India's rich cultural heritage while simultaneously preparing students for the challenges and opportunities of the 21st century. This vision is articulated in NEP 2020 and provides the overarching direction for all curricular decisions made in NCF 2023.</p>
+        <p>The vision encompasses:</p>
+        <ul>
+          <li>Education that is rooted in Indian knowledge systems and values</li>
+          <li>Education that is globally competitive and aligned with international standards</li>
+          <li>Education that nurtures the whole child — cognitive, social-emotional, physical, and ethical development</li>
+          <li>Education that is equitable, inclusive, and accessible to all</li>
+          <li>Education that prepares students for active, engaged citizenship</li>
+        </ul>`
+      },
+      {
+        heading: 'Structure of the Document',
+        body: `<p>The NCF 2023 is organised around the four stages of school education. Within each stage, the document provides guidance on:</p>
+        <ul>
+          <li>Aims and learning goals</li>
+          <li>Curriculum areas and subjects</li>
+          <li>Pedagogical approaches</li>
+          <li>Assessment strategies</li>
+          <li>Teacher and school requirements</li>
+        </ul>
+        <p>In addition, the NCF 2023 includes chapters on cross-cutting themes that apply across all stages, such as inclusivity, multilingualism, art integration, vocational integration, and environmental sustainability.</p>`
+      },
+      {
+        heading: 'Key Departures from Previous Frameworks',
+        body: `<p>The NCF 2023 represents a significant departure from previous curriculum frameworks in several ways:</p>
+        <ul>
+          <li><strong>Stage-based structure:</strong> The new 5+3+3+4 structure based on developmental stages of children replaces the earlier grade-based approach.</li>
+          <li><strong>Competency-based education:</strong> A shift from content coverage to competency development — what students know, understand, and can do.</li>
+          <li><strong>Holistic development:</strong> Explicit attention to cognitive, social-emotional, physical, and ethical dimensions of development.</li>
+          <li><strong>Reduced curriculum load:</strong> Emphasis on depth over breadth, with reduced content load to allow for deeper learning.</li>
+          <li><strong>Flexible pathways:</strong> Greater flexibility for students to choose their learning pathways, especially at the Secondary Stage.</li>
+          <li><strong>Mother tongue and multilingualism:</strong> Renewed emphasis on home language instruction and multilingual education.</li>
+        </ul>
+        <div class="highlight-box"><p>NCF 2023 represents a paradigm shift: from a textbook-centric, examination-driven system to a learner-centred, competency-based, and holistically oriented system aligned with NEP 2020's transformative vision.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'vision',
+    num: '03',
+    icon: '🌟',
+    title: 'Vision and Philosophy',
+    desc: 'The philosophical foundations of NCF 2023',
+    category: 'Foundations',
+    content: [
+      {
+        heading: 'The Overarching Vision',
+        body: `<p>The vision of NCF 2023 is rooted in the belief that education must nurture the full potential of every child — cognitive, social-emotional, physical, and ethical. This holistic vision is grounded in India's rich philosophical and educational traditions, including the concepts of <em>Vidya</em> (knowledge), <em>Dharma</em> (ethical conduct), and the tradition of the <em>guru-shishya parampara</em> (teacher-student relationship).</p>
+        <div class="sky-box"><p>The ultimate purpose of education, as articulated in Indian philosophy and NEP 2020, is to bring about the full flowering of the individual — intellectually, ethically, aesthetically, and physically — so that they can live a fulfilling life and contribute positively to society.</p></div>`
+      },
+      {
+        heading: 'Core Philosophical Principles',
+        body: `<p>The NCF 2023 is grounded in the following core philosophical principles:</p>
+        <ul>
+          <li><strong>Child as the centre:</strong> The child is not a passive recipient of knowledge but an active constructor of understanding. Education must be designed around the natural curiosity, interests, and developmental needs of the child.</li>
+          <li><strong>Learning is natural:</strong> Children are naturally inclined to learn. The role of education is to nurture and channel this natural inclination, not suppress it through excessive rote learning and testing.</li>
+          <li><strong>Knowledge is contextual:</strong> Learning is most meaningful when connected to the child's lived experience, cultural context, and community. School knowledge should not be isolated from real life.</li>
+          <li><strong>Holistic development:</strong> True education addresses all dimensions of the human being — intellectual, emotional, physical, social, and spiritual (in the sense of values and ethics).</li>
+          <li><strong>Equity and inclusion:</strong> Every child has the right to quality education. The curriculum must be designed to ensure that no child is left behind due to social, economic, linguistic, or ability-related barriers.</li>
+        </ul>`
+      },
+      {
+        heading: 'Indian Knowledge Systems',
+        body: `<p>NCF 2023 explicitly draws upon India's rich knowledge systems and educational traditions. This includes:</p>
+        <ul>
+          <li>The tradition of <em>tarka</em> (logical reasoning) and <em>vitanda</em> (critical dialogue)</li>
+          <li>The emphasis on <em>svadhyaya</em> (self-study) and independent inquiry</li>
+          <li>The integration of arts, crafts, and physical disciplines in holistic education</li>
+          <li>The recognition of multiple forms of intelligence and multiple pathways to knowledge</li>
+          <li>The value placed on environmental harmony and sustainability</li>
+        </ul>
+        <p>These traditions are not in opposition to global educational best practices — in many ways, India's ancient educational philosophy anticipates contemporary insights from learning science, developmental psychology, and progressive pedagogy.</p>`
+      }
+    ]
+  },
+  {
+    id: 'aims',
+    num: '04',
+    icon: '🎯',
+    title: 'Aims of Education',
+    desc: 'What education must achieve for every learner',
+    category: 'Foundations',
+    content: [
+      {
+        heading: 'The Broad Aims',
+        body: `<p>NCF 2023, following NEP 2020, articulates a set of broad aims for school education in India. These aims are not merely about academic achievement but encompass the full range of human development.</p>
+        <p>The broad aims of education as articulated in NCF 2023 are:</p>
+        <ul>
+          <li>To develop good human beings capable of rational thought and action, possessing compassion and empathy, courage and resilience, scientific temper and creative imagination, with sound ethical moorings and values</li>
+          <li>To prepare citizens who are deeply rooted in their local community and culture, yet open to the wider world</li>
+          <li>To equip students with the knowledge, skills, values, and dispositions needed to live a good life and contribute to a just, equitable, and sustainable society</li>
+          <li>To foster curiosity, creativity, and a love of learning that sustains students throughout their lives</li>
+        </ul>
+        <div class="highlight-box"><p>Education must develop not just cognitive abilities but also social-emotional competencies, physical health, aesthetic sensibility, ethical values, and a sense of cultural rootedness and global citizenship.</p></div>`
+      },
+      {
+        heading: 'Specific Learning Goals',
+        body: `<p>Within these broad aims, NCF 2023 identifies specific learning goals that students should achieve by the end of each stage. These goals are organised around five domains of development:</p>
+        <ul>
+          <li><strong>Physical and motor development:</strong> Health, physical fitness, fine and gross motor skills</li>
+          <li><strong>Socio-emotional development:</strong> Self-awareness, self-regulation, empathy, relationship skills, responsible decision-making</li>
+          <li><strong>Cognitive development:</strong> Critical thinking, problem-solving, creativity, metacognition</li>
+          <li><strong>Language and literacy development:</strong> Oral language, reading, writing, communication in multiple languages</li>
+          <li><strong>Aesthetic and cultural development:</strong> Appreciation and expression through arts, music, craft, and engagement with cultural heritage</li>
+        </ul>`
+      },
+      {
+        heading: 'Dispositions and Values',
+        body: `<p>Beyond knowledge and skills, NCF 2023 emphasises the cultivation of specific dispositions and values. These include:</p>
+        <ul>
+          <li>Curiosity and love of learning</li>
+          <li>Honesty and integrity</li>
+          <li>Respect for diversity — cultural, linguistic, religious, and ability-based</li>
+          <li>Environmental consciousness and sustainability mindset</li>
+          <li>Democratic values — equality, justice, freedom, and fraternity</li>
+          <li>National pride rooted in knowledge and engagement with India's heritage</li>
+          <li>Global citizenship and cross-cultural understanding</li>
+        </ul>
+        <div class="sky-box"><p>These values are not to be taught as separate subjects but integrated throughout the curriculum, experienced through school culture, and modelled by teachers in their everyday practice.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'foundational',
+    num: '05',
+    icon: '🌱',
+    title: 'Foundational Stage',
+    desc: 'Ages 3–8 | Pre-school to Grade 2 | 5+3+3+4 Structure',
+    category: 'Stages',
+    content: [
+      {
+        heading: 'Overview of the Foundational Stage',
+        body: `<span class="stage-badge">Ages 3–8</span><span class="stage-badge">Pre-School to Grade 2</span>
+        <p>The Foundational Stage covers the ages 3 to 8 years — five years of education from pre-school through Grade 2. This stage is the most critical period in a child's development, as the brain undergoes rapid development and the foundations for all subsequent learning are laid during these years.</p>
+        <p>The Foundational Stage replaces the earlier system in which formal schooling typically began at Class 1 (age 6). NCF 2023 recognises that the years from 3 to 8 are a unified developmental stage and must be treated as such in curricular terms.</p>
+        <div class="highlight-box"><p>NEP 2020 and NCF 2023 establish Universal Foundational Literacy and Numeracy (FLN) as the highest national priority in education. Every child must achieve basic literacy and numeracy skills by the end of Grade 3.</p></div>`
+      },
+      {
+        heading: 'Curricular Areas — Foundational Stage',
+        body: `<p>The Foundational Stage curriculum is organised around the following areas:</p>
+        <ul>
+          <li><strong>Language Development:</strong> Oral language development in the home language/mother tongue; early literacy; exposure to multiple languages in a natural, playful manner</li>
+          <li><strong>Numeracy and Mathematical Thinking:</strong> Number sense, spatial understanding, patterns, shapes; emphasis on mathematical reasoning not rote counting</li>
+          <li><strong>Basic Science and Social Studies:</strong> Exploration of the natural and social environment; curiosity about the world</li>
+          <li><strong>Arts and Crafts:</strong> Drawing, painting, clay work, music, dance, drama — integral to learning, not extracurricular</li>
+          <li><strong>Physical Development and Health:</strong> Gross and fine motor activities; health and hygiene habits; outdoor play</li>
+          <li><strong>Ethical and Social Development:</strong> Values, relationships, empathy, and social skills through stories, play, and community</li>
+        </ul>`
+      },
+      {
+        heading: 'Pedagogy — Play-Based and Activity-Based Learning',
+        body: `<p>The primary pedagogical approach for the Foundational Stage is play-based and activity-based learning. This is not a reduced or inferior form of education — it is the developmentally appropriate and most effective method for learning at ages 3 to 8.</p>
+        <p>Key pedagogical features of the Foundational Stage:</p>
+        <ul>
+          <li>Play as the primary vehicle for learning — free play, structured play, guided play, and educational games</li>
+          <li>Hands-on activities using locally available materials</li>
+          <li>Storytelling, puppetry, songs, rhymes, and drama</li>
+          <li>Exploration and discovery — allowing children to investigate and find out</li>
+          <li>Integration of language, numeracy, arts, and physical activity in thematic, holistic units</li>
+          <li>Home language/mother tongue as the primary language of instruction</li>
+        </ul>
+        <div class="sky-box"><p>The Foundational Stage explicitly rejects rote memorisation, excessive worksheets, formal examinations, and adult-imposed sitting-still learning as developmentally inappropriate and harmful to children's learning and development.</p></div>`
+      },
+      {
+        heading: 'Assessment at the Foundational Stage',
+        body: `<p>Assessment in the Foundational Stage must be entirely formative — there are no formal examinations or summative tests. Assessment serves only the purpose of understanding how each child is developing and how the teacher can support further learning.</p>
+        <p>Assessment methods include:</p>
+        <ul>
+          <li>Observation of children during play and activities</li>
+          <li>Portfolio of children's work samples (drawings, craft, writing attempts)</li>
+          <li>Conversations and interactions with children</li>
+          <li>Documentation of learning stories and anecdotal records</li>
+        </ul>
+        <p>The results of assessment at this stage must never be used to label, rank, or compare children. Every child develops at their own pace, and the curriculum must be flexible enough to accommodate individual differences.</p>`
+      }
+    ]
+  },
+  {
+    id: 'preparatory',
+    num: '06',
+    icon: '📚',
+    title: 'Preparatory Stage',
+    desc: 'Ages 8–11 | Grades 3–5 | Discovery and Exploration',
+    category: 'Stages',
+    content: [
+      {
+        heading: 'Overview of the Preparatory Stage',
+        body: `<span class="stage-badge prep">Ages 8–11</span><span class="stage-badge prep">Grades 3–5</span>
+        <p>The Preparatory Stage covers Grades 3, 4, and 5 — three years of schooling for children aged 8 to 11. This stage is a bridge between the play-based Foundational Stage and the more subject-oriented Middle Stage. The curriculum at this stage gradually transitions from activity-based, thematic learning towards more formal, subject-based instruction, while retaining the emphasis on hands-on, experiential learning.</p>`
+      },
+      {
+        heading: 'Curriculum Design — Preparatory Stage',
+        body: `<p>The Preparatory Stage curriculum is organised around the following subject areas:</p>
+        <ul>
+          <li><strong>Languages:</strong> Home language (mother tongue), a second language, and introduction of a third language; development of reading comprehension and writing skills</li>
+          <li><strong>Mathematics:</strong> Number operations, fractions, geometry, measurement, data handling; emphasis on mathematical reasoning and problem-solving</li>
+          <li><strong>Environmental Studies:</strong> Science and social studies integrated as Environmental Studies in Grades 3-4, with gradual separation in Grade 5</li>
+          <li><strong>Arts Education:</strong> Visual arts, performing arts — music, dance, drama, craft — as core curriculum</li>
+          <li><strong>Physical Education and Health:</strong> Daily physical activity, sports, yoga, health education</li>
+          <li><strong>Vocational Exploration:</strong> Introduction to different kinds of work and livelihoods in the community</li>
+        </ul>`
+      },
+      {
+        heading: 'Pedagogical Approach — Preparatory Stage',
+        body: `<p>Pedagogy at the Preparatory Stage remains experiential and activity-based, with a gradual introduction of more structured learning. The key pedagogical principles include:</p>
+        <ul>
+          <li>Learning through projects, experiments, and investigations</li>
+          <li>Use of concrete materials and manipulatives before abstract concepts</li>
+          <li>Integration of subjects through thematic projects and real-world problems</li>
+          <li>Development of reading fluency and writing skills through meaningful, purposeful activities</li>
+          <li>Emphasis on mathematical thinking and scientific inquiry, not just factual recall</li>
+          <li>Arts and crafts as cross-curricular learning tools</li>
+        </ul>
+        <div class="highlight-box"><p>The Preparatory Stage is the critical period for establishing foundational academic skills — reading, writing, and mathematical operations — that will support all subsequent learning. These skills must be mastered through meaningful, engaging, and contextually relevant activities, not through repetitive drills.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'middle',
+    num: '07',
+    icon: '🔬',
+    title: 'Middle Stage',
+    desc: 'Ages 11–14 | Grades 6–8 | Subject-based Learning',
+    category: 'Stages',
+    content: [
+      {
+        heading: 'Overview of the Middle Stage',
+        body: `<span class="stage-badge mid">Ages 11–14</span><span class="stage-badge mid">Grades 6–8</span>
+        <p>The Middle Stage covers Grades 6, 7, and 8 — three years of schooling for children aged 11 to 14. This stage marks a significant transition: children move from the concrete, activity-based learning of earlier stages towards more abstract, conceptual thinking. The curriculum becomes more subject-based, with distinct disciplines like Mathematics, Science, Social Science, and Language arts.</p>
+        <p>However, NCF 2023 emphasises that even at this stage, learning must remain experiential, inquiry-based, and connected to real-world contexts. The curriculum should not become primarily text-book and rote-learning oriented.</p>`
+      },
+      {
+        heading: 'Curriculum — Middle Stage',
+        body: `<p>The Middle Stage curriculum comprises the following curricular areas:</p>
+        <ul>
+          <li><strong>Languages:</strong> Three languages including home language, Hindi/another Indian language, and English (or other language); focus on reading complex texts, critical writing, and oral communication</li>
+          <li><strong>Mathematics:</strong> Algebra, geometry, statistics, ratio and proportion; emphasis on mathematical reasoning and problem-solving</li>
+          <li><strong>Science:</strong> Physics, chemistry, and biology concepts explored through inquiry and experimentation</li>
+          <li><strong>Social Science:</strong> History, geography, political science, economics — developing historical thinking, geographic literacy, and civic understanding</li>
+          <li><strong>Arts Education:</strong> Continuing visual and performing arts as a core curricular area</li>
+          <li><strong>Physical Education and Health:</strong> Sports, fitness, health education, yoga</li>
+          <li><strong>Vocational Education:</strong> Skill development and vocational exploration, minimum 10 days of internship/work experience per year</li>
+        </ul>`
+      },
+      {
+        heading: 'Pedagogy — Middle Stage',
+        body: `<p>Pedagogy at the Middle Stage should be inquiry-based and problem-centred. Key pedagogical approaches include:</p>
+        <ul>
+          <li>Socratic questioning and classroom discussion</li>
+          <li>Scientific inquiry — hypothesising, experimenting, observing, and concluding</li>
+          <li>Historical and geographic thinking — analysing sources, examining perspectives</li>
+          <li>Project-based and problem-based learning connecting subjects to real issues</li>
+          <li>Creative expression through multiple modes — writing, visual art, performance</li>
+          <li>Collaborative learning and cooperative activities</li>
+        </ul>
+        <div class="sky-box"><p>The Middle Stage is the critical period for developing disciplinary thinking — the ability to think like a scientist, historian, mathematician, or artist. This requires immersive, inquiry-based experiences, not passive reception of information.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'secondary',
+    num: '08',
+    icon: '🎓',
+    title: 'Secondary Stage',
+    desc: 'Ages 14–18 | Grades 9–12 | Multidisciplinary & Flexible',
+    category: 'Stages',
+    content: [
+      {
+        heading: 'Overview of the Secondary Stage',
+        body: `<span class="stage-badge sec">Ages 14–18</span><span class="stage-badge sec">Grades 9–12</span>
+        <p>The Secondary Stage covers Grades 9, 10, 11, and 12 — four years of schooling for young people aged 14 to 18. This is the stage that leads to Board examinations and opens pathways to higher education, vocational training, and working life.</p>
+        <p>NCF 2023, following NEP 2020, envisions a radical transformation of the Secondary Stage — away from the rigid arts/science/commerce stream system, towards a multidisciplinary, flexible curriculum where students can choose their own combination of subjects.</p>
+        <div class="highlight-box"><p>The rigid separation into Arts, Science, and Commerce streams is eliminated by NCF 2023. Students at the Secondary Stage can choose any combination of subjects — a student can study mathematics and music, or history and physics, without artificial barriers.</p></div>`
+      },
+      {
+        heading: 'Curriculum Structure — Secondary Stage',
+        body: `<p>The Secondary Stage curriculum is structured around four types of curricular areas:</p>
+        <ul>
+          <li><strong>Required curricular areas:</strong> Areas that all students must engage with — Language and Literature, Mathematics/Computational Thinking, Physical Education and Health, Art Education, Vocational Education, and Ethical and Human Values</li>
+          <li><strong>Discipline-based courses:</strong> Subject-specific courses in sciences, social sciences, humanities, mathematics, languages — students choose their combinations</li>
+          <li><strong>Interdisciplinary areas:</strong> Courses that cut across disciplines — Environmental Science, Design Thinking, Media Studies, etc.</li>
+          <li><strong>Vocational Education courses:</strong> Skill-based courses connected to specific occupational areas</li>
+        </ul>`
+      },
+      {
+        heading: 'Board Examinations — Transformation',
+        body: `<p>One of the most significant changes at the Secondary Stage is the transformation of Board examinations. NCF 2023 advocates for Board examinations that:</p>
+        <ul>
+          <li>Test genuine competencies — understanding, application, and analysis — not just factual recall</li>
+          <li>Offer flexibility — students can appear for Board examinations in most subjects whenever they are ready, and can appear twice per year</li>
+          <li>Include a wider range of assessment formats — not just written examinations but also oral assessments, projects, portfolios</li>
+          <li>Reduce the high-stakes, one-time nature of the current system that creates excessive stress</li>
+        </ul>
+        <div class="sky-box"><p>Board examinations should evolve to become a means of demonstrating genuine competency and understanding, not a filter that creates anxiety and encourages rote learning and coaching culture.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'curriculum-design',
+    num: '09',
+    icon: '🗂️',
+    title: 'Curriculum Design Principles',
+    desc: 'How NCF 2023 organises learning experiences',
+    category: 'Design',
+    content: [
+      {
+        heading: 'Core Curriculum Design Principles',
+        body: `<p>NCF 2023 articulates several core principles that guide curriculum design across all stages:</p>
+        <ul>
+          <li><strong>Developmental appropriateness:</strong> Curriculum must match the cognitive, social-emotional, and physical development of children at each stage. What is appropriate for a 6-year-old is not appropriate for a 14-year-old, and vice versa.</li>
+          <li><strong>Coherence and progression:</strong> The curriculum must be coherent across stages, with clear progression of concepts, skills, and dispositions from Foundational to Secondary Stage.</li>
+          <li><strong>Balance and breadth:</strong> All curricular areas — cognitive and academic, artistic and aesthetic, physical and health, ethical and social — must be given appropriate space and time.</li>
+          <li><strong>Depth over breadth:</strong> Fewer concepts studied in greater depth produce more durable and transferable learning than many topics covered superficially.</li>
+          <li><strong>Integration:</strong> Connections between subjects and between school learning and real life must be built into the curriculum design.</li>
+        </ul>`
+      },
+      {
+        heading: 'Reducing Curriculum Load',
+        body: `<p>One of the most important principles of NCF 2023 is the explicit commitment to reducing curriculum load. Over successive revisions, Indian curricula have accumulated an ever-growing burden of content, leading to:</p>
+        <ul>
+          <li>Rote learning and surface-level coverage</li>
+          <li>Heavy bags and long homework hours</li>
+          <li>No time for play, arts, sports, or exploration</li>
+          <li>Stress, anxiety, and loss of joy in learning</li>
+        </ul>
+        <p>NCF 2023 explicitly mandates a reduction in curriculum load, particularly factual content. The freed-up time and energy must be used for deeper conceptual understanding, creative activities, physical development, and experiential learning.</p>
+        <div class="highlight-box"><p>Curriculum load reduction is not about lowering standards. It is about raising the quality of learning by freeing up space for genuine understanding, critical thinking, and joyful engagement with knowledge.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'pedagogy',
+    num: '10',
+    icon: '🧑‍🏫',
+    title: 'Pedagogical Approaches',
+    desc: 'How teaching and learning should be organised',
+    category: 'Pedagogy',
+    content: [
+      {
+        heading: 'Learner-Centred Pedagogy',
+        body: `<p>NCF 2023 unequivocally advocates for learner-centred pedagogy. This means that the starting point for all teaching decisions is the learner — their existing knowledge, interests, cultural context, learning styles, and developmental needs.</p>
+        <p>In a learner-centred classroom:</p>
+        <ul>
+          <li>Students are active participants in learning, not passive recipients of information</li>
+          <li>The teacher acts as a facilitator, guide, and co-learner — not a mere transmitter of content</li>
+          <li>Learning activities are varied, engaging, and connected to students' real lives</li>
+          <li>Student questions, ideas, and creativity are valued and incorporated into the learning process</li>
+          <li>Different learning pathways are provided to accommodate diverse learners</li>
+        </ul>`
+      },
+      {
+        heading: 'Inquiry-Based Learning',
+        body: `<p>Inquiry-based learning is a central pedagogical approach in NCF 2023. In an inquiry-based approach:</p>
+        <ul>
+          <li>Learning begins with a question, problem, or challenge — not a chapter to be covered</li>
+          <li>Students investigate, gather information, analyse, and draw conclusions</li>
+          <li>The process of inquiry — formulating questions, testing ideas, evaluating evidence — is as important as the content learned</li>
+          <li>Teachers support and scaffold the inquiry process without providing ready-made answers</li>
+          <li>Students develop metacognitive skills — learning how to learn</li>
+        </ul>
+        <div class="sky-box"><p>Inquiry-based learning develops the scientific temper, critical thinking, and intellectual independence that are central to both Indian educational philosophy and 21st century skill requirements.</p></div>`
+      },
+      {
+        heading: 'Collaborative Learning',
+        body: `<p>NCF 2023 emphasises collaborative learning — students working together to solve problems, create products, and construct understanding. Collaboration:</p>
+        <ul>
+          <li>Develops communication and interpersonal skills</li>
+          <li>Exposes students to diverse perspectives and ways of thinking</li>
+          <li>Builds social-emotional competencies — empathy, negotiation, leadership</li>
+          <li>Mirrors the collaborative nature of real-world work and citizenship</li>
+          <li>Provides peer support and motivation</li>
+        </ul>`
+      },
+      {
+        heading: 'Differentiated Instruction',
+        body: `<p>Given the diversity of learners in every Indian classroom, NCF 2023 emphasises the need for differentiated instruction. Teachers must:</p>
+        <ul>
+          <li>Understand where each student is in their learning journey</li>
+          <li>Provide appropriately challenging and supportive learning experiences for each student</li>
+          <li>Offer multiple entry points and multiple modes of engagement with content</li>
+          <li>Assess learning through multiple means, not just written tests</li>
+          <li>Ensure that students with disabilities and special needs receive appropriate accommodations</li>
+        </ul>
+        <div class="highlight-box"><p>Every child is capable of learning. The role of differentiated instruction is to find the right way of helping each individual child learn — not to track or categorise children by ability.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'experiential',
+    num: '11',
+    icon: '🌿',
+    title: 'Experiential Learning',
+    desc: 'Learning through direct experience and reflection',
+    category: 'Pedagogy',
+    content: [
+      {
+        heading: 'Principles of Experiential Learning',
+        body: `<p>Experiential learning is a pedagogical approach in which students learn through direct experience, followed by reflection, conceptualisation, and application. NCF 2023 positions experiential learning as a cornerstone of quality education across all stages.</p>
+        <p>The key principles of experiential learning as articulated in NCF 2023 are:</p>
+        <ul>
+          <li>Learning is most durable when it is rooted in concrete experience</li>
+          <li>Reflection on experience deepens understanding and supports transfer to new contexts</li>
+          <li>Abstract concepts are best understood when encountered through concrete, real-world examples</li>
+          <li>Students develop deeper understanding when they construct knowledge through their own actions and investigations</li>
+        </ul>`
+      },
+      {
+        heading: 'Forms of Experiential Learning',
+        body: `<p>NCF 2023 advocates for multiple forms of experiential learning, including:</p>
+        <ul>
+          <li><strong>Laboratory experiments:</strong> Students conduct actual experiments, not just observe demonstrations</li>
+          <li><strong>Field trips and community engagement:</strong> Learning extends beyond the classroom into the community, natural environments, and cultural institutions</li>
+          <li><strong>Projects and design challenges:</strong> Students work on extended, real-world problems and produce tangible outcomes</li>
+          <li><strong>Arts and craft activities:</strong> Making, creating, and expressing through multiple media</li>
+          <li><strong>Sports and physical activities:</strong> Learning through bodily engagement and movement</li>
+          <li><strong>Internships and work experience:</strong> Direct engagement with the world of work and vocational activity</li>
+        </ul>
+        <div class="highlight-box"><p>Experiential learning requires that schools be resourced with laboratories, libraries, art rooms, sports facilities, and gardens, and that teachers are trained and supported to facilitate experiential learning beyond textbook coverage.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'competency',
+    num: '12',
+    icon: '⭐',
+    title: 'Competency-Based Education',
+    desc: 'Shifting from content coverage to competency development',
+    category: 'Pedagogy',
+    content: [
+      {
+        heading: 'What is Competency-Based Education?',
+        body: `<p>Competency-based education (CBE) is an approach that focuses on what students actually know, understand, and can do — their competencies — rather than the time they spend in class or the amount of content they are exposed to.</p>
+        <p>A competency is a combination of:</p>
+        <ul>
+          <li>Knowledge — conceptual understanding</li>
+          <li>Skills — ability to perform tasks and solve problems</li>
+          <li>Dispositions — attitudes, values, and habits of mind</li>
+        </ul>
+        <div class="sky-box"><p>NCF 2023 defines competencies as the integrated demonstration of knowledge, skills, and dispositions in meaningful contexts. Competency is not just knowing — it is being able to apply, create, and evaluate in diverse, real-world situations.</p></div>`
+      },
+      {
+        heading: 'Competency Framework in NCF 2023',
+        body: `<p>NCF 2023 articulates a comprehensive framework of competencies for each stage and subject. These competencies are:</p>
+        <ul>
+          <li>Clearly specified — teachers and students know what they are working towards</li>
+          <li>Measurable — there are clear criteria for demonstrating competency</li>
+          <li>Developmental — they build progressively across stages</li>
+          <li>Holistic — they span cognitive, social-emotional, aesthetic, and physical domains</li>
+        </ul>
+        <p>The shift to competency-based education requires changes in curriculum design, pedagogy, assessment, and teacher education. NCF 2023 addresses each of these dimensions.</p>`
+      },
+      {
+        heading: 'Implications for Teaching and Assessment',
+        body: `<p>Competency-based education has significant implications for how teachers teach and how learning is assessed:</p>
+        <ul>
+          <li>Teaching must provide opportunities for students to apply and demonstrate competencies, not just learn content</li>
+          <li>Assessment must measure the demonstration of competencies in authentic contexts, not just recall of facts</li>
+          <li>Students who have not yet demonstrated a competency need additional support and different approaches — not a failing grade and progression</li>
+          <li>Feedback must be specific to the competency being developed, helping students understand how to improve</li>
+        </ul>
+        <div class="highlight-box"><p>Competency-based assessment shifts the question from "What did the student memorise?" to "What can the student do with what they know?" This is a fundamental reorientation of the purpose of education.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'multilingualism',
+    num: '13',
+    icon: '🗣️',
+    title: 'Multilingualism',
+    desc: 'Home language instruction and multilingual education',
+    category: 'Themes',
+    content: [
+      {
+        heading: 'The Three-Language Formula',
+        body: `<p>NCF 2023, in alignment with NEP 2020, strongly advocates for multilingual education. India's extraordinary linguistic diversity — with hundreds of languages and thousands of dialects — is a profound national asset that the education system must honour and build upon.</p>
+        <p>NCF 2023 endorses the Three-Language Formula, with the following principles:</p>
+        <ul>
+          <li>The child's home language (mother tongue or first language) must be the primary language of instruction, especially in the early years</li>
+          <li>All three languages — home language, a second language, and a third language — should be taught as subjects throughout the school years</li>
+          <li>Transition to instruction in other languages should be gradual and supported</li>
+          <li>No language is imposed — the three languages can be any combination of Indian languages and English</li>
+        </ul>`
+      },
+      {
+        heading: 'Mother Tongue and Home Language',
+        body: `<p>NCF 2023 is unambiguous: children learn best in their home language. Instruction in a language the child does not understand creates a fundamental barrier to learning. Research from India and around the world consistently shows that:</p>
+        <ul>
+          <li>Children who are taught in their home language in the early years develop stronger cognitive skills</li>
+          <li>Concepts and skills acquired in the home language transfer readily to other languages</li>
+          <li>Home language instruction increases school attendance, reduces dropout, and improves learning outcomes</li>
+          <li>Children who are literate in their home language learn to read other languages more easily</li>
+        </ul>
+        <div class="highlight-box"><p>The use of home languages as the medium of instruction, particularly in the Foundational and Preparatory Stages, is not a concession to linguistic diversity but a pedagogically sound approach that produces better educational outcomes for all children.</p></div>`
+      },
+      {
+        heading: 'Multilingualism as a Resource',
+        body: `<p>NCF 2023 positions multilingualism as a cognitive and cultural resource, not a problem. In the multilingual classroom:</p>
+        <ul>
+          <li>Children's knowledge of multiple languages is valued and utilised, not suppressed</li>
+          <li>Code-switching (moving between languages) is a normal and sophisticated cognitive skill, not a deficiency</li>
+          <li>Literature, songs, stories, and texts in all the children's languages are incorporated into the curriculum</li>
+          <li>All teachers — not just language teachers — are responsible for supporting language development in their subjects</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    id: 'assessment',
+    num: '14',
+    icon: '📊',
+    title: 'Assessment Reform',
+    desc: 'Moving from high-stakes testing to holistic evaluation',
+    category: 'Themes',
+    content: [
+      {
+        heading: 'Vision of Assessment in NCF 2023',
+        body: `<p>Assessment is one of the areas where NCF 2023 calls for the most fundamental transformation. The current system — characterised by high-stakes written examinations that reward rote memorisation — actively undermines the aims of education articulated in NCF 2023.</p>
+        <p>NCF 2023 articulates a vision of assessment that is:</p>
+        <ul>
+          <li><strong>Formative:</strong> Assessment is primarily for learning — to provide feedback that helps students improve</li>
+          <li><strong>Holistic:</strong> Assessment covers all dimensions of development, not just academic knowledge</li>
+          <li><strong>Competency-based:</strong> Assessment measures the demonstration of competencies in authentic contexts</li>
+          <li><strong>Low-stakes:</strong> Reduced reliance on high-stakes, one-time examinations that create anxiety and distort learning</li>
+          <li><strong>Multiple modalities:</strong> Portfolios, projects, oral assessments, performances, peer assessment, self-assessment</li>
+        </ul>`
+      },
+      {
+        heading: 'Formative Assessment',
+        body: `<p>Formative assessment — assessment for learning — is the primary mode of assessment advocated in NCF 2023, especially in the Foundational and Preparatory Stages. Formative assessment includes:</p>
+        <ul>
+          <li>Teacher observation of students during learning activities</li>
+          <li>Questioning and classroom discussion</li>
+          <li>Exit tickets and quick checks for understanding</li>
+          <li>Student self-assessment and peer assessment</li>
+          <li>Portfolios and documentation of learning progress</li>
+        </ul>
+        <div class="sky-box"><p>Formative assessment is only valuable when it is used to inform teaching and support learning. Assessment information that is collected and not acted upon does not benefit students.</p></div>`
+      },
+      {
+        heading: 'Summative Assessment and Board Examinations',
+        body: `<p>NCF 2023 does not eliminate summative assessment or Board examinations. It advocates for their transformation to become valid measures of the competencies that education aims to develop. Key changes advocated include:</p>
+        <ul>
+          <li>Questions that require application, analysis, and synthesis — not just recall</li>
+          <li>Reduced emphasis on memory-intensive, fact-heavy content</li>
+          <li>Inclusion of project-based, portfolio-based, and performance-based components</li>
+          <li>Two examination opportunities per year for Board examinations (Grades 10 and 12)</li>
+          <li>Modular approach — students can choose to take examinations in individual subjects at different times</li>
+        </ul>
+        <div class="highlight-box"><p>The transformation of assessment is the key lever for transforming classroom practice. As long as high-stakes examinations reward rote learning, teachers and students will prioritise rote learning over genuine understanding, regardless of what the curriculum mandates.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'inclusive',
+    num: '15',
+    icon: '🤝',
+    title: 'Inclusive Education',
+    desc: 'Every child has the right to quality education',
+    category: 'Themes',
+    content: [
+      {
+        heading: 'Principles of Inclusive Education',
+        body: `<p>Inclusive education is a fundamental commitment of NCF 2023, grounded in the principle that every child — regardless of ability, disability, gender, socio-economic background, linguistic background, caste, religion, or any other characteristic — has the right to quality education in a regular school setting.</p>
+        <p>NCF 2023 articulates inclusive education as:</p>
+        <ul>
+          <li>Not a special arrangement for a subset of children, but a fundamental characteristic of quality education</li>
+          <li>A process of transforming the school environment, curriculum, and pedagogy to accommodate and celebrate diversity</li>
+          <li>Requiring both systemic change and individual teacher commitment</li>
+          <li>A responsibility of every teacher in every school</li>
+        </ul>
+        <div class="highlight-box"><p>Inclusive education is not about placing children with disabilities in regular classrooms without support. It is about transforming those classrooms — through Universal Design for Learning principles — so that they genuinely work for every child.</p></div>`
+      },
+      {
+        heading: 'Children with Special Needs and Disabilities',
+        body: `<p>NCF 2023 provides specific guidance for including children with disabilities and special educational needs:</p>
+        <ul>
+          <li>Universal Design for Learning (UDL) principles must be built into curriculum design and school infrastructure</li>
+          <li>Every child with a disability must have an Individualised Education Plan (IEP) developed in partnership with the family</li>
+          <li>Appropriate assistive technologies and support materials must be provided</li>
+          <li>Examination accommodations — extra time, scribe support, question paper in accessible formats — must be universally available</li>
+          <li>Special educators must be available in every school to support classroom teachers</li>
+        </ul>`
+      },
+      {
+        heading: 'Gender Equity in Education',
+        body: `<p>NCF 2023 addresses gender as a dimension of inclusion, recognising that gender inequity continues to disadvantage girls in many parts of India and that gender stereotyping affects all children. The curriculum must:</p>
+        <ul>
+          <li>Present diverse, equitable representations of all genders across subjects and textbooks</li>
+          <li>Challenge gender stereotypes in subject choices (e.g., the idea that girls do not do science or mathematics)</li>
+          <li>Create school environments that are safe, welcoming, and supportive for all genders</li>
+          <li>Include gender-responsive content in health and physical education</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    id: 'arts',
+    num: '16',
+    icon: '🎨',
+    title: 'Art-Integrated Learning',
+    desc: 'Arts as a pedagogy across all subjects',
+    category: 'Themes',
+    content: [
+      {
+        heading: 'What is Art-Integrated Learning?',
+        body: `<p>Art-Integrated Learning (AIL) is a pedagogical approach that uses visual arts, performing arts, crafts, music, dance, and drama as vehicles for learning across all subjects — not just in dedicated art classes. NCF 2023 positions AIL as a powerful tool for making learning more engaging, meaningful, and effective.</p>
+        <p>In Art-Integrated Learning:</p>
+        <ul>
+          <li>Students learn mathematics concepts through geometric patterns, folk art, and spatial reasoning activities</li>
+          <li>Science concepts are explored through models, diagrams, and creative representations</li>
+          <li>History and social science are brought to life through drama, storytelling, and research projects</li>
+          <li>Language learning is supported through songs, poems, storytelling, and dramatic performance</li>
+        </ul>
+        <div class="highlight-box"><p>Art-Integrated Learning is not about inserting art activities into non-art subjects as enrichment. It is about using the processes and practices of artistic creation — observation, exploration, making, reflection, and critique — as fundamental pedagogical tools.</p></div>`
+      },
+      {
+        heading: 'Arts Education as a Core Curricular Area',
+        body: `<p>In addition to its role as a pedagogical tool, Arts Education is also a core curricular area in its own right throughout all four stages. NCF 2023 is emphatic that:</p>
+        <ul>
+          <li>Arts education is not extracurricular or supplementary — it is a fundamental component of complete education</li>
+          <li>All students must engage with visual arts, performing arts, music, and craft throughout their school years</li>
+          <li>Arts education develops creativity, aesthetic sensibility, cultural understanding, and emotional intelligence</li>
+          <li>India's extraordinary rich tradition of classical and folk arts must be honoured and transmitted through arts education</li>
+          <li>Local and regional art forms must be incorporated into the curriculum, connecting children to their cultural heritage</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    id: 'vocational',
+    num: '17',
+    icon: '🛠️',
+    title: 'Vocational Integration',
+    desc: 'Dignifying work, skills, and livelihoods in education',
+    category: 'Themes',
+    content: [
+      {
+        heading: 'Vision for Vocational Education',
+        body: `<p>One of the most transformative aspects of NEP 2020 and NCF 2023 is the vision for vocational education. Historically, vocational education has been treated as a lesser pathway — for students who could not succeed academically. NCF 2023 fundamentally rejects this view.</p>
+        <div class="highlight-box"><p>NCF 2023 envisions a fundamental change in the relationship between academic and vocational education — integrating vocational learning into mainstream schooling and, crucially, treating all forms of skilled work with equal dignity and respect.</p></div>
+        <p>The integration of vocational education into the mainstream curriculum is grounded in several principles:</p>
+        <ul>
+          <li>All skilled work — whether a carpenter, farmer, electrician, or doctor — deserves equal respect</li>
+          <li>Practical skills and vocational knowledge are intellectually rich and demanding</li>
+          <li>All students benefit from developing practical skills, craft knowledge, and vocational competencies</li>
+          <li>The distinction between "head work" and "hand work" is false and harmful</li>
+        </ul>`
+      },
+      {
+        heading: 'Vocational Education Across Stages',
+        body: `<p>NCF 2023 provides guidance on the progression of vocational education across all four stages:</p>
+        <ul>
+          <li><strong>Foundational Stage:</strong> Introduction to different kinds of work through stories, visits, and simple craft activities; developing respect for all forms of work</li>
+          <li><strong>Preparatory Stage:</strong> Hands-on engagement with agriculture, crafts, and community service; introduction to tools and materials; vocational exploration</li>
+          <li><strong>Middle Stage:</strong> More formal vocational exploration; minimum 10 days of vocational internship each year; skill development in at least one vocational area</li>
+          <li><strong>Secondary Stage:</strong> Option to take formal vocational education courses for credit; internships and work-based learning; pathways to both higher education and skilled employment</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    id: 'technology',
+    num: '18',
+    icon: '💻',
+    title: 'Technology Integration',
+    desc: 'Digital literacy and educational technology in NCF 2023',
+    category: 'Themes',
+    content: [
+      {
+        heading: 'Technology in Education — NCF 2023 Perspective',
+        body: `<p>NCF 2023 provides a thoughtful, balanced perspective on the role of technology in education. Technology is positioned as a powerful tool that can support learning when used thoughtfully, but not as a solution to all educational challenges or a replacement for good teaching and human relationships.</p>
+        <p>NCF 2023 advocates for technology integration that:</p>
+        <ul>
+          <li>Enhances learning rather than replacing the teacher-student relationship</li>
+          <li>Is guided by clear pedagogical goals — technology is used because it best supports the learning objective, not for its own sake</li>
+          <li>Develops students' ability to critically evaluate and use digital tools and information</li>
+          <li>Is equitable — accessible to all students regardless of socio-economic background</li>
+          <li>Includes attention to digital safety, privacy, and ethical use</li>
+        </ul>`
+      },
+      {
+        heading: 'Computational Thinking',
+        body: `<p>NCF 2023 introduces Computational Thinking as a required component of the curriculum at the Secondary Stage and as a valued area throughout all stages. Computational Thinking includes:</p>
+        <ul>
+          <li>Decomposition — breaking complex problems into smaller, manageable parts</li>
+          <li>Pattern recognition — identifying patterns, trends, and regularities</li>
+          <li>Abstraction — identifying the essential features of a problem</li>
+          <li>Algorithmic thinking — designing step-by-step solutions</li>
+          <li>Basic programming and coding as a creative tool</li>
+        </ul>
+        <div class="sky-box"><p>Computational Thinking is not just about learning to code. It is a powerful problem-solving framework that is valuable across all subjects and life contexts — from mathematics to music to social problem-solving.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'teacher-role',
+    num: '19',
+    icon: '🌟',
+    title: 'Teacher Role Transformation',
+    desc: 'The teacher as guide, facilitator, and co-learner',
+    category: 'Implementation',
+    content: [
+      {
+        heading: 'Reimagining the Teacher\'s Role',
+        body: `<p>NCF 2023 envisions a fundamental transformation in the role of the teacher — from a transmitter of information to a facilitator of learning; from an authority figure who delivers content to a guide who supports students in constructing understanding.</p>
+        <p>This transformation requires teachers to develop:</p>
+        <ul>
+          <li><strong>Deep subject knowledge:</strong> Not just knowledge of facts but conceptual understanding of their discipline</li>
+          <li><strong>Pedagogical content knowledge:</strong> Understanding of how students learn specific subjects, common misconceptions, and effective teaching approaches</li>
+          <li><strong>Knowledge of child development:</strong> Understanding how children think, learn, and develop at different stages</li>
+          <li><strong>Assessment literacy:</strong> Ability to gather and interpret assessment information to inform teaching</li>
+          <li><strong>Reflective practice:</strong> Ability to reflect critically on one's own teaching and improve continuously</li>
+        </ul>`
+      },
+      {
+        heading: 'Teacher Autonomy and Professional Judgement',
+        body: `<p>NCF 2023 strongly advocates for greater teacher autonomy and professional judgement. Teachers should be trusted as professionals who can make informed decisions about curriculum, pedagogy, and assessment within the framework provided by NCF 2023.</p>
+        <div class="highlight-box"><p>Teachers are the most important factor in the quality of education. NCF 2023 calls for treating teachers with the dignity, trust, and professional respect that is essential for attracting and retaining the best people in the profession and for enabling them to do their best work.</p></div>
+        <p>This means reducing over-prescription of teaching methods, trusting teachers to adapt the curriculum to local contexts and student needs, and creating time and space for professional reflection and collaboration.</p>`
+      },
+      {
+        heading: 'Teacher Professional Development',
+        body: `<p>NCF 2023 calls for a transformation in how teacher professional development is conceived and delivered:</p>
+        <ul>
+          <li>Professional development must be continuous, school-based, and collaborative — not one-off workshops</li>
+          <li>Teachers should have dedicated time for professional learning, preparation, and collaboration built into the school schedule</li>
+          <li>Mentoring and peer observation should be normalised as tools for professional growth</li>
+          <li>Teacher professional development must be directly connected to the NCF 2023 vision — developing the knowledge, skills, and dispositions needed to implement the framework effectively</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    id: 'school-culture',
+    num: '20',
+    icon: '🏫',
+    title: 'School Culture',
+    desc: 'Creating the conditions for quality learning',
+    category: 'Implementation',
+    content: [
+      {
+        heading: 'The School as a Learning Community',
+        body: `<p>NCF 2023 articulates a vision of the school as a learning community — a place where all members of the school, students, teachers, and leaders, are engaged in continuous learning and growth. This vision is realised through:</p>
+        <ul>
+          <li>A physically safe, emotionally welcoming, and intellectually stimulating environment</li>
+          <li>A school culture that values curiosity, creativity, and the joy of learning</li>
+          <li>Equitable relationships between teachers and students, built on respect and trust</li>
+          <li>Active engagement of families and community in the life of the school</li>
+          <li>Democratic processes and student voice in school governance</li>
+        </ul>
+        <div class="sky-box"><p>The school culture — the daily lived experience of being in the school — teaches children as powerfully as any curriculum. A school that preaches respect but treats children with disrespect teaches disrespect. Culture and curriculum must be aligned.</p></div>`
+      },
+      {
+        heading: 'School Leadership',
+        body: `<p>The school leader (principal or headmaster) plays a crucial role in creating and sustaining the conditions for quality education. NCF 2023 envisions school leaders who:</p>
+        <ul>
+          <li>Are primarily instructional leaders — focused on improving teaching and learning — not just administrative managers</li>
+          <li>Create a collaborative, professional culture among teachers</li>
+          <li>Protect time for professional learning and preparation</li>
+          <li>Use student learning data to identify areas for improvement</li>
+          <li>Engage positively with families and the community</li>
+          <li>Model the values and attitudes they expect from students and teachers</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    id: 'academic-planning',
+    num: '21',
+    icon: '📅',
+    title: 'Academic Planning',
+    desc: 'Annual work plans, timetables, and curricular organisation',
+    category: 'Implementation',
+    content: [
+      {
+        heading: 'Annual Academic Planning',
+        body: `<p>NCF 2023 emphasises the importance of thoughtful annual academic planning as a foundation for quality teaching and learning. Academic planning must ensure that:</p>
+        <ul>
+          <li>All required curricular areas receive adequate and equitable time</li>
+          <li>There is balance between different types of learning activities — classroom instruction, laboratory work, arts, physical education, projects</li>
+          <li>Assessment is spread throughout the year and not concentrated in examination periods</li>
+          <li>Time is protected for teacher professional development, collaboration, and preparation</li>
+          <li>School events, cultural activities, and community engagement are integrated into the academic calendar</li>
+        </ul>`
+      },
+      {
+        heading: 'Timetabling Principles',
+        body: `<p>The school timetable is a powerful tool for enacting or undermining the values of NCF 2023. A well-designed timetable:</p>
+        <ul>
+          <li>Provides adequate daily time for physical activity — minimum one period of physical education every day</li>
+          <li>Protects time for arts education, including both dedicated arts classes and art-integrated activities</li>
+          <li>Provides longer blocks for project-based, laboratory, and experiential learning activities</li>
+          <li>Avoids overloading students with excessive homework and extracurricular obligations</li>
+        </ul>
+        <div class="highlight-box"><p>NCF 2023 mandates that all curricular areas — including arts, physical education, and vocational activities — must be reflected in the formal timetable. Treating them as optional or supplementary activities sends a message to students, teachers, and families that they are less important.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'learning-standards',
+    num: '22',
+    icon: '📐',
+    title: 'Learning Standards',
+    desc: 'Competency expectations at each stage and subject',
+    category: 'Design',
+    content: [
+      {
+        heading: 'What are Learning Standards?',
+        body: `<p>Learning standards in NCF 2023 are explicit statements of what students should know, understand, and be able to do at the end of each stage. They provide the foundation for curriculum design, textbook development, teacher planning, and assessment.</p>
+        <p>Learning standards in NCF 2023 are:</p>
+        <ul>
+          <li>Competency-based — they describe what students can do, not what they have been taught</li>
+          <li>Stage-appropriate — they are calibrated to the developmental level of students at each stage</li>
+          <li>Clear and observable — teachers, students, and families can understand what is expected</li>
+          <li>Holistic — they cover cognitive, social-emotional, aesthetic, and physical dimensions</li>
+        </ul>
+        <div class="sky-box"><p>Learning standards provide the non-negotiable baseline of what every child in India deserves to learn, while leaving room for teachers to adapt their approach to local contexts and individual student needs.</p></div>`
+      },
+      {
+        heading: 'Progression of Learning Standards',
+        body: `<p>Learning standards are designed to show clear progression from the Foundational Stage through the Secondary Stage. This progression reflects:</p>
+        <ul>
+          <li>Increasing cognitive complexity — from concrete to abstract, from simple to complex, from guided to independent</li>
+          <li>Growing metacognitive awareness — students become increasingly aware of their own learning and able to regulate it</li>
+          <li>Deepening disciplinary understanding — from general curiosity to disciplinary thinking</li>
+          <li>Expanding social and civic perspective — from immediate community to global citizenship</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    id: 'cross-curricular',
+    num: '23',
+    icon: '🔗',
+    title: 'Cross-Curricular Themes',
+    desc: 'Environmental sustainability, citizenship, and values integration',
+    category: 'Themes',
+    content: [
+      {
+        heading: 'Cross-Curricular Themes in NCF 2023',
+        body: `<p>NCF 2023 identifies a set of cross-curricular themes that must be integrated throughout the curriculum at all stages. These themes are too important and too complex to be confined to a single subject — they must be woven through all curricular areas and experienced through the daily life of the school.</p>
+        <p>The cross-curricular themes include:</p>
+        <ul>
+          <li><strong>Environmental Sustainability:</strong> Understanding ecological systems, climate change, biodiversity, and the human relationship with nature; developing environmental consciousness and responsibility</li>
+          <li><strong>Constitutional Values and Democratic Citizenship:</strong> Understanding India's constitutional values — equality, justice, freedom, fraternity — and developing the dispositions and skills of active, engaged democratic citizenship</li>
+          <li><strong>Health and Wellbeing:</strong> Physical health, mental health, nutrition, hygiene, substance use prevention, and healthy relationships</li>
+          <li><strong>India's Cultural Heritage:</strong> Knowledge and appreciation of India's extraordinary diversity of art, music, literature, architecture, and philosophical traditions</li>
+          <li><strong>Gender Sensitivity:</strong> Understanding gender as a social construct; challenging stereotypes; developing respect and equity across gender lines</li>
+        </ul>
+        <div class="highlight-box"><p>Cross-curricular themes require coordination across subject teachers and a whole-school approach. A single teacher's effort to address these themes is insufficient — they must be part of the school's culture and comprehensive curriculum plan.</p></div>`
+      },
+      {
+        heading: 'Environmental Education',
+        body: `<p>Environmental education deserves special attention in NCF 2023, given the urgency of environmental challenges facing India and the world. The environmental dimension of the curriculum must:</p>
+        <ul>
+          <li>Be grounded in direct experience of local natural environments, not just textbook descriptions</li>
+          <li>Develop genuine scientific understanding of ecological systems and environmental processes</li>
+          <li>Cultivate environmental values — care for the natural world, sense of responsibility for environmental stewardship</li>
+          <li>Connect to local and indigenous knowledge about the environment</li>
+          <li>Enable students to take genuine environmental action in their communities</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    id: 'nep-alignment',
+    num: '24',
+    icon: '📋',
+    title: 'NEP 2020 & NCF Alignment',
+    desc: 'How NCF 2023 operationalises NEP 2020 vision',
+    category: 'Policy',
+    content: [
+      {
+        heading: 'NEP 2020: The Policy Foundation',
+        body: `<p>The National Education Policy 2020 (NEP 2020) is the most comprehensive education policy India has had since the Education Commission of 1964-66 (the Kothari Commission). It provides a transformative vision for the entire educational ecosystem — from Early Childhood Care and Education through higher education, research, and teacher education.</p>
+        <p>NEP 2020's core goals include:</p>
+        <ul>
+          <li>Universal access to quality education from pre-school through secondary school</li>
+          <li>Universal foundational literacy and numeracy by Grade 3</li>
+          <li>A multidisciplinary, holistic, and flexible education that reduces curriculum load</li>
+          <li>Emphasis on critical thinking, creativity, and 21st century skills</li>
+          <li>Integration of vocational education into mainstream schooling</li>
+          <li>Multilingual education with emphasis on home language instruction</li>
+          <li>Transformation of assessment to align with learning goals</li>
+          <li>Upgraded and empowered teachers and school leaders</li>
+        </ul>`
+      },
+      {
+        heading: 'NCF 2023 as the Curricular Expression of NEP 2020',
+        body: `<p>NCF 2023 translates NEP 2020's broad vision into specific curricular guidance. Every major recommendation of NEP 2020 in the domain of school education is addressed and operationalised in NCF 2023:</p>
+        <ul>
+          <li>The 5+3+3+4 stage structure of NEP 2020 is detailed in the four stage chapters of NCF 2023</li>
+          <li>NEP 2020's emphasis on FLN is addressed through the Foundational Stage chapter and dedicated FLN mission guidance</li>
+          <li>NEP 2020's vision of holistic development is operationalised through the competency framework and multi-dimensional curriculum</li>
+          <li>NEP 2020's emphasis on reducing curriculum load is addressed through curriculum design principles</li>
+          <li>NEP 2020's vision for assessment reform is detailed in the assessment chapter</li>
+        </ul>
+        <div class="highlight-box"><p>NCF 2023 is the bridge between NEP 2020's aspirational vision and the daily reality of classrooms across India. It translates policy intent into curricular action — providing teachers, schools, and curriculum developers with the guidance needed to realise NEP 2020's vision.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'flnm',
+    num: '25',
+    icon: '📖',
+    title: 'Foundational Literacy & Numeracy',
+    desc: 'National Mission on FLN – NIPUN Bharat',
+    category: 'Policy',
+    content: [
+      {
+        heading: 'The FLN Crisis and Priority',
+        body: `<p>Foundational Literacy and Numeracy (FLN) — the ability to read simple text with comprehension and to perform basic arithmetic operations — are the non-negotiable prerequisites for all subsequent learning. Without FLN, students cannot access the curriculum at any stage.</p>
+        <p>Large-scale assessments have consistently shown that many students in India are completing primary school without acquiring basic FLN skills. This represents a profound educational failure and a fundamental equity issue. NCF 2023, aligned with NEP 2020's FLN Mission (NIPUN Bharat), makes universal FLN by Grade 3 the highest priority in school education.</p>
+        <div class="sky-box"><p>The NIPUN Bharat Mission (National Initiative for Proficiency in Reading with Understanding and Numeracy) sets the target that every child in India will attain basic FLN skills by the end of Grade 3 by the year 2026-27.</p></div>`
+      },
+      {
+        heading: 'Approach to FLN in NCF 2023',
+        body: `<p>NCF 2023 provides detailed guidance on the approach to achieving universal FLN:</p>
+        <ul>
+          <li><strong>Oral language development first:</strong> Strong oral language in the home language is the foundation for literacy</li>
+          <li><strong>Systematic phonics instruction:</strong> Explicit teaching of the relationship between sounds and letters/symbols in the language of instruction</li>
+          <li><strong>Reading comprehension:</strong> Understanding of meaning, not just decoding, is the goal of literacy instruction</li>
+          <li><strong>Reading for pleasure:</strong> Access to diverse, engaging reading materials in children's languages</li>
+          <li><strong>Number sense before operations:</strong> Understanding of quantity, relationships, and mathematical thinking before procedures</li>
+          <li><strong>Concrete-Representational-Abstract sequence:</strong> Mathematical concepts introduced with physical materials before abstract symbols</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    id: 'ecce',
+    num: '26',
+    icon: '👶',
+    title: 'Early Childhood Care & Education',
+    desc: 'ECCE as the foundation of the 5+3+3+4 structure',
+    category: 'Stages',
+    content: [
+      {
+        heading: 'Importance of ECCE',
+        body: `<p>Early Childhood Care and Education (ECCE) — covering the years from birth to 8 — is the most important phase of human development. The brain develops most rapidly in the first six years of life, and the quality of early experiences has lifelong consequences for learning, health, and wellbeing.</p>
+        <p>NCF 2023, following NEP 2020, establishes ECCE as the foundation of the entire school education system. The integration of ECCE into the school system — through the Foundational Stage covering ages 3-8 — is one of the most significant structural changes introduced by NEP 2020.</p>
+        <div class="highlight-box"><p>Investment in high-quality ECCE is the most cost-effective educational investment a society can make. The cognitive, social-emotional, and physical foundations laid in the early years determine outcomes across the entire lifespan.</p></div>`
+      },
+      {
+        heading: 'ECCE Programme Design',
+        body: `<p>Quality ECCE as envisioned in NCF 2023 involves:</p>
+        <ul>
+          <li>Responsive, caring, and stimulating interactions between teachers and young children</li>
+          <li>Rich, print-rich, and material-rich learning environments</li>
+          <li>Daily schedules that balance free play, structured activity, outdoor time, rest, and nutrition</li>
+          <li>Family engagement — parents and caregivers as partners in their child's early learning</li>
+          <li>Observation and documentation of each child's development</li>
+          <li>Attention to nutrition, health, and emotional wellbeing as foundations for learning</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    id: 'indian-knowledge',
+    num: '27',
+    icon: '🏺',
+    title: 'Indian Knowledge Systems',
+    desc: 'Integrating India\'s intellectual and cultural heritage',
+    category: 'Themes',
+    content: [
+      {
+        heading: 'Indian Knowledge Systems in NCF 2023',
+        body: `<p>One of the distinctive features of NCF 2023 is its explicit attention to Indian Knowledge Systems (IKS). India has an extraordinarily rich intellectual, philosophical, scientific, artistic, and cultural heritage that has been underrepresented in the post-independence curriculum.</p>
+        <p>NCF 2023 advocates for the meaningful integration of IKS across all subjects and stages:</p>
+        <ul>
+          <li><strong>Mathematics:</strong> India's contributions to mathematics — zero, decimal system, algebra, trigonometry — must be taught as integral history of mathematics, not as curiosities</li>
+          <li><strong>Science:</strong> Indian contributions to astronomy, metallurgy, medicine (Ayurveda, Yoga), architecture, and ecological knowledge</li>
+          <li><strong>Philosophy and ethics:</strong> Indian philosophical traditions — Nyaya, Vaisheshika, Vedanta, Buddhist, Jain, and others — offer rich resources for understanding logic, ethics, and the nature of knowledge</li>
+          <li><strong>Arts and craft:</strong> India's classical and folk art traditions as living heritage to be studied and practiced</li>
+          <li><strong>Literature:</strong> India's multilingual literary heritage in Sanskrit, Tamil, Urdu, Hindi, Bengali, and hundreds of other languages</li>
+        </ul>
+        <div class="sky-box"><p>The goal of integrating IKS is not to promote any particular ideology or to create a false opposition between Indian and Western knowledge. It is to give students a complete, accurate, and proud understanding of human intellectual achievement, which includes profound contributions from India.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'school-complex',
+    num: '28',
+    icon: '🏘️',
+    title: 'School Complex & Cluster',
+    desc: 'Collaborative school improvement structures',
+    category: 'Implementation',
+    content: [
+      {
+        heading: 'School Complex as an Institution',
+        body: `<p>NCF 2023, following NEP 2020, proposes the School Complex as a key institutional innovation for improving education quality, especially in rural and remote areas where individual schools may be small with limited resources.</p>
+        <p>A School Complex is a group of schools — typically one secondary school and the feeder primary and middle schools in its area — that share resources, collaborate on professional development, and support each other's improvement.</p>
+        <div class="highlight-box"><p>The School Complex model addresses one of the most significant structural inequities in Indian education: the gap between well-resourced urban schools and under-resourced rural schools. By pooling resources and expertise, School Complexes can provide quality education in contexts where individual small schools cannot.</p></div>`
+      },
+      {
+        heading: 'School Complex Functions',
+        body: `<p>Within a School Complex, schools can collaborate on:</p>
+        <ul>
+          <li>Sharing specialist teachers — a music teacher, for example, can serve multiple schools in the complex</li>
+          <li>Sharing laboratories, libraries, sports facilities, and other infrastructure</li>
+          <li>Teacher professional development — joint training, observation, and mentoring</li>
+          <li>Curriculum planning and resource development</li>
+          <li>Student transition support — helping students move successfully from primary to middle to secondary school</li>
+          <li>Community engagement and parent education</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    id: 'textbooks',
+    num: '29',
+    icon: '📗',
+    title: 'Textbooks & Learning Materials',
+    desc: 'Redesigning materials for NCF 2023 vision',
+    category: 'Design',
+    content: [
+      {
+        heading: 'Reimagining the Textbook',
+        body: `<p>Textbooks have traditionally dominated Indian classrooms — the textbook is treated as the curriculum rather than a resource to support the curriculum. NCF 2023 calls for a fundamental reimagining of the role and design of textbooks.</p>
+        <p>NCF 2023-aligned textbooks should:</p>
+        <ul>
+          <li>Be learning resources that support the curriculum — not the curriculum itself</li>
+          <li>Invite inquiry, curiosity, and exploration — not just present information to be memorised</li>
+          <li>Include activities, investigations, projects, and creative tasks</li>
+          <li>Connect concepts to real-world contexts and students' lived experiences</li>
+          <li>Represent the diversity of India — linguistically, culturally, geographically</li>
+          <li>Be supplemented by diverse reading materials, not used as the only source of text</li>
+        </ul>
+        <div class="highlight-box"><p>The textbook-centric approach to education has produced generations of students who have learned to pass examinations without developing genuine understanding, curiosity, or love of learning. NCF 2023 requires a fundamental rethinking of this approach.</p></div>`
+      },
+      {
+        heading: 'Diverse Learning Materials',
+        body: `<p>Beyond textbooks, NCF 2023 calls for rich, diverse learning materials in every school:</p>
+        <ul>
+          <li>Well-stocked school libraries with diverse books in all languages of the community</li>
+          <li>Science laboratory equipment for hands-on experimentation</li>
+          <li>Art and craft materials for creative work</li>
+          <li>Mathematical manipulatives for concrete learning in the early stages</li>
+          <li>Digital resources — where infrastructure supports it — as supplementary tools</li>
+          <li>Community resources — cultural institutions, natural environments, skilled community members</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    id: 'teacher-education',
+    num: '30',
+    icon: '🎓',
+    title: 'Teacher Education',
+    desc: 'Preparing teachers for NCF 2023 implementation',
+    category: 'Implementation',
+    content: [
+      {
+        heading: 'Pre-Service Teacher Education',
+        body: `<p>NCF 2023 recognises that the success of the framework depends entirely on having well-prepared, motivated, and continuously developing teachers. Pre-service teacher education — the preparation of new teachers — must be transformed to produce teachers capable of implementing NCF 2023's vision.</p>
+        <p>Pre-service programmes must:</p>
+        <ul>
+          <li>Develop deep subject matter knowledge alongside pedagogical expertise</li>
+          <li>Provide extensive practical experience in real classrooms — not just a brief practicum at the end of the programme</li>
+          <li>Develop the ability to teach diverse learners, including children with disabilities and children from linguistically diverse backgrounds</li>
+          <li>Develop skills in formative assessment and using assessment to inform teaching</li>
+          <li>Build commitment to reflective practice and continuous professional learning</li>
+        </ul>`
+      },
+      {
+        heading: 'In-Service Professional Development',
+        body: `<p>For the majority of currently serving teachers, in-service professional development is the primary mechanism for developing the knowledge and skills needed to implement NCF 2023. NCF 2023 calls for in-service professional development that is:</p>
+        <ul>
+          <li>Continuous — not one-off workshops but sustained engagement with ideas and practices</li>
+          <li>School-based — grounded in teachers' own classrooms and students</li>
+          <li>Collaborative — teachers learning from and with each other</li>
+          <li>Directly connected to the NCF 2023 vision and specific curriculum implementation</li>
+          <li>Supported by mentors, coaches, and academic resource persons</li>
+        </ul>
+        <div class="highlight-box"><p>The DIET (District Institute of Education and Training) network across India has a central role to play in supporting teachers' professional development for NCF 2023 implementation. DIETs must themselves be transformed into high-quality academic institutions capable of supporting this mission.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'equity-inclusion',
+    num: '31',
+    icon: '⚖️',
+    title: 'Equity and Social Justice',
+    desc: 'Education as a tool for equity and transformation',
+    category: 'Themes',
+    content: [
+      {
+        heading: 'Equity as a Core Principle',
+        body: `<p>NCF 2023 is grounded in the principle that education must be an instrument of equity and social justice. India's history of structural inequality — based on caste, gender, religion, language, disability, and socio-economic status — has created profound educational disparities that the curriculum and school system must actively work to overcome.</p>
+        <div class="sky-box"><p>Equity in education is not the same as equality. Equality means giving everyone the same thing. Equity means giving each person what they need to have an equal opportunity to succeed. NCF 2023 calls for an equity-oriented approach in which additional resources and support are directed towards those who face the greatest barriers.</p></div>`
+      },
+      {
+        heading: 'Socially Contextualised Curriculum',
+        body: `<p>NCF 2023 calls for a curriculum that is socially contextualised — that reflects and respects the diverse communities of India. This means:</p>
+        <ul>
+          <li>Textbooks and learning materials that represent children from all backgrounds — urban and rural, all castes and communities, diverse family structures</li>
+          <li>Curriculum content that incorporates the knowledge, experiences, and cultural practices of diverse communities</li>
+          <li>Elimination of stereotypes, biases, and discriminatory portrayals from all learning materials</li>
+          <li>Teaching practices that validate and build on every child's background knowledge and cultural capital</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    id: 'health-physical',
+    num: '32',
+    icon: '🏃',
+    title: 'Physical Education & Health',
+    desc: 'Physical wellbeing as a core curricular area',
+    category: 'Design',
+    content: [
+      {
+        heading: 'Physical Education as a Core Curricular Area',
+        body: `<p>NCF 2023 is emphatic that physical education is a core curricular area — not a supplementary activity or a break from "real" learning. Physical activity and physical development are fundamental to children's wellbeing, cognitive development, and overall health.</p>
+        <p>The physical education curriculum in NCF 2023 encompasses:</p>
+        <ul>
+          <li>Structured physical activities and games — daily across all stages</li>
+          <li>Sports — both individual and team sports; diverse traditional Indian sports alongside global sports</li>
+          <li>Yoga and mindfulness practices</li>
+          <li>Health education — nutrition, hygiene, mental health, substance use prevention</li>
+          <li>Safety and first aid</li>
+          <li>Physical fitness tracking and self-monitoring</li>
+        </ul>
+        <div class="highlight-box"><p>NCF 2023 mandates a minimum of one period of physical activity per day for every student at every stage. This is non-negotiable — no other subject should encroach on this time. Physical health is a prerequisite for academic achievement, not an obstacle to it.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'sem',
+    num: '33',
+    icon: '💭',
+    title: 'Social-Emotional Learning',
+    desc: 'Developing the whole child through SEL',
+    category: 'Pedagogy',
+    content: [
+      {
+        heading: 'Social-Emotional Learning in NCF 2023',
+        body: `<p>Social-Emotional Learning (SEL) is the process through which children develop the knowledge, skills, and dispositions to manage emotions, build healthy relationships, make responsible decisions, and achieve positive goals. NCF 2023 recognises SEL as an essential component of holistic education.</p>
+        <p>The core SEL competencies addressed in NCF 2023 are:</p>
+        <ul>
+          <li><strong>Self-awareness:</strong> Recognising one's own emotions, strengths, challenges, and values</li>
+          <li><strong>Self-management:</strong> Regulating emotions and behaviours; setting and pursuing goals; managing stress</li>
+          <li><strong>Social awareness:</strong> Empathy; understanding diverse perspectives; respect for others</li>
+          <li><strong>Relationship skills:</strong> Communication, cooperation, conflict resolution, seeking help</li>
+          <li><strong>Responsible decision-making:</strong> Ethical reasoning, evaluating consequences, taking responsibility</li>
+        </ul>
+        <div class="sky-box"><p>SEL is not a separate subject to be added to an already crowded curriculum. It is developed through the school culture, through how teachers interact with students, through how classrooms are organised, and through the integration of SEL practices into all curricular areas.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'environment-sustainability',
+    num: '34',
+    icon: '🌍',
+    title: 'Environmental Sustainability',
+    desc: 'Education for ecological responsibility and action',
+    category: 'Themes',
+    content: [
+      {
+        heading: 'Environmental Education in NCF 2023',
+        body: `<p>Environmental sustainability is one of the most urgent global challenges, and education has a critical role to play in developing the knowledge, values, and skills needed to address it. NCF 2023 integrates environmental education throughout the curriculum at all stages.</p>
+        <p>Environmental education in NCF 2023 encompasses:</p>
+        <ul>
+          <li>Scientific understanding of ecological systems, climate, biodiversity, and environmental processes</li>
+          <li>Local and traditional ecological knowledge — understanding of local environments, plants, animals, and sustainable practices</li>
+          <li>Environmental values — care for the natural world, sense of responsibility for future generations</li>
+          <li>Environmental citizenship — ability to analyse environmental issues, evaluate different perspectives, and take informed action</li>
+          <li>Sustainable practices in the school itself — waste management, water conservation, gardening, energy use</li>
+        </ul>
+        <div class="highlight-box"><p>Environmental education must be rooted in direct experience of local natural environments. A child who has never walked in a forest, observed a river, or grown food cannot develop genuine environmental consciousness from textbook descriptions alone.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'language-lit',
+    num: '35',
+    icon: '✍️',
+    title: 'Language and Literature',
+    desc: 'Developing linguistic competence across all stages',
+    category: 'Design',
+    content: [
+      {
+        heading: 'Language Education — A Foundational Responsibility',
+        body: `<p>Language education is perhaps the most fundamental responsibility of the school curriculum. Language is not merely a means of communication — it is the primary tool of thought, the medium through which all learning takes place, and a carrier of cultural identity and heritage.</p>
+        <p>NCF 2023 articulates a comprehensive vision for language education that encompasses:</p>
+        <ul>
+          <li>Development of strong oral language skills in the home language</li>
+          <li>Development of reading fluency and comprehension</li>
+          <li>Development of writing skills — from basic literacy through creative and academic writing</li>
+          <li>Development of critical reading skills — ability to analyse and evaluate texts</li>
+          <li>Engagement with literature — fiction, poetry, drama, non-fiction — as both aesthetic experience and intellectual engagement</li>
+          <li>Multilingual development — competence in multiple languages</li>
+        </ul>`
+      },
+      {
+        heading: 'Literature in the Curriculum',
+        body: `<p>NCF 2023 gives significant attention to literature as a core component of language education. Literature:</p>
+        <ul>
+          <li>Develops empathy and the ability to see the world from different perspectives</li>
+          <li>Introduces students to the full richness of human experience — joy and sorrow, justice and injustice, adventure and introspection</li>
+          <li>Develops aesthetic sensibility and love of language</li>
+          <li>Connects students to their cultural heritage and introduces them to other cultures</li>
+          <li>Provides rich language models for students' own writing</li>
+        </ul>
+        <div class="sky-box"><p>The selection of literature for the curriculum must represent the full diversity of India's multilingual literary heritage — from classical Sanskrit and Tamil literature to contemporary writing in the hundreds of languages of India. It must also represent the diversity of human experience — urban and rural, elite and subaltern, all genders and communities.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'mathematics',
+    num: '36',
+    icon: '🔢',
+    title: 'Mathematics Education',
+    desc: 'Developing mathematical thinking and reasoning',
+    category: 'Design',
+    content: [
+      {
+        heading: 'Vision for Mathematics in NCF 2023',
+        body: `<p>NCF 2023 articulates a vision of mathematics education that prioritises mathematical thinking, reasoning, and problem-solving over procedural memorisation and calculation drills. The goal of mathematics education is not merely to produce students who can execute algorithms but students who can think mathematically — who can reason, model, and solve problems in diverse contexts.</p>
+        <div class="highlight-box"><p>Mathematical thinking is one of humanity's most powerful cognitive tools. A student who can think mathematically can analyse data, make logical arguments, solve complex problems, and understand quantitative aspects of the world. This is a life skill, not just an academic skill.</p></div>`
+      },
+      {
+        heading: 'Key Principles — Mathematics Education',
+        body: `<p>NCF 2023 articulates the following key principles for mathematics education:</p>
+        <ul>
+          <li><strong>Understanding before procedure:</strong> Students must understand why mathematical procedures work before learning to execute them</li>
+          <li><strong>Concrete-Representational-Abstract sequence:</strong> Mathematical concepts are introduced with physical materials, then pictorial representations, then abstract symbols</li>
+          <li><strong>Problem-solving as the centre:</strong> Learning mathematics through solving real and meaningful problems</li>
+          <li><strong>Mathematical communication:</strong> Students should be able to explain, justify, and argue about mathematical ideas</li>
+          <li><strong>Connecting mathematics to other subjects and real life:</strong> Mathematics should not be isolated from the contexts in which it is meaningful</li>
+          <li><strong>India's mathematical heritage:</strong> The extraordinary contributions of Indian mathematicians — Aryabhata, Brahmagupta, Madhava, Ramanujan — must be integral to the mathematics curriculum</li>
+        </ul>`
+      }
+    ]
+  },
+  {
+    id: 'science-education',
+    num: '37',
+    icon: '⚗️',
+    title: 'Science Education',
+    desc: 'Developing scientific literacy and inquiry skills',
+    category: 'Design',
+    content: [
+      {
+        heading: 'Vision for Science Education',
+        body: `<p>NCF 2023 envisions science education that develops genuine scientific literacy — the ability to understand, use, and critically evaluate scientific knowledge and practices. The goal is not to produce scientists (though that too) but to develop citizens who can engage intelligently with science in their daily lives and in civic decision-making.</p>
+        <p>Scientific literacy includes:</p>
+        <ul>
+          <li>Understanding the major concepts and ideas of the natural sciences</li>
+          <li>Understanding the nature of science — how scientific knowledge is produced, tested, and revised</li>
+          <li>Scientific inquiry skills — observing, questioning, hypothesising, experimenting, analysing, concluding</li>
+          <li>Critical thinking about scientific claims — evaluating evidence, recognising bias, distinguishing science from pseudoscience</li>
+          <li>Application of scientific understanding to real-world issues — health, environment, technology</li>
+        </ul>
+        <div class="sky-box"><p>Science education must develop the scientific temper — the habit of approaching questions with evidence-based reasoning, openness to revision in light of new evidence, and intellectual humility. Scientific temper is a constitutional value (Article 51A of the Indian Constitution) and a fundamental aim of Indian education.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'social-science',
+    num: '38',
+    icon: '🌐',
+    title: 'Social Science Education',
+    desc: 'History, geography, civics, and social understanding',
+    category: 'Design',
+    content: [
+      {
+        heading: 'Vision for Social Science',
+        body: `<p>NCF 2023 articulates a vision for Social Science education that develops students' ability to understand and engage critically with the social, historical, geographic, economic, and political world they inhabit. The goal is not to memorise historical dates and geographic facts but to develop disciplinary thinking — to think like a historian, geographer, economist, and civic actor.</p>
+        <p>Social Science education develops:</p>
+        <ul>
+          <li><strong>Historical thinking:</strong> Understanding historical causation, evidence-based reasoning, multiple perspectives, change and continuity</li>
+          <li><strong>Geographic literacy:</strong> Understanding spatial patterns, human-environment relationships, map reading, geographic processes</li>
+          <li><strong>Civic understanding:</strong> Knowledge of India's constitutional democracy, government institutions, rights and duties, democratic processes</li>
+          <li><strong>Economic literacy:</strong> Understanding of economic concepts — production, exchange, markets, livelihoods — as they apply to students' own contexts</li>
+          <li><strong>Social awareness:</strong> Understanding of social structures, inequalities, social change, and social movements in India</li>
+        </ul>`
+      },
+      {
+        heading: 'India-Centric Social Science',
+        body: `<p>NCF 2023 calls for a Social Science curriculum that is deeply rooted in the Indian experience while maintaining a global perspective. This means:</p>
+        <ul>
+          <li>India's history taught from Indian perspectives — including the perspectives of subaltern groups, women, and marginalised communities, not just political and elite history</li>
+          <li>India's geography explored through direct study of local environments before moving to national and global scales</li>
+          <li>India's constitutional democracy understood through direct civic participation and community engagement</li>
+          <li>India's diverse cultural geography — the different regions, languages, traditions, and communities of India</li>
+        </ul>
+        <div class="highlight-box"><p>Social Science education must cultivate in students both a deep love and pride for India and its history and culture, and a critical understanding of India's challenges — inequality, caste, communalism, environmental degradation — and a commitment to the constitutional values of equality, justice, and fraternity.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'implementation',
+    num: '39',
+    icon: '⚙️',
+    title: 'Implementation Framework',
+    desc: 'Roles, responsibilities, and systemic requirements',
+    category: 'Policy',
+    content: [
+      {
+        heading: 'Systemic Requirements for Implementation',
+        body: `<p>NCF 2023 is clear that the transformation it envisions cannot be achieved through curriculum revision alone. It requires systemic changes across multiple dimensions of the educational system:</p>
+        <ul>
+          <li><strong>Teacher education and professional development:</strong> Pre-service and in-service programmes aligned with NCF 2023 vision</li>
+          <li><strong>Textbook and learning material development:</strong> NCF 2023-aligned materials in all languages</li>
+          <li><strong>Assessment system reform:</strong> Board examinations and school-based assessment aligned with competency-based approach</li>
+          <li><strong>School infrastructure:</strong> Libraries, laboratories, art rooms, sports facilities — the material conditions for quality education</li>
+          <li><strong>School leadership development:</strong> Preparing principals and head teachers as instructional leaders</li>
+          <li><strong>Academic support system:</strong> DIET network, academic resource persons, mentoring and coaching</li>
+        </ul>`
+      },
+      {
+        heading: 'Roles and Responsibilities',
+        body: `<p>NCF 2023 identifies clear roles and responsibilities for different stakeholders in the implementation process:</p>
+        <ul>
+          <li><strong>Central Government (NCERT, MoE):</strong> Developing model curriculum, textbooks, and teacher education programmes; providing technical support to states</li>
+          <li><strong>State Governments (SCERTs, DSEs):</strong> Adapting NCF 2023 to state contexts; developing state-level curriculum and materials; supporting schools and teachers</li>
+          <li><strong>DIETs:</strong> Supporting teacher professional development; providing academic support to schools</li>
+          <li><strong>School leaders:</strong> Implementing NCF 2023 vision in their schools; supporting teacher development; engaging families</li>
+          <li><strong>Teachers:</strong> Implementing the NCF 2023 vision in their classrooms; continuously developing their professional knowledge and skills</li>
+          <li><strong>Families and communities:</strong> Supporting children's learning; engaging with schools; advocating for quality education</li>
+        </ul>
+        <div class="highlight-box"><p>The implementation of NCF 2023 is a collective responsibility. No single stakeholder — not the Central Government, nor states, nor teachers alone — can achieve this transformation. It requires concerted, coordinated action across all levels of the system.</p></div>`
+      }
+    ]
+  },
+  {
+    id: 'monitoring-evaluation',
+    num: '40',
+    icon: '📈',
+    title: 'Monitoring & Evaluation',
+    desc: 'Tracking progress and ensuring accountability',
+    category: 'Policy',
+    content: [
+      {
+        heading: 'Monitoring NCF 2023 Implementation',
+        body: `<p>Effective monitoring and evaluation (M&E) is essential to ensure that NCF 2023 is actually implemented and that it achieves its goals. NCF 2023 identifies the following key elements of an effective M&E system:</p>
+        <ul>
+          <li><strong>Student learning outcomes:</strong> Regular, reliable, and valid measurement of student learning at different stages — not just examination scores but competency-based assessments</li>
+          <li><strong>Process indicators:</strong> Are schools implementing the pedagogical approaches and curriculum design principles of NCF 2023?</li>
+          <li><strong>Equity indicators:</strong> Are gaps between different groups of students (rural/urban, girls/boys, different communities) narrowing?</li>
+          <li><strong>Teacher professional development:</strong> Are teachers receiving adequate, appropriate support to implement NCF 2023?</li>
+          <li><strong>School infrastructure:</strong> Do schools have the physical resources needed to implement NCF 2023?</li>
+        </ul>
+        <div class="sky-box"><p>Monitoring and evaluation data must be used for improvement — to identify where support is needed, to recognise what is working, and to hold the system accountable for delivering quality education to every child. It must not become a tool for punishing teachers and schools that are struggling.</p></div>`
+      },
+      {
+        heading: 'National Assessment and Accreditation',
+        body: `<p>At the national level, large-scale assessments like NIPUN Bharat assessments, PARAKH (Performance Assessment, Review, and Analysis of Knowledge for Holistic Development), and UDISE+ data provide information on the health of the system as a whole. NCF 2023 calls for:</p>
+        <ul>
+          <li>Regular, rigorous national assessments that are valid measures of NCF 2023 competencies</li>
+          <li>State-level assessments that provide actionable information at the district and school level</li>
+          <li>School Quality Assessment frameworks that evaluate the full range of school quality — not just academic outcomes</li>
+          <li>Transparent reporting of assessment data to enable public accountability</li>
+          <li>Use of data to drive evidence-based policy decisions at all levels</li>
+        </ul>`
+      }
+    ]
+  }
+];
+
+// ===================================================
+// APP STATE
+// ===================================================
+let currentSection = null;
+let bookmarks = JSON.parse(localStorage.getItem('ncf_bookmarks') || '[]');
+let isDark = localStorage.getItem('ncf_theme') === 'dark';
+let deferredInstall = null;
+
+// ===================================================
+// INIT
+// ===================================================
+document.addEventListener('DOMContentLoaded', () => {
+  if (isDark) document.documentElement.setAttribute('data-theme', 'dark');
+  document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+  buildNav();
+  buildSectionsGrid();
+  updateProgressBar();
+
+  // PWA Install
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredInstall = e;
+    document.getElementById('install-btn').style.display = 'block';
+  });
+
+  // Service Worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+  }
+
+  // Progress bar on scroll
+  window.addEventListener('scroll', updateProgressBar);
+
+  // Close search on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeSearch(); closeBookmarks(); closeSidebar(); }
+  });
+
+  // Close modal clicking outside
+  document.getElementById('search-modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('search-modal')) closeSearch();
+  });
+  document.getElementById('bookmarks-panel').addEventListener('click', e => {
+    if (e.target === document.getElementById('bookmarks-panel')) closeBookmarks();
+  });
+
+  // Header title click → home
+  document.getElementById('header-title').style.cursor = 'pointer';
+  document.getElementById('header-title').onclick = goBack;
+});
+
+// ===================================================
+// BUILD NAVIGATION
+// ===================================================
+function buildNav() {
+  const categories = {};
+  NCF_DATA.forEach(s => {
+    if (!categories[s.category]) categories[s.category] = [];
+    categories[s.category].push(s);
+  });
+  const navList = document.getElementById('nav-list');
+  navList.innerHTML = '';
+  // Home
+  const homeSection = document.createElement('div');
+  homeSection.className = 'nav-section';
+  homeSection.innerHTML = `
+    <div class="nav-section-title">Navigation</div>
+    <div class="nav-item" onclick="goBack();closeSidebar()"><span class="icon">🏠</span>Home</div>
+    <div class="nav-item" onclick="showAbout();closeSidebar()"><span class="icon">ℹ️</span>About This App</div>
+    <div class="nav-item" onclick="showManual();closeSidebar()"><span class="icon">📘</span>User Manual</div>
+  `;
+  navList.appendChild(homeSection);
+
+  Object.entries(categories).forEach(([cat, items]) => {
+    const section = document.createElement('div');
+    section.className = 'nav-section';
+    const catIcons = { Introduction:'📜', Foundations:'🏛️', Stages:'🎭', Pedagogy:'🧑‍🏫', Design:'🗂️', Themes:'🌿', Implementation:'⚙️', Policy:'📋' };
+    section.innerHTML = `<div class="nav-section-title">${catIcons[cat]||'📌'} ${cat}</div>`;
+    items.forEach(item => {
+      const isBm = bookmarks.includes(item.id);
+      const div = document.createElement('div');
+      div.className = 'nav-item' + (isBm ? ' bookmarked' : '');
+      div.id = `nav-${item.id}`;
+      div.innerHTML = `<span class="icon">${item.icon}</span><span>${item.num}. ${item.title}</span>`;
+      div.onclick = () => { showSection(item.id); closeSidebar(); };
+      section.appendChild(div);
+    });
+    navList.appendChild(section);
+  });
+}
+
+function filterNav(query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll('#nav-list .nav-item').forEach(item => {
+    item.style.display = !q || item.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+// ===================================================
+// BUILD SECTIONS GRID
+// ===================================================
+function buildSectionsGrid() {
+  const grid = document.getElementById('sections-grid');
+  grid.innerHTML = '';
+  NCF_DATA.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'section-card';
+    card.innerHTML = `<span class="s-icon">${s.icon}</span><h4>${s.num}. ${s.title}</h4>`;
+    card.onclick = () => showSection(s.id);
+    grid.appendChild(card);
+  });
+}
+
+// ===================================================
+// SHOW SECTION
+// ===================================================
+function showSection(id) {
+  const data = NCF_DATA.find(s => s.id === id);
+  if (!data) return;
+  currentSection = id;
+
+  // Hide other pages
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('about-page').classList.remove('active');
+  document.getElementById('manual-page').classList.remove('active');
+
+  // Show content area
+  const area = document.getElementById('content-area');
+  area.classList.add('active');
+
+  // Update header
+  document.getElementById('page-num').textContent = `Section ${data.num} of ${NCF_DATA.length} | ${data.category}`;
+  document.getElementById('page-title').textContent = data.title;
+  document.getElementById('page-desc').textContent = data.desc;
+
+  // Bookmark button
+  updateBookmarkButton();
+
+  // Build content
+  const contentEl = document.getElementById('section-content');
+  contentEl.innerHTML = data.content.map((c, i) => `
+    <div class="content-section">
+      <div class="content-section-header${i===0?' open':''}" onclick="toggleSection(this)">
+        <h3>${c.heading}</h3>
+        <span class="toggle-icon${i===0?' open':''}">▼</span>
+      </div>
+      <div class="content-body${i===0?' open':''}">
+        <div class="content-body-inner">${c.body}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Update nav active state
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const activeNav = document.getElementById(`nav-${id}`);
+  if (activeNav) activeNav.classList.add('active');
+
+  // Scroll top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleSection(header) {
+  const body = header.nextElementSibling;
+  const icon = header.querySelector('.toggle-icon');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  icon.classList.toggle('open', !isOpen);
+  header.classList.toggle('open', !isOpen);
+}
+
+function expandAll() {
+  document.querySelectorAll('.content-body').forEach(b => b.classList.add('open'));
+  document.querySelectorAll('.toggle-icon').forEach(i => i.classList.add('open'));
+  document.querySelectorAll('.content-section-header').forEach(h => h.classList.add('open'));
+}
+
+function goBack() {
+  document.getElementById('landing').style.display = 'block';
+  document.getElementById('content-area').classList.remove('active');
+  document.getElementById('about-page').classList.remove('active');
+  document.getElementById('manual-page').classList.remove('active');
+  currentSection = null;
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  window.scrollTo({ top: 0 });
+}
+
+function showAbout() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('content-area').classList.remove('active');
+  document.getElementById('manual-page').classList.remove('active');
+  document.getElementById('about-page').classList.add('active');
+  window.scrollTo({ top: 0 });
+}
+
+function showManual() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('content-area').classList.remove('active');
+  document.getElementById('about-page').classList.remove('active');
+  document.getElementById('manual-page').classList.add('active');
+  window.scrollTo({ top: 0 });
+}
+
+// ===================================================
+// PROGRESS BAR
+// ===================================================
+function updateProgressBar() {
+  const scrolled = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = total > 0 ? Math.round((scrolled / total) * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+// ===================================================
+// THEME
+// ===================================================
+function toggleTheme() {
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : '');
+  document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+  localStorage.setItem('ncf_theme', isDark ? 'dark' : 'light');
+}
+
+// ===================================================
+// SEARCH
+// ===================================================
+function openSearch() {
+  document.getElementById('search-modal').classList.add('open');
+  setTimeout(() => document.getElementById('modal-search').focus(), 100);
+}
+function closeSearch() {
+  document.getElementById('search-modal').classList.remove('open');
+  document.getElementById('modal-search').value = '';
+  document.getElementById('search-results').innerHTML = '<div class="search-empty">Type to search across all NCF 2023 sections</div>';
+}
+function doSearch(q) {
+  const results = document.getElementById('search-results');
+  if (!q.trim()) {
+    results.innerHTML = '<div class="search-empty">Type to search across all NCF 2023 sections</div>';
+    return;
+  }
+  const ql = q.toLowerCase();
+  const matches = [];
+  NCF_DATA.forEach(s => {
+    if (s.title.toLowerCase().includes(ql) || s.desc.toLowerCase().includes(ql)) {
+      matches.push({ id: s.id, title: s.num+'. '+s.title, snippet: s.desc, q });
+    }
+    s.content.forEach(c => {
+      if (c.heading.toLowerCase().includes(ql)) {
+        matches.push({ id: s.id, title: s.num+'. '+s.title, snippet: c.heading, q });
+      }
+    });
+  });
+  if (!matches.length) {
+    results.innerHTML = '<div class="search-empty">No results found for "' + q + '"</div>';
+    return;
+  }
+  const unique = matches.filter((m, i, a) => a.findIndex(x => x.id === m.id) === i).slice(0, 12);
+  results.innerHTML = unique.map(m => {
+    const hl = (t) => t.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<mark>$1</mark>');
+    return `<div class="search-result-item" onclick="closeSearch();showSection('${m.id}')">
+      <h5>${hl(m.title)}</h5>
+      <p>${hl(m.snippet)}</p>
+    </div>`;
+  }).join('');
+}
+
+// ===================================================
+// BOOKMARKS
+// ===================================================
+function openBookmarks() {
+  const list = document.getElementById('bookmarks-list');
+  if (!bookmarks.length) {
+    list.innerHTML = '<div class="no-bookmarks">📭 No saved sections yet.<br/><br/>Open any section and tap "🔖 Save" to bookmark it.</div>';
+  } else {
+    list.innerHTML = bookmarks.map(id => {
+      const s = NCF_DATA.find(x => x.id === id);
+      if (!s) return '';
+      return `<div class="bookmark-item">
+        <span onclick="closeBookmarks();showSection('${id}')">${s.icon} ${s.num}. ${s.title}</span>
+        <button class="remove-bm" onclick="removeBookmark('${id}')">✕</button>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('bookmarks-panel').classList.add('open');
+}
+function closeBookmarks() {
+  document.getElementById('bookmarks-panel').classList.remove('open');
+}
+function toggleBookmark() {
+  if (!currentSection) return;
+  const idx = bookmarks.indexOf(currentSection);
+  if (idx > -1) bookmarks.splice(idx, 1);
+  else bookmarks.push(currentSection);
+  localStorage.setItem('ncf_bookmarks', JSON.stringify(bookmarks));
+  updateBookmarkButton();
+  buildNav();
+}
+function removeBookmark(id) {
+  bookmarks = bookmarks.filter(b => b !== id);
+  localStorage.setItem('ncf_bookmarks', JSON.stringify(bookmarks));
+  openBookmarks();
+  buildNav();
+  if (currentSection) updateBookmarkButton();
+}
+function updateBookmarkButton() {
+  const btn = document.getElementById('bm-btn');
+  const isBm = bookmarks.includes(currentSection);
+  btn.textContent = isBm ? '🔖 Saved' : '🔖 Save';
+  btn.classList.toggle('bookmarked', isBm);
+}
+
+// ===================================================
+// PWA INSTALL
+// ===================================================
+function installApp() {
+  if (deferredInstall) {
+    deferredInstall.prompt();
+    deferredInstall.userChoice.then(() => {
+      deferredInstall = null;
+      document.getElementById('install-btn').style.display = 'none';
+    });
+  }
+}
+
+// ===================================================
+// SIDEBAR
+// ===================================================
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
+}
+</script>
+</body>
+</html>

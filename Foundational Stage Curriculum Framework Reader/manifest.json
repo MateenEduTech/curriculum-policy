@@ -1,0 +1,26 @@
+{
+  "name": "Foundational Stage Curriculum Framework Reader",
+  "short_name": "FS Curriculum",
+  "description": "Official Curriculum Framework Reader – NEP 2020 | NCF-FS 2022 | NIPUN Bharat | NCF 2023",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FFF8F0",
+  "theme_color": "#E8825A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education"],
+  "lang": "en-IN"
+}

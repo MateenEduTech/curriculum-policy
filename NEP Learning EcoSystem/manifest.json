@@ -1,0 +1,45 @@
+{
+  "name": "NEP Learning Ecosystem – Mateen Yousuf",
+  "short_name": "NEP Learn",
+  "description": "Offline-first NEP 2020 aligned learning platform by Mateen Yousuf, School Education Department J&K",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#0a1628",
+  "background_color": "#0a1628",
+  "lang": "en-IN",
+  "categories": ["education"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='24' fill='%230a1628'/><text x='96' y='130' font-size='100' text-anchor='middle'>📚</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='64' fill='%230a1628'/><text x='256' y='348' font-size='280' text-anchor='middle'>📚</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Modules",
+      "url": "./index.html#modules",
+      "description": "Go to Learning Modules"
+    },
+    {
+      "name": "Quiz",
+      "url": "./index.html#quiz",
+      "description": "Start a Quiz"
+    },
+    {
+      "name": "Careers",
+      "url": "./index.html#careers",
+      "description": "Explore Career Pathways"
+    }
+  ]
+}

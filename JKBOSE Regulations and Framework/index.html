@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#0a1628"/>
+<meta name="description" content="JKBOSE Official Regulations & Examination Framework Reader"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="author.jpg"/>
+<title>JKBOSE – Regulations & Examination Framework Reader</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#0a1628;
+  --navy2:#0f2044;
+  --navy3:#1a3060;
+  --saffron:#e8851a;
+  --saffron-light:#f5a93a;
+  --gold:#c9a227;
+  --white:#ffffff;
+  --off-white:#f8f6f0;
+  --grey-100:#f0eee8;
+  --grey-200:#e0ddd5;
+  --grey-400:#9a9080;
+  --grey-600:#6b6258;
+  --text-dark:#1a1510;
+  --text-body:#2d2820;
+  --red-accent:#c0392b;
+  --sidebar-w:300px;
+  --header-h:64px;
+}
+[data-dark]{
+  --off-white:#0d1b30;
+  --grey-100:#111f35;
+  --grey-200:#1a2d48;
+  --grey-400:#5a7090;
+  --grey-600:#8aa0b8;
+  --text-dark:#e8e0d0;
+  --text-body:#c8c0b0;
+  --white:#0a1628;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--off-white);
+  color:var(--text-body);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress-bar{
+  position:fixed;top:0;left:0;height:3px;
+  background:linear-gradient(90deg,var(--saffron),var(--gold));
+  width:0%;z-index:9999;transition:width .1s;
+}
+
+/* ── TOP NAV ── */
+#topnav{
+  position:fixed;top:3px;left:0;right:0;height:var(--header-h);
+  background:var(--navy);
+  display:flex;align-items:center;
+  padding:0 1.5rem;gap:1rem;
+  z-index:1000;
+  box-shadow:0 2px 20px rgba(0,0,0,.4);
+}
+#menu-btn{
+  background:none;border:none;cursor:pointer;
+  color:var(--saffron);font-size:1.4rem;padding:.4rem;
+  display:flex;flex-direction:column;gap:5px;
+}
+#menu-btn span{display:block;width:22px;height:2px;background:currentColor;transition:.3s;}
+#topnav-title{
+  flex:1;
+  font-family:'Playfair Display',serif;
+  font-size:1rem;font-weight:600;
+  color:var(--white);
+  letter-spacing:.02em;
+}
+#search-wrap{
+  display:flex;align-items:center;gap:.5rem;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:6px;
+  padding:.35rem .8rem;
+}
+#search-input{
+  background:none;border:none;outline:none;
+  color:var(--white);font-family:'DM Sans',sans-serif;font-size:.85rem;
+  width:200px;
+}
+#search-input::placeholder{color:rgba(255,255,255,.4);}
+#dark-btn{
+  background:none;border:1px solid rgba(255,255,255,.2);
+  border-radius:6px;padding:.35rem .7rem;
+  color:var(--grey-400);cursor:pointer;font-size:.8rem;
+  white-space:nowrap;
+}
+#dark-btn:hover{border-color:var(--saffron);color:var(--saffron);}
+#print-btn{
+  background:none;border:1px solid rgba(255,255,255,.2);
+  border-radius:6px;padding:.35rem .7rem;
+  color:var(--grey-400);cursor:pointer;font-size:.8rem;
+}
+#print-btn:hover{border-color:var(--saffron);color:var(--saffron);}
+
+/* ── LAYOUT ── */
+#layout{display:flex;padding-top:calc(var(--header-h)+3px);}
+
+/* ── SIDEBAR ── */
+#sidebar{
+  width:var(--sidebar-w);
+  min-height:calc(100vh - var(--header-h) - 3px);
+  background:var(--navy2);
+  position:fixed;
+  top:calc(var(--header-h)+3px);
+  left:0;bottom:0;
+  overflow-y:auto;
+  transition:transform .3s ease;
+  z-index:900;
+  border-right:1px solid rgba(255,255,255,.06);
+}
+#sidebar.closed{transform:translateX(calc(-1*var(--sidebar-w)));}
+#sidebar::-webkit-scrollbar{width:4px;}
+#sidebar::-webkit-scrollbar-track{background:transparent;}
+#sidebar::-webkit-scrollbar-thumb{background:var(--navy3);border-radius:2px;}
+
+.sidebar-header{
+  padding:1.2rem 1.2rem .8rem;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.sidebar-header p{
+  color:var(--saffron);font-size:.7rem;
+  font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+}
+
+.chapter-group{border-bottom:1px solid rgba(255,255,255,.06);}
+.chapter-btn{
+  width:100%;text-align:left;
+  background:none;border:none;cursor:pointer;
+  padding:.7rem 1.2rem;
+  display:flex;align-items:center;gap:.6rem;
+  color:rgba(255,255,255,.65);
+  font-family:'DM Sans',sans-serif;font-size:.82rem;
+  transition:.2s;
+}
+.chapter-btn:hover{color:var(--saffron);background:rgba(232,133,26,.07);}
+.chapter-btn.active{color:var(--saffron);background:rgba(232,133,26,.1);}
+.chapter-num{
+  min-width:24px;height:24px;
+  border-radius:4px;
+  background:rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;font-weight:600;color:var(--gold);
+}
+.chapter-btn.active .chapter-num{background:var(--saffron);color:var(--white);}
+.chapter-arrow{margin-left:auto;font-size:.7rem;transition:.2s;}
+.chapter-btn.open .chapter-arrow{transform:rotate(90deg);}
+
+.section-list{
+  display:none;
+  padding:0 0 .4rem 2.8rem;
+}
+.section-list.open{display:block;}
+.section-link{
+  display:block;padding:.35rem .5rem;
+  color:rgba(255,255,255,.45);font-size:.78rem;
+  text-decoration:none;border-left:2px solid transparent;
+  transition:.2s;
+}
+.section-link:hover{color:var(--saffron-light);border-color:var(--saffron);}
+.section-link.active{color:var(--saffron-light);border-color:var(--saffron);}
+
+/* ── MAIN CONTENT ── */
+#main{
+  margin-left:var(--sidebar-w);
+  flex:1;
+  transition:margin-left .3s;
+}
+#main.full{margin-left:0;}
+
+/* ── COVER PAGE ── */
+#cover{
+  background:linear-gradient(160deg, var(--navy) 0%, var(--navy2) 50%, #0d1f3c 100%);
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:4rem 2rem;
+  position:relative;
+  overflow:hidden;
+}
+#cover::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,162,39,.07) 0%, transparent 70%);
+}
+#cover::after{
+  content:'';position:absolute;
+  bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+.emblem-ring{
+  width:110px;height:110px;border-radius:50%;
+  border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:2.5rem;
+  position:relative;
+  box-shadow:0 0 40px rgba(201,162,39,.2);
+}
+.emblem-ring::before{
+  content:'';position:absolute;inset:-6px;
+  border-radius:50%;border:1px solid rgba(201,162,39,.25);
+}
+.emblem-inner{
+  font-size:3.5rem;line-height:1;
+}
+
+.cover-institution{
+  font-family:'Playfair Display',serif;
+  color:var(--gold);
+  font-size:.75rem;letter-spacing:.25em;
+  text-transform:uppercase;
+  margin-bottom:1rem;
+  text-align:center;
+}
+.cover-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.8rem,5vw,3rem);
+  font-weight:900;
+  color:var(--white);
+  text-align:center;
+  line-height:1.15;
+  margin-bottom:.6rem;
+  max-width:700px;
+}
+.cover-subtitle{
+  font-family:'Source Serif 4',serif;
+  font-size:clamp(1rem,2.5vw,1.3rem);
+  color:rgba(255,255,255,.6);
+  text-align:center;
+  margin-bottom:3rem;
+  letter-spacing:.04em;
+}
+.cover-divider{
+  width:200px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:0 auto 2.5rem;
+}
+
+.author-card{
+  display:flex;flex-direction:column;align-items:center;gap:1rem;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,162,39,.2);
+  border-radius:12px;padding:1.5rem 2rem;
+  backdrop-filter:blur(10px);
+  max-width:360px;width:100%;
+}
+.author-photo{
+  width:90px;height:90px;border-radius:50%;
+  object-fit:cover;object-position:center top;
+  border:2.5px solid var(--gold);
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+.author-name{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;font-weight:700;
+  color:var(--white);text-align:center;
+}
+.author-role{
+  font-size:.8rem;color:rgba(255,255,255,.5);
+  text-align:center;line-height:1.5;
+}
+.author-badge{
+  font-size:.7rem;
+  background:rgba(232,133,26,.15);
+  border:1px solid rgba(232,133,26,.3);
+  color:var(--saffron-light);
+  padding:.25rem .7rem;border-radius:20px;
+  letter-spacing:.08em;
+}
+
+.cover-stats{
+  display:flex;gap:2rem;margin-top:2.5rem;
+  flex-wrap:wrap;justify-content:center;
+}
+.stat-item{text-align:center;}
+.stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem;font-weight:700;color:var(--saffron);
+}
+.stat-label{font-size:.72rem;color:rgba(255,255,255,.4);letter-spacing:.08em;}
+
+.start-btn{
+  margin-top:2.5rem;
+  background:linear-gradient(135deg,var(--saffron),var(--gold));
+  color:var(--white);
+  border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:500;
+  padding:.9rem 2.5rem;border-radius:8px;
+  letter-spacing:.04em;
+  transition:.2s;
+  box-shadow:0 4px 20px rgba(232,133,26,.3);
+}
+.start-btn:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(232,133,26,.45);}
+
+/* ── CONTENT PAGES ── */
+#content{display:none;}
+
+.chapter-page{
+  max-width:860px;
+  margin:0 auto;
+  padding:3rem 2rem;
+}
+
+.chapter-header{
+  padding-bottom:2rem;
+  margin-bottom:2.5rem;
+  border-bottom:2px solid var(--grey-200);
+  position:relative;
+}
+.chapter-header::after{
+  content:'';position:absolute;
+  bottom:-2px;left:0;width:60px;height:2px;
+  background:var(--saffron);
+}
+.chapter-tag{
+  font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--saffron);font-weight:600;margin-bottom:.8rem;
+  display:block;
+}
+.chapter-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.6rem,4vw,2.2rem);
+  font-weight:700;color:var(--text-dark);
+  line-height:1.2;margin-bottom:.6rem;
+}
+.chapter-meta{
+  font-size:.8rem;color:var(--grey-400);
+  display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;
+}
+.reading-time{display:flex;align-items:center;gap:.4rem;}
+
+.section-block{
+  margin-bottom:2.5rem;
+  scroll-margin-top:calc(var(--header-h)+20px);
+}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.2rem;font-weight:600;
+  color:var(--text-dark);
+  margin-bottom:1rem;
+  padding-bottom:.5rem;
+  border-bottom:1px solid var(--grey-200);
+}
+.sub-section{margin-bottom:1.5rem;}
+.sub-title{
+  font-family:'Source Serif 4',serif;
+  font-size:1rem;font-weight:600;
+  color:var(--navy);
+  margin-bottom:.6rem;
+}
+[data-dark] .sub-title{color:var(--saffron-light);}
+p.reg-text{
+  font-family:'Source Serif 4',serif;
+  font-size:.95rem;line-height:1.85;
+  color:var(--text-body);
+  margin-bottom:.8rem;
+}
+ol.reg-list, ul.reg-list{
+  font-family:'Source Serif 4',serif;
+  font-size:.93rem;line-height:1.8;
+  color:var(--text-body);
+  padding-left:1.6rem;
+  margin-bottom:1rem;
+}
+ol.reg-list li, ul.reg-list li{margin-bottom:.4rem;}
+
+.highlight-box{
+  background:linear-gradient(135deg,rgba(232,133,26,.07),rgba(201,162,39,.05));
+  border-left:3px solid var(--saffron);
+  border-radius:0 8px 8px 0;
+  padding:1rem 1.2rem;
+  margin:1.2rem 0;
+}
+.highlight-box p{
+  font-family:'Source Serif 4',serif;
+  font-size:.9rem;line-height:1.7;
+  color:var(--text-body);margin:0;
+}
+.note-box{
+  background:rgba(10,22,40,.04);
+  border:1px solid var(--grey-200);
+  border-radius:8px;
+  padding:1rem 1.2rem;
+  margin:1.2rem 0;
+}
+[data-dark] .note-box{background:rgba(255,255,255,.03);}
+.note-box strong{color:var(--navy3);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;}
+[data-dark] .note-box strong{color:var(--saffron);}
+.note-box p{
+  font-family:'Source Serif 4',serif;font-size:.88rem;
+  line-height:1.7;color:var(--text-body);margin:.4rem 0 0;
+}
+table.reg-table{
+  width:100%;border-collapse:collapse;
+  font-family:'DM Sans',sans-serif;font-size:.85rem;
+  margin:1.2rem 0;
+}
+table.reg-table th{
+  background:var(--navy);color:var(--white);
+  padding:.6rem 1rem;text-align:left;font-weight:500;
+}
+table.reg-table td{
+  padding:.55rem 1rem;border-bottom:1px solid var(--grey-200);
+  color:var(--text-body);
+}
+table.reg-table tr:nth-child(even) td{background:var(--grey-100);}
+
+/* SVG Diagrams */
+.diagram-wrap{
+  background:var(--grey-100);
+  border:1px solid var(--grey-200);
+  border-radius:12px;padding:1.5rem;
+  margin:1.5rem 0;text-align:center;
+}
+[data-dark] .diagram-wrap{background:rgba(255,255,255,.03);}
+.diagram-title{
+  font-family:'Playfair Display',serif;
+  font-size:.9rem;font-weight:600;
+  color:var(--grey-600);margin-bottom:1rem;
+  letter-spacing:.04em;
+}
+
+/* Bookmark btn */
+.bm-btn{
+  background:none;border:1px solid var(--grey-200);
+  border-radius:6px;padding:.3rem .7rem;
+  font-size:.75rem;color:var(--grey-600);
+  cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:.4rem;
+}
+.bm-btn:hover,.bm-btn.saved{border-color:var(--saffron);color:var(--saffron);}
+
+/* chapter nav */
+.chapter-nav{
+  display:flex;gap:1rem;flex-wrap:wrap;
+  border-top:1px solid var(--grey-200);
+  padding-top:2rem;margin-top:3rem;
+}
+.nav-btn{
+  flex:1;min-width:180px;
+  background:var(--grey-100);
+  border:1px solid var(--grey-200);
+  border-radius:8px;padding:1rem 1.2rem;
+  cursor:pointer;text-align:left;
+  transition:.2s;
+}
+[data-dark] .nav-btn{background:rgba(255,255,255,.03);}
+.nav-btn:hover{border-color:var(--saffron);background:rgba(232,133,26,.05);}
+.nav-dir{font-size:.7rem;color:var(--grey-400);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.3rem;}
+.nav-name{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--text-dark);}
+.nav-btn.next{text-align:right;}
+
+/* Search results overlay */
+#search-results{
+  position:fixed;top:calc(var(--header-h)+3px + 8px);
+  left:50%;transform:translateX(-50%);
+  width:min(500px,90vw);
+  background:var(--navy2);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;
+  z-index:2000;display:none;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+  max-height:400px;overflow-y:auto;
+}
+#search-results.visible{display:block;}
+.search-result-item{
+  padding:.8rem 1.2rem;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  cursor:pointer;transition:.15s;
+}
+.search-result-item:hover{background:rgba(232,133,26,.1);}
+.sr-title{font-size:.85rem;color:var(--white);margin-bottom:.2rem;}
+.sr-snippet{font-size:.75rem;color:rgba(255,255,255,.4);}
+.sr-empty{padding:1.2rem;text-align:center;color:rgba(255,255,255,.4);font-size:.85rem;}
+
+/* Bookmarks panel */
+#bm-panel{
+  position:fixed;right:0;top:calc(var(--header-h)+3px);bottom:0;
+  width:280px;background:var(--navy2);
+  border-left:1px solid rgba(255,255,255,.08);
+  z-index:800;transform:translateX(100%);
+  transition:.3s;overflow-y:auto;
+  padding:1.2rem;
+}
+#bm-panel.open{transform:none;}
+#bm-toggle{
+  background:none;border:1px solid rgba(255,255,255,.2);
+  border-radius:6px;padding:.35rem .7rem;
+  color:var(--grey-400);cursor:pointer;font-size:.8rem;
+}
+#bm-toggle:hover{border-color:var(--gold);color:var(--gold);}
+
+/* PRINT */
+@media print{
+  #topnav,#sidebar,#progress-bar,#bm-panel,#bm-toggle,#search-results,.chapter-nav,.bm-btn{display:none!important;}
+  #main{margin-left:0!important;}
+  #cover{min-height:auto;page-break-after:always;}
+  .chapter-page{page-break-before:always;}
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  :root{--sidebar-w:280px;}
+  #sidebar{transform:translateX(-100%);}
+  #sidebar.open{transform:none;}
+  #main{margin-left:0!important;}
+  #search-input{width:130px;}
+  .cover-stats{gap:1.5rem;}
+}
+
+/* Overlay */
+#overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.5);z-index:850;
+}
+#overlay.visible{display:block;}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- TOP NAV -->
+<nav id="topnav">
+  <button id="menu-btn" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div id="topnav-title">JKBOSE Regulations Reader</div>
+  <div id="search-wrap">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="search-input" placeholder="Search regulations..."/>
+  </div>
+  <button id="bm-toggle" title="Bookmarks">🔖 Saved</button>
+  <button id="dark-btn">🌙 Dark</button>
+  <button id="print-btn" onclick="window.print()">🖨️</button>
+</nav>
+
+<div id="search-results"></div>
+<div id="overlay"></div>
+
+<!-- LAYOUT -->
+<div id="layout">
+
+<!-- SIDEBAR -->
+<aside id="sidebar" class="closed">
+  <div class="sidebar-header">
+    <p>Contents — 40 Chapters</p>
+  </div>
+  <div id="sidebar-nav"></div>
+</aside>
+
+<!-- MAIN -->
+<main id="main" class="full">
+
+<!-- COVER -->
+<div id="cover">
+  <div class="emblem-ring"><div class="emblem-inner">⚖</div></div>
+  <div class="cover-institution">Jammu &amp; Kashmir Board of School Education</div>
+  <h1 class="cover-title">Regulations &amp; Examination Framework Reader</h1>
+  <p class="cover-subtitle">Official Regulatory Document — Academic Reference Edition</p>
+  <div class="cover-divider"></div>
+  <div class="author-card">
+    <img src="author.jpg" alt="Dr. Mateen Yousuf" class="author-photo"/>
+    <div>
+      <div class="author-name">Dr. Mateen Yousuf</div>
+      <div class="author-role">Teacher — School Education Department<br/>Jammu &amp; Kashmir</div>
+    </div>
+    <span class="author-badge">Assessment Governance Specialist</span>
+  </div>
+  <div class="cover-stats">
+    <div class="stat-item"><div class="stat-num">40</div><div class="stat-label">Chapters</div></div>
+    <div class="stat-item"><div class="stat-num">120+</div><div class="stat-label">Regulations</div></div>
+    <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Offline</div></div>
+    <div class="stat-item"><div class="stat-num">NEP</div><div class="stat-label">2020 Aligned</div></div>
+  </div>
+  <button class="start-btn" onclick="enterReader()">Open Framework Reader →</button>
+</div>
+
+<!-- CONTENT -->
+<div id="content">
+  <div id="chapter-container"></div>
+</div>
+
+</main>
+</div>
+
+<!-- BOOKMARKS PANEL -->
+<div id="bm-panel">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+    <span style="color:var(--white);font-size:.9rem;font-weight:600;">📌 Bookmarks</span>
+    <button onclick="document.getElementById('bm-panel').classList.remove('open')" style="background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:1.2rem;">×</button>
+  </div>
+  <div id="bm-list"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// CONTENT DATA
+// ═══════════════════════════════════════════
+const CHAPTERS = [
+{
+  id:'intro',num:1,title:'Introduction to JKBOSE',
+  sections:[
+    {id:'intro-1',title:'Historical Background',content:`
+      <p class="reg-text">The Jammu & Kashmir Board of School Education (JKBOSE) was established under the Jammu & Kashmir Board of School Education Act, 1975 (Act No. XI of 1975). The Board is a statutory body entrusted with the responsibility of regulating and supervising the standard of school education in the Union Territory of Jammu & Kashmir.</p>
+      <p class="reg-text">The Board is headquartered at Rehari Colony, Jammu, and has a divisional office at Bemina, Srinagar. The Board conducts Secondary (Class 10th) and Higher Secondary (Class 11th and 12th) examinations for the students of Jammu & Kashmir.</p>
+      <div class="highlight-box"><p>The Board derives its authority and powers from the Jammu & Kashmir Board of School Education Act, 1975, as amended from time to time, and the Rules and Regulations framed thereunder.</p></div>
+    `},
+    {id:'intro-2',title:'Jurisdiction and Authority',content:`
+      <p class="reg-text">The JKBOSE exercises jurisdiction over all Government, Government-aided, and private recognized schools in the Union Territory of Jammu & Kashmir. The Board prescribes courses of study, textbooks, and examination schemes for Secondary and Higher Secondary levels.</p>
+      <p class="reg-text">All schools seeking affiliation with the Board must comply with the regulations, norms, and standards prescribed by the Board from time to time. Non-compliance may result in withdrawal of affiliation.</p>
+    `}
+  ]
+},
+{
+  id:'objectives',num:2,title:'Objectives & Mandate',
+  sections:[
+    {id:'obj-1',title:'Core Objectives',content:`
+      <p class="reg-text">The primary objectives of the Jammu & Kashmir Board of School Education are:</p>
+      <ol class="reg-list">
+        <li>To conduct Secondary and Higher Secondary examinations and to grant certificates, diplomas, and other distinctions to successful candidates.</li>
+        <li>To prescribe courses of study and textbooks for Secondary and Higher Secondary classes.</li>
+        <li>To grant recognition and affiliation to schools and to regulate and supervise the standards of school education in the Union Territory.</li>
+        <li>To advise the Government on matters relating to school education referred to the Board by the Government.</li>
+        <li>To encourage the adoption of modern educational techniques and practices in affiliated schools.</li>
+        <li>To ensure quality assurance and standardization of school education in Jammu & Kashmir.</li>
+      </ol>
+    `},
+    {id:'obj-2',title:'Statutory Mandate',content:`
+      <p class="reg-text">In pursuance of its statutory mandate, the Board undertakes the following functions:</p>
+      <ul class="reg-list">
+        <li>Prescription and revision of syllabus and courses of study</li>
+        <li>Setting and evaluation of question papers</li>
+        <li>Declaration and processing of examination results</li>
+        <li>Issuance of marks certificates, migration certificates, and other academic documents</li>
+        <li>Granting and reviewing school affiliation</li>
+        <li>Conducting orientation and training programs for teachers and Principals</li>
+      </ul>
+    `}
+  ]
+},
+{
+  id:'scheme-sec',num:3,title:'Scheme of Studies — Secondary',
+  sections:[
+    {id:'ss-1',title:'Secondary Level (Class 10th) — Scheme of Studies',content:`
+      <p class="reg-text">The Scheme of Studies for the Secondary level (Class 10th) as prescribed by the Board is as follows:</p>
+      <table class="reg-table">
+        <tr><th>Subject Group</th><th>Subject</th><th>Theory (Marks)</th><th>Practical (Marks)</th><th>Total</th></tr>
+        <tr><td>Compulsory</td><td>English</td><td>80</td><td>20</td><td>100</td></tr>
+        <tr><td>Compulsory</td><td>Urdu / Hindi</td><td>80</td><td>20</td><td>100</td></tr>
+        <tr><td>Compulsory</td><td>Mathematics</td><td>80</td><td>20</td><td>100</td></tr>
+        <tr><td>Compulsory</td><td>Science</td><td>60</td><td>40</td><td>100</td></tr>
+        <tr><td>Compulsory</td><td>Social Science</td><td>80</td><td>20</td><td>100</td></tr>
+        <tr><td>Optional</td><td>Additional Subject</td><td>80</td><td>20</td><td>100</td></tr>
+      </table>
+      <div class="note-box"><strong>Note</strong><p>The Board may revise the Scheme of Studies from time to time. Students are advised to refer to the latest circular/notification issued by the Board for current applicability.</p></div>
+    `},
+    {id:'ss-2',title:'Examination Pattern — Secondary',content:`
+      <p class="reg-text">The examination at the Secondary level is conducted in two components:</p>
+      <ol class="reg-list">
+        <li><strong>External Examination:</strong> Conducted by the Board at designated examination centers across the Union Territory.</li>
+        <li><strong>Internal Assessment:</strong> Conducted by the school under the supervision and guidelines of the Board.</li>
+      </ol>
+      <div class="highlight-box"><p>The total marks for each subject shall be 100, comprising 80 marks for the Theory/External paper and 20 marks for Internal Assessment, unless otherwise specified for subjects with practical components.</p></div>
+    `}
+  ]
+},
+{
+  id:'scheme-hs',num:4,title:'Scheme of Studies — Higher Secondary',
+  sections:[
+    {id:'hs-1',title:'Higher Secondary Level — Part I (Class 11th)',content:`
+      <p class="reg-text">Students seeking admission to Class 11th must opt for one of the following streams/combinations as prescribed by the Board:</p>
+      <ul class="reg-list">
+        <li><strong>Science Stream:</strong> Physics, Chemistry, Biology/Mathematics, English (Compulsory), Elective subject</li>
+        <li><strong>Arts/Humanities Stream:</strong> History, Political Science, Economics, English (Compulsory), Elective subject</li>
+        <li><strong>Commerce Stream:</strong> Accountancy, Business Studies, Economics, English (Compulsory), Elective subject</li>
+        <li><strong>Vocational Stream:</strong> As per vocational subjects approved by the Board in consultation with competent authorities</li>
+      </ul>
+    `},
+    {id:'hs-2',title:'Higher Secondary Level — Part II (Class 12th)',content:`
+      <p class="reg-text">Class 12th students shall continue with the stream and subject combination opted at Class 11th, subject to the following provisions:</p>
+      <ol class="reg-list">
+        <li>Change of subject/stream may be permitted only in exceptional cases as per Board guidelines.</li>
+        <li>The external examination shall be conducted by the Board for all theory papers.</li>
+        <li>Practical examinations shall be conducted as per the schedule notified by the Board.</li>
+        <li>The minimum aggregate marks for passing shall be as prescribed in the Examination Regulations.</li>
+      </ol>
+      <table class="reg-table">
+        <tr><th>Stream</th><th>Theory Marks</th><th>Internal Assessment</th><th>Practical</th></tr>
+        <tr><td>Science</td><td>70</td><td>10</td><td>20</td></tr>
+        <tr><td>Arts/Commerce</td><td>80</td><td>20</td><td>—</td></tr>
+        <tr><td>Vocational</td><td>60</td><td>20</td><td>20</td></tr>
+      </table>
+    `}
+  ]
+},
+{
+  id:'exam-reg',num:5,title:'Examination Regulations',
+  sections:[
+    {id:'er-1',title:'General Examination Regulations',content:`
+      <p class="reg-text">The following regulations govern the conduct of all examinations held under the auspices of the Jammu & Kashmir Board of School Education:</p>
+      <ol class="reg-list">
+        <li>All candidates appearing in the examination must be duly registered with the Board in the manner and within the period prescribed.</li>
+        <li>No candidate shall be admitted to the examination hall without a valid Admit Card issued by the Board.</li>
+        <li>Candidates must arrive at the examination center at least 30 minutes before the commencement of the examination.</li>
+        <li>No candidate shall be permitted to enter the examination hall after the expiry of 30 minutes from the start of the examination, nor shall any candidate be permitted to leave the hall before the expiry of one hour from the commencement of the examination.</li>
+        <li>Use of any electronic device including mobile phones is strictly prohibited inside the examination hall.</li>
+        <li>Any candidate found using unfair means shall be dealt with as per the Unfair Means Regulations of the Board.</li>
+      </ol>
+      <div class="highlight-box"><p>The Board reserves the right to cancel the examination of any candidate who is found to have adopted unfair means or violated the examination rules, without prejudice to any other action that may be taken against the candidate.</p></div>
+    `},
+    {id:'er-2',title:'Examination Schedule and Timetable',content:`
+      <p class="reg-text">The Board shall publish the examination schedule and timetable for each examination at least 60 days in advance on its official website and through official gazette notification. The schedule shall contain the following information:</p>
+      <ul class="reg-list">
+        <li>Date and day of examination for each paper</li>
+        <li>Timings of each paper</li>
+        <li>Duration of each paper</li>
+        <li>Instructions regarding the type of examination (Theory/Practical)</li>
+      </ul>
+    `}
+  ]
+},
+{
+  id:'eligibility',num:6,title:'Eligibility Conditions',
+  sections:[
+    {id:'el-1',title:'Eligibility for Secondary Examination',content:`
+      <p class="reg-text">A candidate shall be eligible to appear in the Secondary (Class 10th) Annual Examination provided the candidate:</p>
+      <ol class="reg-list">
+        <li>Has been studying in Class 10th in a school recognized and affiliated to the Board during the academic session for which the examination is being held.</li>
+        <li>Has been duly registered as a regular student with the Board.</li>
+        <li>Has attended not less than 75% of the total number of working days in the academic session.</li>
+        <li>Has cleared all dues of the school and the Board.</li>
+        <li>Has submitted the duly filled examination form within the prescribed period along with the prescribed fee.</li>
+        <li>Has not been debarred from appearing in any examination by the Board.</li>
+      </ol>
+    `},
+    {id:'el-2',title:'Eligibility for Higher Secondary Examination',content:`
+      <p class="reg-text">A candidate shall be eligible to appear in the Higher Secondary Examination (Part I or Part II) provided the candidate fulfills the following conditions:</p>
+      <ol class="reg-list">
+        <li>Has passed the Secondary (Class 10th) examination from JKBOSE or an equivalent examination recognized by the Board.</li>
+        <li>Has been admitted to Class 11th or Class 12th in a recognized school affiliated with the Board.</li>
+        <li>Has maintained attendance of not less than 75% in the academic session.</li>
+        <li>Has completed all Internal Assessment/Practical components as prescribed by the Board.</li>
+      </ol>
+      <div class="note-box"><strong>Condonation of Shortage of Attendance</strong><p>Condonation of shortage of attendance may be granted in exceptional cases on medical grounds or other valid reasons, subject to a maximum of 10% condonation, on payment of prescribed fee and submission of required documents to the Board.</p></div>
+    `}
+  ]
+},
+{
+  id:'registration',num:7,title:'Registration Rules',
+  sections:[
+    {id:'reg-1',title:'Student Registration Process',content:`
+      <p class="reg-text">Every student desirous of appearing in the Board examination must be registered with the JKBOSE in accordance with the following procedure:</p>
+      <ol class="reg-list">
+        <li>Registration shall be done through the affiliated school. No individual registration is accepted by the Board directly.</li>
+        <li>The Heads of affiliated schools shall submit registration forms of their students within the prescribed period along with the required fee.</li>
+        <li>Registration for Class 9th is mandatory for appearance in Class 10th Board examination.</li>
+        <li>Registration for Class 11th (Part I) is mandatory for appearance in Class 12th (Part II) Board examination.</li>
+        <li>No addition or deletion shall be made in the registration list after the closing date without prior written permission of the Board.</li>
+      </ol>
+    `},
+    {id:'reg-2',title:'Registration Fee and Refund Policy',content:`
+      <p class="reg-text">The Board prescribes the registration fee, examination fee, and other charges from time to time. The following general provisions apply:</p>
+      <ul class="reg-list">
+        <li>Fees once paid are non-refundable except in cases where the candidate was registered by mistake or duplicate registration.</li>
+        <li>Late fee shall be charged for submissions made after the last date as notified by the Board.</li>
+        <li>Requests for refund must be submitted in writing to the Secretary, JKBOSE within 30 days of payment.</li>
+      </ul>
+    `}
+  ]
+},
+{
+  id:'internal',num:8,title:'Internal Assessment Guidelines',
+  sections:[
+    {id:'ia-1',title:'Internal Assessment Framework',content:`
+      <p class="reg-text">Internal Assessment is an integral part of the evaluation system of the Board. The following guidelines govern the conduct of Internal Assessment:</p>
+      <ol class="reg-list">
+        <li>Internal Assessment shall be conducted by the school under the direct supervision of the Head of the institution.</li>
+        <li>Internal Assessment shall include unit tests, periodic tests, project work, oral assessment, and co-scholastic activities as prescribed.</li>
+        <li>Marks awarded under Internal Assessment shall be finalized and submitted to the Board before the commencement of the annual examination.</li>
+        <li>No enhancement of Internal Assessment marks shall be permitted after submission to the Board.</li>
+        <li>The Board reserves the right to verify and moderate the Internal Assessment marks submitted by schools.</li>
+      </ol>
+    `},
+    {id:'ia-2',title:'Distribution of Internal Assessment Marks',content:`
+      <p class="reg-text">For subjects carrying 20 marks of Internal Assessment, the distribution shall be as follows:</p>
+      <table class="reg-table">
+        <tr><th>Component</th><th>Marks</th></tr>
+        <tr><td>Periodic Test / Unit Test (Best of Two)</td><td>10</td></tr>
+        <tr><td>Notebook Submission</td><td>05</td></tr>
+        <tr><td>Subject Enrichment Activity</td><td>05</td></tr>
+        <tr><td><strong>Total</strong></td><td><strong>20</strong></td></tr>
+      </table>
+      <div class="highlight-box"><p>Schools are required to maintain proper records of Internal Assessment marks with supporting documents for at least three years from the date of declaration of results for inspection by the Board.</p></div>
+    `}
+  ]
+},
+{
+  id:'external',num:9,title:'External Examination Rules',
+  sections:[
+    {id:'ext-1',title:'Conduct of External Examination',content:`
+      <p class="reg-text">External examinations are conducted by the Board at designated examination centers across the Union Territory of Jammu & Kashmir. The following rules govern the conduct of external examinations:</p>
+      <ol class="reg-list">
+        <li>Question papers for all external examinations shall be set by the Board or by examiners appointed by the Board.</li>
+        <li>The question paper shall be strictly confidential and shall be kept in sealed covers until the time of examination.</li>
+        <li>Examination centers shall be designated by the Board. Students shall appear at the center allotted to them as per the Admit Card.</li>
+        <li>The Superintendent of the Examination Center shall be responsible for the proper conduct of the examination at the center.</li>
+        <li>Answer scripts shall be collected and dispatched to the Board's evaluation centers under proper supervision and seal.</li>
+      </ol>
+    `},
+    {id:'ext-2',title:'Evaluation of Answer Scripts',content:`
+      <p class="reg-text">The evaluation of answer scripts shall be conducted as per the following procedure:</p>
+      <ul class="reg-list">
+        <li>Answer scripts shall be evaluated by qualified evaluators appointed by the Board.</li>
+        <li>Head Examiners and Deputy Head Examiners shall supervise the evaluation process.</li>
+        <li>Marking schemes and model answers shall be provided to all evaluators at the time of evaluation.</li>
+        <li>Random checking of answer scripts shall be done by senior examiners to ensure uniformity.</li>
+        <li>Award lists shall be submitted by examiners in the prescribed format duly signed.</li>
+      </ul>
+      <div class="diagram-wrap">
+        <div class="diagram-title">EXAMINATION PROCESS FLOWCHART</div>
+        <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" style="max-width:560px;width:100%;">
+          <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#e8851a"/></marker></defs>
+          <rect x="10" y="120" width="110" height="44" rx="6" fill="#0a1628" stroke="#e8851a" stroke-width="1.5"/>
+          <text x="65" y="138" text-anchor="middle" fill="white" font-size="10" font-family="DM Sans">Registration</text>
+          <text x="65" y="152" text-anchor="middle" fill="#c9a227" font-size="9" font-family="DM Sans">& Admit Card</text>
+          <line x1="120" y1="142" x2="148" y2="142" stroke="#e8851a" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="150" y="120" width="110" height="44" rx="6" fill="#0a1628" stroke="#e8851a" stroke-width="1.5"/>
+          <text x="205" y="138" text-anchor="middle" fill="white" font-size="10" font-family="DM Sans">Examination</text>
+          <text x="205" y="152" text-anchor="middle" fill="#c9a227" font-size="9" font-family="DM Sans">at Centre</text>
+          <line x1="260" y1="142" x2="288" y2="142" stroke="#e8851a" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="290" y="120" width="110" height="44" rx="6" fill="#0a1628" stroke="#e8851a" stroke-width="1.5"/>
+          <text x="345" y="138" text-anchor="middle" fill="white" font-size="10" font-family="DM Sans">Evaluation</text>
+          <text x="345" y="152" text-anchor="middle" fill="#c9a227" font-size="9" font-family="DM Sans">of Scripts</text>
+          <line x1="400" y1="142" x2="428" y2="142" stroke="#e8851a" stroke-width="1.5" marker-end="url(#arr)"/>
+          <rect x="430" y="120" width="110" height="44" rx="6" fill="#0f2044" stroke="#c9a227" stroke-width="1.5"/>
+          <text x="485" y="138" text-anchor="middle" fill="white" font-size="10" font-family="DM Sans">Result</text>
+          <text x="485" y="152" text-anchor="middle" fill="#c9a227" font-size="9" font-family="DM Sans">Declaration</text>
+        </svg>
+      </div>
+    `}
+  ]
+},
+{
+  id:'moderation',num:10,title:'Moderation Policy',
+  sections:[
+    {id:'mod-1',title:'Moderation of Marks',content:`
+      <p class="reg-text">The Board adopts a scientific moderation policy to ensure fairness and uniformity in the evaluation process. Moderation shall be done in accordance with the following principles:</p>
+      <ol class="reg-list">
+        <li>Moderation shall be done by the Moderation Committee constituted by the Board consisting of subject experts and senior examiners.</li>
+        <li>Moderation shall be applied uniformly across all evaluation centers for a given examination.</li>
+        <li>The Moderation Committee shall review the distribution of marks, mean score, standard deviation, and difficulty level before applying moderation.</li>
+        <li>Moderation marks shall not exceed 5 (five) marks in any subject for any batch of candidates.</li>
+        <li>Moderation shall be applied to theory paper marks only. Practical and Internal Assessment marks shall not be subject to moderation.</li>
+      </ol>
+      <div class="highlight-box"><p>The decision of the Moderation Committee shall be final and binding. No individual request for moderation of marks shall be entertained.</p></div>
+    `}
+  ]
+},
+{
+  id:'reeval',num:11,title:'Re-evaluation Rules',
+  sections:[
+    {id:'rv-1',title:'Re-evaluation / Rechecking Process',content:`
+      <p class="reg-text">The Board provides for re-evaluation/rechecking of answer scripts in accordance with the following rules:</p>
+      <ol class="reg-list">
+        <li>A candidate may apply for rechecking of marks within 21 days from the date of declaration of results.</li>
+        <li>Rechecking shall cover checking of totaling of marks, checking that all questions have been evaluated, and checking that all pages of the answer script have been evaluated.</li>
+        <li>Re-evaluation (fresh evaluation by another examiner) may be applied for within 21 days of result declaration, subject to payment of prescribed fee.</li>
+        <li>Application for re-evaluation/rechecking must be submitted in the prescribed form through the school with the prescribed fee.</li>
+        <li>The result of re-evaluation/rechecking shall be communicated to the candidate within 60 days.</li>
+        <li>In case of re-evaluation, the higher of the two marks (original and re-evaluated) shall be awarded to the candidate.</li>
+      </ol>
+    `},
+    {id:'rv-2',title:'Supplementary Evaluation',content:`
+      <p class="reg-text">In addition to re-evaluation, the following supplementary evaluation provisions apply:</p>
+      <ul class="reg-list">
+        <li>Candidates who feel that their answer scripts have not been properly evaluated may also apply for obtaining a photocopy of their evaluated answer script.</li>
+        <li>Photocopy of answer script shall be provided within 45 days of application on payment of prescribed fee.</li>
+        <li>Candidates may file a representation based on the photocopy within 15 days of receipt of the photocopy.</li>
+      </ul>
+    `}
+  ]
+},
+{
+  id:'result',num:12,title:'Result Processing Framework',
+  sections:[
+    {id:'rp-1',title:'Result Processing System',content:`
+      <p class="reg-text">The result processing system of the Board is fully computerized and follows the prescribed procedure:</p>
+      <ol class="reg-list">
+        <li>Award lists submitted by evaluators are entered into the Board's computerized result processing system.</li>
+        <li>Internal Assessment marks submitted by schools are merged with theory marks after due verification.</li>
+        <li>Marks of all papers are tabulated and grand totals are computed for each candidate.</li>
+        <li>Result is prepared as per the passing criteria prescribed by the Board.</li>
+        <li>Results are checked at multiple levels before final declaration to ensure accuracy.</li>
+        <li>The final result is declared by the Board through official notification and uploaded on the Board's official website.</li>
+      </ol>
+      <div class="diagram-wrap">
+        <div class="diagram-title">RESULT PROCESSING CYCLE</div>
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="max-width:380px;width:100%;">
+          <circle cx="200" cy="150" r="90" fill="none" stroke="#0a1628" stroke-width="20"/>
+          <circle cx="200" cy="150" r="90" fill="none" stroke="#e8851a" stroke-width="3" stroke-dasharray="565" stroke-dashoffset="0" opacity=".3"/>
+          <circle cx="200" cy="60" r="28" fill="#0a1628" stroke="#e8851a" stroke-width="1.5"/>
+          <text x="200" y="56" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Award</text>
+          <text x="200" y="68" text-anchor="middle" fill="#c9a227" font-size="8" font-family="DM Sans">Lists</text>
+          <circle cx="284" cy="204" r="28" fill="#0a1628" stroke="#e8851a" stroke-width="1.5"/>
+          <text x="284" y="200" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Data</text>
+          <text x="284" y="212" text-anchor="middle" fill="#c9a227" font-size="8" font-family="DM Sans">Entry</text>
+          <circle cx="116" cy="204" r="28" fill="#0a1628" stroke="#e8851a" stroke-width="1.5"/>
+          <text x="116" y="200" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Tabulation</text>
+          <text x="116" y="212" text-anchor="middle" fill="#c9a227" font-size="8" font-family="DM Sans">& Check</text>
+          <text x="200" y="145" text-anchor="middle" fill="#e8851a" font-size="13" font-family="Playfair Display" font-weight="bold">RESULT</text>
+          <text x="200" y="162" text-anchor="middle" fill="#c9a227" font-size="10" font-family="DM Sans">PROCESSING</text>
+        </svg>
+      </div>
+    `}
+  ]
+},
+{
+  id:'passing',num:13,title:'Passing Criteria',
+  sections:[
+    {id:'pc-1',title:'Passing Criteria — Secondary (Class 10th)',content:`
+      <p class="reg-text">A candidate shall be declared to have passed the Secondary (Class 10th) Annual Examination if the candidate:</p>
+      <ol class="reg-list">
+        <li>Obtains a minimum of 33% marks in each subject separately in theory as well as in practical/Internal Assessment.</li>
+        <li>Obtains a minimum of 33% marks in aggregate of all subjects.</li>
+        <li>Has not been placed in compartment in more than one subject.</li>
+      </ol>
+      <div class="highlight-box"><p>For the purpose of passing, the aggregate marks shall be computed on the total marks of all compulsory subjects. A candidate failing in one optional subject but passing in all compulsory subjects shall be declared PASS.</p></div>
+    `},
+    {id:'pc-2',title:'Passing Criteria — Higher Secondary',content:`
+      <p class="reg-text">A candidate shall be declared to have passed the Higher Secondary Examination (Part I or Part II) if the candidate:</p>
+      <ol class="reg-list">
+        <li>Obtains a minimum of 33% marks in each subject (theory and practical/Internal Assessment separately).</li>
+        <li>Obtains minimum 33% in aggregate in all subjects taken together.</li>
+        <li>For Part II, has passed Part I examination or has been appearing in Part I and Part II together as per Board's provisions.</li>
+      </ol>
+      <table class="reg-table">
+        <tr><th>Grade</th><th>Marks Range</th><th>Grade Point</th></tr>
+        <tr><td>A1</td><td>91–100</td><td>10</td></tr>
+        <tr><td>A2</td><td>81–90</td><td>9</td></tr>
+        <tr><td>B1</td><td>71–80</td><td>8</td></tr>
+        <tr><td>B2</td><td>61–70</td><td>7</td></tr>
+        <tr><td>C1</td><td>51–60</td><td>6</td></tr>
+        <tr><td>C2</td><td>41–50</td><td>5</td></tr>
+        <tr><td>D</td><td>33–40</td><td>4</td></tr>
+        <tr><td>E (Fail)</td><td>Below 33</td><td>—</td></tr>
+      </table>
+    `}
+  ]
+},
+{
+  id:'compartment',num:14,title:'Compartment Examination Rules',
+  sections:[
+    {id:'comp-1',title:'Compartment Examination',content:`
+      <p class="reg-text">A candidate who fails in not more than one subject in the annual examination shall be placed in Compartment and shall be eligible to appear in the Compartment Examination. The following rules govern the Compartment Examination:</p>
+      <ol class="reg-list">
+        <li>Compartment Examination shall be conducted by the Board within three months of the declaration of the Annual Examination result.</li>
+        <li>A candidate placed in Compartment must apply for the Compartment Examination within the prescribed period along with the requisite fee.</li>
+        <li>A candidate who fails the Compartment Examination shall be eligible to appear in the next Annual Examination as a Regular or Ex-student candidate as per Board's provisions.</li>
+        <li>The marks secured in the Compartment Examination shall replace the marks obtained in the Annual Examination for the subject in which Compartment was placed.</li>
+        <li>A candidate placed in Compartment in more than one subject shall have to repeat the entire examination in the next Annual Examination.</li>
+      </ol>
+    `}
+  ]
+},
+{
+  id:'affiliation',num:15,title:'Affiliation Regulations',
+  sections:[
+    {id:'aff-1',title:'Grant of Affiliation',content:`
+      <p class="reg-text">Any school desirous of affiliation with the JKBOSE shall apply in the prescribed form along with the required documents and fee. The following general conditions apply to the grant of affiliation:</p>
+      <ol class="reg-list">
+        <li>The school shall have a proper building with adequate classrooms, laboratories, library, and playground as per the norms of the Board.</li>
+        <li>The school shall have a sufficient number of qualified and trained teachers as per the prescribed teacher-student ratio.</li>
+        <li>The school shall have a No Objection Certificate (NOC) from the competent authority.</li>
+        <li>The school shall comply with all requirements of the Right to Education Act, 2009, as applicable.</li>
+        <li>Affiliation shall initially be granted for a period of one year and subsequently renewed on satisfactory compliance with norms.</li>
+      </ol>
+      <div class="diagram-wrap">
+        <div class="diagram-title">AFFILIATION APPROVAL FLOW</div>
+        <svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" style="max-width:520px;width:100%;">
+          <defs><marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#c9a227"/></marker></defs>
+          <rect x="10" y="80" width="90" height="40" rx="5" fill="#0a1628" stroke="#c9a227" stroke-width="1"/>
+          <text x="55" y="96" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Application</text>
+          <text x="55" y="109" text-anchor="middle" fill="#c9a227" font-size="8" font-family="DM Sans">Submitted</text>
+          <line x1="100" y1="100" x2="118" y2="100" stroke="#c9a227" stroke-width="1" marker-end="url(#arr2)"/>
+          <rect x="120" y="80" width="90" height="40" rx="5" fill="#0a1628" stroke="#c9a227" stroke-width="1"/>
+          <text x="165" y="96" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Scrutiny &</text>
+          <text x="165" y="109" text-anchor="middle" fill="#c9a227" font-size="8" font-family="DM Sans">Inspection</text>
+          <line x1="210" y1="100" x2="228" y2="100" stroke="#c9a227" stroke-width="1" marker-end="url(#arr2)"/>
+          <rect x="230" y="80" width="90" height="40" rx="5" fill="#0a1628" stroke="#c9a227" stroke-width="1"/>
+          <text x="275" y="96" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Committee</text>
+          <text x="275" y="109" text-anchor="middle" fill="#c9a227" font-size="8" font-family="DM Sans">Review</text>
+          <line x1="320" y1="100" x2="338" y2="100" stroke="#c9a227" stroke-width="1" marker-end="url(#arr2)"/>
+          <rect x="340" y="80" width="90" height="40" rx="5" fill="#0a1628" stroke="#c9a227" stroke-width="1"/>
+          <text x="385" y="96" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Approval /</text>
+          <text x="385" y="109" text-anchor="middle" fill="#c9a227" font-size="8" font-family="DM Sans">Rejection</text>
+          <line x1="430" y1="100" x2="448" y2="100" stroke="#c9a227" stroke-width="1" marker-end="url(#arr2)"/>
+          <rect x="450" y="80" width="90" height="40" rx="5" fill="#0f2044" stroke="#e8851a" stroke-width="1.5"/>
+          <text x="495" y="96" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Affiliation</text>
+          <text x="495" y="109" text-anchor="middle" fill="#e8851a" font-size="8" font-family="DM Sans">Certificate</text>
+        </svg>
+      </div>
+    `}
+  ]
+},
+{
+  id:'recognition',num:16,title:'School Recognition Norms',
+  sections:[
+    {id:'rn-1',title:'Recognition Norms for Schools',content:`
+      <p class="reg-text">Schools seeking recognition from the Board must fulfill the following minimum requirements:</p>
+      <table class="reg-table">
+        <tr><th>Requirement</th><th>Secondary Level</th><th>Higher Secondary Level</th></tr>
+        <tr><td>Classrooms</td><td>Minimum 8 rooms</td><td>Minimum 12 rooms</td></tr>
+        <tr><td>Science Labs</td><td>1 (Combined)</td><td>3 (Physics, Chemistry, Biology)</td></tr>
+        <tr><td>Library</td><td>Required</td><td>Required with reading room</td></tr>
+        <tr><td>Computer Lab</td><td>Required</td><td>Required</td></tr>
+        <tr><td>Playground</td><td>Required</td><td>Required</td></tr>
+        <tr><td>Staff Room</td><td>Required</td><td>Required</td></tr>
+        <tr><td>Principal Cabin</td><td>Required</td><td>Required</td></tr>
+      </table>
+    `}
+  ]
+},
+{
+  id:'practical',num:17,title:'Practical Examination Guidelines',
+  sections:[
+    {id:'pr-1',title:'Conduct of Practical Examinations',content:`
+      <p class="reg-text">Practical examinations shall be conducted under the following guidelines:</p>
+      <ol class="reg-list">
+        <li>Practical examinations shall be conducted by external examiners appointed by the Board along with internal examiners from the school.</li>
+        <li>The schedule for practical examinations shall be communicated to schools at least 15 days in advance.</li>
+        <li>Practical examination centers shall be the schools themselves unless otherwise ordered by the Board.</li>
+        <li>All equipment, chemicals, specimens, and other required materials shall be arranged by the school at its own cost.</li>
+        <li>Practical marks awarded shall be on the basis of experiment performance, viva-voce, record (practical file), and project work as prescribed.</li>
+        <li>Award lists for practical examinations must be submitted to the Board within 7 days of completion of the practical examination.</li>
+      </ol>
+    `}
+  ]
+},
+{
+  id:'confidential',num:18,title:'Confidentiality & Paper Setting',
+  sections:[
+    {id:'conf-1',title:'Paper Setting Procedure',content:`
+      <p class="reg-text">The following provisions govern the setting of question papers:</p>
+      <ol class="reg-list">
+        <li>Question papers shall be set by paper setters appointed by the Board on the basis of their academic qualifications and experience.</li>
+        <li>The identity of paper setters shall be kept strictly confidential.</li>
+        <li>Paper setters shall sign a confidentiality agreement before being assigned the task of paper setting.</li>
+        <li>All question papers shall be reviewed by a Vetting Committee constituted by the Board before finalization.</li>
+        <li>Question papers shall be printed and sealed at secure printing facilities. The Board shall ensure that all security protocols are followed.</li>
+        <li>Leakage of question paper shall be treated as a criminal offence under applicable laws.</li>
+      </ol>
+      <div class="highlight-box"><p>Any person found guilty of leakage or facilitating leakage of question paper shall be liable for criminal prosecution besides blacklisting from all future engagement with the Board.</p></div>
+    `}
+  ]
+},
+{
+  id:'conduct',num:19,title:'Examination Conduct Rules',
+  sections:[
+    {id:'ec-1',title:'Duties of Examination Superintendent',content:`
+      <p class="reg-text">The Superintendent of the Examination Center shall:</p>
+      <ol class="reg-list">
+        <li>Ensure proper arrangement of furniture, seating, and other material in the examination hall prior to the commencement of examination.</li>
+        <li>Receive sealed question paper packets and open them in front of Invigilators at the prescribed time.</li>
+        <li>Ensure that no candidate is allowed to carry prohibited items inside the examination hall.</li>
+        <li>Maintain a seating arrangement chart for the examination hall.</li>
+        <li>Report any incident of unfair means or disturbance in the prescribed format to the Board immediately.</li>
+        <li>Ensure safe packing and dispatch of answer scripts to the evaluation center on the same day.</li>
+      </ol>
+    `},
+    {id:'ec-2',title:'Unfair Means — Classification and Penalties',content:`
+      <p class="reg-text">The following acts shall constitute unfair means in the examination:</p>
+      <ol class="reg-list">
+        <li>Copying from any book, paper, notes, or any other material brought to the examination hall.</li>
+        <li>Receiving assistance from any other candidate or person.</li>
+        <li>Communicating with any other candidate during the examination.</li>
+        <li>Impersonation i.e., appearing in place of another candidate.</li>
+        <li>Possession of any electronic device including mobile phone in the examination hall.</li>
+        <li>Misbehavior or threatening examination staff.</li>
+      </ol>
+      <div class="note-box"><strong>Penalties</strong><p>Penalties for unfair means range from cancellation of the paper concerned to cancellation of all papers and debarment from appearing in Board examinations for specified periods, depending on the gravity of the offence.</p></div>
+    `}
+  ]
+},
+{
+  id:'code-conduct',num:20,title:'Code of Conduct for Institutions',
+  sections:[
+    {id:'cc-1',title:'Institutional Code of Conduct',content:`
+      <p class="reg-text">All schools affiliated to the Board shall adhere to the following Code of Conduct:</p>
+      <ol class="reg-list">
+        <li>The school shall not conduct any examination activity in violation of the Board's regulations.</li>
+        <li>The school shall not submit false or inflated Internal Assessment marks to the Board.</li>
+        <li>The school shall not facilitate or encourage any form of unfair means during examinations.</li>
+        <li>The Head of the institution shall be personally responsible for the proper conduct of examinations within the premises of the school.</li>
+        <li>The school shall not organize coaching classes within school premises for Board examinations except as part of normal curriculum.</li>
+        <li>The school shall display the examination schedule and rules prominently for the benefit of students and parents.</li>
+      </ol>
+    `}
+  ]
+},
+{
+  id:'digital',num:21,title:'Digital Examination Initiatives',
+  sections:[
+    {id:'di-1',title:'Digitization of Examination Processes',content:`
+      <p class="reg-text">The Board has undertaken comprehensive digitization of its examination and administrative processes. The following digital initiatives have been implemented:</p>
+      <ul class="reg-list">
+        <li><strong>Online Registration:</strong> Student registration is done through the Board's online portal.</li>
+        <li><strong>Online Form Submission:</strong> Schools submit examination forms online through the Board's portal.</li>
+        <li><strong>Digital Admit Cards:</strong> Admit cards are generated and distributed digitally.</li>
+        <li><strong>Online Result Declaration:</strong> Results are declared and published on the Board's official website.</li>
+        <li><strong>Digital Mark Sheets:</strong> Mark sheets with QR code verification are issued to pass-out candidates.</li>
+        <li><strong>Online Re-evaluation:</strong> Applications for re-evaluation/rechecking are accepted online.</li>
+      </ul>
+    `}
+  ]
+},
+{
+  id:'calendar',num:22,title:'Academic Calendar & Scheduling',
+  sections:[
+    {id:'cal-1',title:'Academic Calendar Framework',content:`
+      <p class="reg-text">The Board prescribes the academic calendar for affiliated schools in consultation with the School Education Department. Key timelines are as follows:</p>
+      <table class="reg-table">
+        <tr><th>Activity</th><th>Approximate Period</th></tr>
+        <tr><td>Academic Session Commencement</td><td>April / May</td></tr>
+        <tr><td>Registration of Class 9th & 11th</td><td>June – August</td></tr>
+        <tr><td>Examination Form Submission</td><td>November – December</td></tr>
+        <tr><td>Annual Examination (Secondary)</td><td>March</td></tr>
+        <tr><td>Annual Examination (Higher Secondary)</td><td>March</td></tr>
+        <tr><td>Practical Examinations</td><td>February – March</td></tr>
+        <tr><td>Result Declaration</td><td>May – June</td></tr>
+        <tr><td>Compartment Examination</td><td>July – August</td></tr>
+      </table>
+      <div class="note-box"><strong>Note</strong><p>The above timelines are indicative. Actual dates are notified by the Board through official circulars/notifications each academic year.</p></div>
+    `}
+  ]
+},
+{
+  id:'nep',num:23,title:'Alignment with NEP 2020 & PARAKH',
+  sections:[
+    {id:'nep-1',title:'NEP 2020 — Examination Reforms',content:`
+      <p class="reg-text">In alignment with the National Education Policy (NEP) 2020, the Board has initiated the following reforms:</p>
+      <ol class="reg-list">
+        <li><strong>Competency-Based Assessment:</strong> Shift from rote learning to competency-based questions testing higher-order thinking skills.</li>
+        <li><strong>Reduced Curriculum Load:</strong> Syllabus rationalization to focus on core and essential concepts.</li>
+        <li><strong>Holistic Progress Card:</strong> Introduction of Holistic Progress Cards for 360-degree assessment of students.</li>
+        <li><strong>Board Examination Reforms:</strong> Making board examinations easier to pass but harder to memorize, testing core competencies, life skills, and higher-order thinking.</li>
+        <li><strong>Semester System Consideration:</strong> Examining feasibility of semester/modular system at secondary level.</li>
+      </ol>
+    `},
+    {id:'nep-2',title:'PARAKH — Performance Assessment',content:`
+      <p class="reg-text">PARAKH (Performance Assessment, Review, and Analysis of Knowledge for Holistic Development) serves as the national assessment regulator. The Board coordinates with PARAKH in the following areas:</p>
+      <ul class="reg-list">
+        <li>Equivalence and standardization of assessments across state boards</li>
+        <li>Adoption of common benchmarks for learning outcomes</li>
+        <li>Participation in large-scale national assessments including NAS (National Achievement Survey)</li>
+        <li>Alignment of grading systems with national standards</li>
+      </ul>
+    `}
+  ]
+},
+{
+  id:'appeal',num:24,title:'Appeal & Grievance Mechanism',
+  sections:[
+    {id:'ap-1',title:'Grievance Redressal',content:`
+      <p class="reg-text">The Board has established a Grievance Redressal Mechanism for candidates and schools. The following procedures apply:</p>
+      <ol class="reg-list">
+        <li>Grievances related to examination results must be filed within 30 days of result declaration.</li>
+        <li>Grievances shall be addressed to the Controller of Examinations, JKBOSE.</li>
+        <li>The Board shall acknowledge receipt of grievance within 7 working days.</li>
+        <li>Resolution of grievance shall be communicated to the applicant within 60 days.</li>
+        <li>Appeals against decisions of the Controller of Examinations may be made to the Secretary, JKBOSE.</li>
+        <li>Further appeal, if not satisfied, may be made to the Competent Authority as per applicable laws.</li>
+      </ol>
+    `}
+  ]
+},
+{
+  id:'migration',num:25,title:'Migration & Transfer Certificate',
+  sections:[
+    {id:'mc-1',title:'Issuance of Migration Certificate',content:`
+      <p class="reg-text">Migration Certificate is required by candidates who wish to join an institution affiliated to a Board/University other than JKBOSE. The following procedure applies:</p>
+      <ol class="reg-list">
+        <li>Application for Migration Certificate shall be submitted to the Board on the prescribed form.</li>
+        <li>The application must be accompanied by the original Mark Sheet, Pass Certificate, and prescribed fee.</li>
+        <li>Migration Certificate shall be issued within 30 days of receipt of complete application.</li>
+        <li>Migration Certificate once issued shall be final. No duplicate Migration Certificate shall be issued except on submission of an affidavit stating the reason for loss and on payment of prescribed fee.</li>
+      </ol>
+    `}
+  ]
+},
+{
+  id:'duplicate',num:26,title:'Duplicate Certificates',
+  sections:[
+    {id:'dc-1',title:'Issue of Duplicate Certificates',content:`
+      <p class="reg-text">Duplicate mark sheet, pass certificate, or other documents may be issued to a candidate in case of loss, damage, or defacement of the original. The procedure is as follows:</p>
+      <ol class="reg-list">
+        <li>Application must be submitted to the Board on the prescribed form with an affidavit duly attested by a Magistrate/Notary.</li>
+        <li>FIR copy from the nearest Police Station shall be submitted in case of loss of original certificate.</li>
+        <li>Defaced/damaged original certificate shall be returned to the Board along with the application for duplicate.</li>
+        <li>Duplicate certificates shall be clearly marked as "DUPLICATE" and shall have the same validity as the original.</li>
+      </ol>
+    `}
+  ]
+},
+{
+  id:'improvement',num:27,title:'Improvement of Performance',
+  sections:[
+    {id:'imp-1',title:'Improvement Examination',content:`
+      <p class="reg-text">A candidate who has passed the Annual Examination but is desirous of improving marks in one or more subjects may appear in the Improvement Examination subject to the following conditions:</p>
+      <ol class="reg-list">
+        <li>Improvement is permitted only in one attempt, immediately in the next Annual Examination after passing.</li>
+        <li>Application for improvement must be submitted before the closing date along with prescribed fee.</li>
+        <li>If a candidate secures higher marks in the Improvement Examination, the improved marks shall be recorded in the new Mark Sheet. If the marks are lower, the original marks shall be retained.</li>
+        <li>Improvement is permitted in a maximum of two subjects.</li>
+        <li>No improvement is permitted in practical marks or Internal Assessment marks.</li>
+      </ol>
+    `}
+  ]
+},
+{
+  id:'fee-structure',num:28,title:'Fee Structure & Charges',
+  sections:[
+    {id:'fee-1',title:'Examination Fee',content:`
+      <p class="reg-text">The Board prescribes the fee for various examinations and services. The following general categories of fees are applicable:</p>
+      <ul class="reg-list">
+        <li>Registration Fee (payable at the time of registration)</li>
+        <li>Examination Fee (payable along with the examination form)</li>
+        <li>Late Fee (applicable for submissions made after the last date)</li>
+        <li>Re-evaluation / Rechecking Fee (per subject)</li>
+        <li>Migration Certificate Fee</li>
+        <li>Duplicate Certificate Fee</li>
+        <li>Improvement Examination Fee</li>
+        <li>Compartment Examination Fee</li>
+      </ul>
+      <div class="note-box"><strong>Important</strong><p>The actual fee amounts are revised by the Board from time to time through official notifications. Candidates and schools are advised to refer to the latest fee notification before making payments.</p></div>
+    `}
+  ]
+},
+{
+  id:'special-exam',num:29,title:'Special Examinations & Provisions',
+  sections:[
+    {id:'se-1',title:'Ex-Student / Private Candidate Provisions',content:`
+      <p class="reg-text">Candidates who have failed or want to appear in the Board examination as private candidates may do so under the following provisions:</p>
+      <ol class="reg-list">
+        <li>Ex-student candidates must have their last attendance in a JKBOSE-affiliated school.</li>
+        <li>Private candidates must fulfill the eligibility criteria as prescribed by the Board.</li>
+        <li>Private candidates are not eligible for Internal Assessment benefits and shall appear only in theory papers.</li>
+        <li>Passing criteria for private candidates shall be 33% in theory and 33% in aggregate.</li>
+      </ol>
+    `},
+    {id:'se-2',title:'Differently-Abled Candidates',content:`
+      <p class="reg-text">The Board provides special facilities to differently-abled candidates appearing in Board examinations:</p>
+      <ul class="reg-list">
+        <li>Extra time: 20 minutes per hour of examination</li>
+        <li>Scribe/Writer facility for candidates with visual impairment or physical disability</li>
+        <li>Separate examination room arrangements as required</li>
+        <li>Exemption from specific questions as per the nature of disability</li>
+      </ul>
+    `}
+  ]
+},
+{
+  id:'vocational',num:30,title:'Vocational Education Framework',
+  sections:[
+    {id:'voc-1',title:'Vocational Subjects and Assessment',content:`
+      <p class="reg-text">The Board offers vocational subjects at the Secondary and Higher Secondary levels under the vocational education framework. Vocational subjects are assessed as follows:</p>
+      <ol class="reg-list">
+        <li>Theory component: As prescribed for each vocational subject.</li>
+        <li>Practical/Skill assessment: Conducted by the Board through designated assessors.</li>
+        <li>On-the-job training component: Evaluated through log books and employer feedback.</li>
+        <li>Passing criteria for vocational subjects: Minimum 33% in theory and 40% in practical separately.</li>
+      </ol>
+    `}
+  ]
+},
+{
+  id:'sports-arts',num:31,title:'Sports & Arts Education Assessment',
+  sections:[
+    {id:'sa-1',title:'Co-Scholastic Assessment',content:`
+      <p class="reg-text">In addition to academic assessment, the Board prescribes evaluation of co-scholastic areas including:</p>
+      <ul class="reg-list">
+        <li>Sports and physical education activities</li>
+        <li>Visual and performing arts</li>
+        <li>Attitude and values</li>
+        <li>Work education</li>
+      </ul>
+      <p class="reg-text">Co-scholastic areas are assessed by the school on a grading scale and reported on the Cumulative Record/Progress Report. These grades do not contribute to the aggregate marks but are reflected on the Report Card.</p>
+    `}
+  ]
+},
+{
+  id:'teachers',num:32,title:'Teacher Qualification Norms',
+  sections:[
+    {id:'tq-1',title:'Minimum Teacher Qualifications',content:`
+      <p class="reg-text">Schools affiliated to the Board must employ teachers who fulfill the following minimum qualification requirements:</p>
+      <table class="reg-table">
+        <tr><th>Level</th><th>Minimum Qualification</th><th>Required Training</th></tr>
+        <tr><td>Secondary (Classes 9–10)</td><td>Graduate in relevant subject</td><td>B.Ed. or equivalent</td></tr>
+        <tr><td>Higher Secondary (Classes 11–12)</td><td>Post-Graduate in relevant subject</td><td>B.Ed. or equivalent</td></tr>
+        <tr><td>Physical Education</td><td>Graduate with Physical Education</td><td>BPES or equivalent</td></tr>
+        <tr><td>Computer Science</td><td>Graduate in Computer Science/IT</td><td>As prescribed by Board</td></tr>
+      </table>
+    `}
+  ]
+},
+{
+  id:'infrastructure',num:33,title:'Infrastructure Standards',
+  sections:[
+    {id:'infra-1',title:'Minimum Infrastructure Requirements',content:`
+      <p class="reg-text">All affiliated schools must maintain the following minimum infrastructure:</p>
+      <ol class="reg-list">
+        <li><strong>Building:</strong> Pucca (permanent) construction with adequate ventilation and lighting in each classroom.</li>
+        <li><strong>Toilets:</strong> Separate toilet facilities for boys and girls with running water.</li>
+        <li><strong>Safe Drinking Water:</strong> Provision of safe drinking water within school premises.</li>
+        <li><strong>Barrier-Free Access:</strong> Ramps and other facilities for differently-abled students as required.</li>
+        <li><strong>Fire Safety:</strong> Fire extinguishers and fire safety equipment as required by applicable norms.</li>
+        <li><strong>First Aid:</strong> First aid box and a designated space for health emergencies.</li>
+      </ol>
+    `}
+  ]
+},
+{
+  id:'curriculum',num:34,title:'Curriculum Framework',
+  sections:[
+    {id:'cf-1',title:'Curriculum and Syllabus Revision',content:`
+      <p class="reg-text">The Board periodically revises the curriculum and syllabus in consultation with subject experts, educationists, and in alignment with national curriculum frameworks. The revision process involves:</p>
+      <ol class="reg-list">
+        <li>Constitution of Subject Committees comprising experienced teachers and subject experts.</li>
+        <li>Review of existing syllabus for relevance, difficulty level, and alignment with learning outcomes.</li>
+        <li>Incorporation of new developments in the subject field.</li>
+        <li>Alignment with NCERT curriculum framework where applicable.</li>
+        <li>Piloting of revised curriculum in select schools before full implementation.</li>
+        <li>Publication of revised syllabus with a notice period of at least one academic session.</li>
+      </ol>
+    `}
+  ]
+},
+{
+  id:'textbooks',num:35,title:'Textbooks & Study Material',
+  sections:[
+    {id:'tb-1',title:'Prescribed Textbooks',content:`
+      <p class="reg-text">The Board prescribes textbooks for all subjects at Secondary and Higher Secondary levels. The following provisions apply:</p>
+      <ol class="reg-list">
+        <li>All affiliated schools must use only Board-prescribed or Board-approved textbooks.</li>
+        <li>No school shall prescribe or recommend additional textbooks, guides, or materials for purchase by students without prior approval of the Board.</li>
+        <li>Textbooks are published by JKBOSE in collaboration with SCERT (State Council of Educational Research and Training) and NCERT.</li>
+        <li>Schools must display the list of prescribed books on their notice boards at the beginning of each academic session.</li>
+      </ol>
+    `}
+  ]
+},
+{
+  id:'inspection',num:36,title:'School Inspection Framework',
+  sections:[
+    {id:'ins-1',title:'Annual School Inspection',content:`
+      <p class="reg-text">All affiliated schools are subject to annual inspection by officers/teams deputed by the Board. Inspections may be announced or unannounced. The inspection team shall verify:</p>
+      <ol class="reg-list">
+        <li>Physical infrastructure and maintenance of school premises.</li>
+        <li>Availability of qualified teaching staff as per prescribed norms.</li>
+        <li>Maintenance of attendance registers, admission records, and academic records.</li>
+        <li>Proper conduct of Internal Assessment and maintenance of records.</li>
+        <li>Compliance with Board's regulations and directives.</li>
+        <li>Financial records and management practices.</li>
+      </ol>
+      <div class="highlight-box"><p>Non-compliance with inspection requirements or obstruction of inspection process shall be treated as a serious violation and may result in cancellation of affiliation.</p></div>
+    `}
+  ]
+},
+{
+  id:'minority',num:37,title:'Minority & Private School Provisions',
+  sections:[
+    {id:'mn-1',title:'Provisions for Minority Institutions',content:`
+      <p class="reg-text">Minority institutions (linguistic and religious) affiliated to the Board shall be governed by all regulations of the Board while retaining their right to manage their institutions as per the applicable constitutional provisions. The following specific provisions apply:</p>
+      <ol class="reg-list">
+        <li>Minority institutions may teach their respective minority language as an additional subject without prejudice to the prescribed scheme of studies.</li>
+        <li>Compliance with Board's examination regulations, affiliation norms, and academic requirements is mandatory for all minority institutions.</li>
+        <li>Teachers employed in minority institutions must also fulfill the minimum qualification norms prescribed by the Board.</li>
+      </ol>
+    `}
+  ]
+},
+{
+  id:'continuous',num:38,title:'Continuous & Comprehensive Evaluation',
+  sections:[
+    {id:'cce-1',title:'Continuous & Comprehensive Evaluation (CCE)',content:`
+      <p class="reg-text">The Board has adopted the Continuous and Comprehensive Evaluation (CCE) framework for classes up to Class 8th (pre-Board classes). The key features of CCE are:</p>
+      <ul class="reg-list">
+        <li>Formative Assessment: Continuous assessment through quizzes, oral questions, assignments, projects, class tests.</li>
+        <li>Summative Assessment: Terminal examinations at the end of each term.</li>
+        <li>Co-scholastic Assessment: Evaluation of life skills, attitudes, values, and participation in co-curricular activities.</li>
+        <li>Health and Physical Education: Assessment of physical fitness and health parameters.</li>
+      </ul>
+      <div class="diagram-wrap">
+        <div class="diagram-title">INTERNAL vs EXTERNAL ASSESSMENT MODEL</div>
+        <svg viewBox="0 0 500 220" xmlns="http://www.w3.org/2000/svg" style="max-width:460px;width:100%;">
+          <rect x="20" y="20" width="200" height="180" rx="10" fill="#0a1628" stroke="#e8851a" stroke-width="1.5"/>
+          <text x="120" y="48" text-anchor="middle" fill="#e8851a" font-size="11" font-weight="bold" font-family="Playfair Display">INTERNAL</text>
+          <text x="120" y="62" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="9" font-family="DM Sans">Conducted by School</text>
+          <text x="120" y="90" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Unit Tests</text>
+          <text x="120" y="108" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Projects</text>
+          <text x="120" y="126" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Practicals</text>
+          <text x="120" y="144" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Assignments</text>
+          <text x="120" y="180" text-anchor="middle" fill="#c9a227" font-size="12" font-weight="bold" font-family="DM Sans">20 Marks</text>
+          <rect x="280" y="20" width="200" height="180" rx="10" fill="#0f2044" stroke="#c9a227" stroke-width="1.5"/>
+          <text x="380" y="48" text-anchor="middle" fill="#c9a227" font-size="11" font-weight="bold" font-family="Playfair Display">EXTERNAL</text>
+          <text x="380" y="62" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="9" font-family="DM Sans">Conducted by Board</text>
+          <text x="380" y="90" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Annual Examination</text>
+          <text x="380" y="108" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Common Question Paper</text>
+          <text x="380" y="126" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Centralized Evaluation</text>
+          <text x="380" y="144" text-anchor="middle" fill="white" font-size="9" font-family="DM Sans">Standardized Marking</text>
+          <text x="380" y="180" text-anchor="middle" fill="#e8851a" font-size="12" font-weight="bold" font-family="DM Sans">80 Marks</text>
+        </svg>
+      </div>
+    `}
+  ]
+},
+{
+  id:'awards',num:39,title:'Merit Certificates & Awards',
+  sections:[
+    {id:'aw-1',title:'Merit Recognition',content:`
+      <p class="reg-text">The Board recognizes outstanding performance in Board examinations through the following awards and recognition:</p>
+      <ol class="reg-list">
+        <li><strong>Distinction Certificate:</strong> Awarded to candidates scoring 75% and above marks in aggregate.</li>
+        <li><strong>First Division Certificate:</strong> Awarded to candidates scoring 60% to 74% in aggregate.</li>
+        <li><strong>Merit Scholarship:</strong> Top-ranking candidates in Board examinations are recommended for State Merit Scholarship as per Government of J&K norms.</li>
+        <li><strong>Letter of Appreciation:</strong> The Board may issue Letters of Appreciation to candidates securing 1st, 2nd, and 3rd ranks in the Board examination at the UT level.</li>
+      </ol>
+    `}
+  ]
+},
+{
+  id:'amendments',num:40,title:'Amendments & Interpretation',
+  sections:[
+    {id:'am-1',title:'Power to Amend Regulations',content:`
+      <p class="reg-text">The Board reserves the right to amend, modify, or add to these regulations from time to time. The following provisions govern amendments:</p>
+      <ol class="reg-list">
+        <li>Amendments to regulations shall be notified through official circulars/gazette notifications.</li>
+        <li>Amended regulations shall come into effect from the date specified in the notification.</li>
+        <li>In case of any conflict between the regulations and any subsequent circular/notification, the later circular/notification shall prevail.</li>
+        <li>In case of any doubt or ambiguity in the interpretation of any regulation, the decision of the Board shall be final.</li>
+        <li>The Board's decision in all examination-related matters shall be final and binding on all candidates, schools, and stakeholders.</li>
+      </ol>
+      <div class="highlight-box"><p>The Chairperson/Secretary of the Board shall have the authority to issue clarifications and interpretations of these regulations, which shall be binding on all concerned parties.</p></div>
+      <div class="note-box"><strong>Disclaimer</strong><p>This Reader is prepared for academic reference and regulatory awareness purposes. For official and legally binding text, please refer to the official publications and gazette notifications of the Jammu & Kashmir Board of School Education.</p></div>
+    `},
+    {id:'am-2',title:'Contact Information',content:`
+      <p class="reg-text">For any official query or correspondence, candidates and schools may contact:</p>
+      <ul class="reg-list">
+        <li><strong>JKBOSE Jammu (Headquarters):</strong> Rehari Colony, Jammu, J&K</li>
+        <li><strong>JKBOSE Srinagar (Divisional Office):</strong> Bemina, Srinagar, J&K</li>
+        <li><strong>Official Website:</strong> www.jkbose.nic.in</li>
+        <li><strong>Helpline:</strong> As notified by the Board</li>
+      </ul>
+      <div class="highlight-box"><p>This app is compiled by Dr. Mateen Yousuf, Teacher — School Education Department, Jammu & Kashmir, for the benefit of education professionals, school administrators, and examination stakeholders.</p></div>
+    `}
+  ]
+}
+];
+
+// ═══════════════════════════════════════════
+// SEARCH INDEX
+// ═══════════════════════════════════════════
+function buildSearchIndex(){
+  const idx=[];
+  CHAPTERS.forEach(ch=>{
+    ch.sections.forEach(sec=>{
+      const tmp=document.createElement('div');
+      tmp.innerHTML=sec.content;
+      idx.push({chId:ch.id,secId:sec.id,chTitle:ch.title,secTitle:sec.title,text:tmp.textContent});
+    });
+  });
+  return idx;
+}
+
+// ═══════════════════════════════════════════
+// BUILD SIDEBAR
+// ═══════════════════════════════════════════
+function buildSidebar(){
+  const nav=document.getElementById('sidebar-nav');
+  CHAPTERS.forEach(ch=>{
+    const grp=document.createElement('div');
+    grp.className='chapter-group';
+    const btn=document.createElement('button');
+    btn.className='chapter-btn';
+    btn.dataset.id=ch.id;
+    btn.innerHTML=`<span class="chapter-num">${ch.num}</span>${ch.title}<span class="chapter-arrow">›</span>`;
+    btn.onclick=()=>{
+      goToChapter(ch.id);
+      btn.classList.toggle('open');
+      list.classList.toggle('open');
+      // close others
+      document.querySelectorAll('.chapter-btn').forEach(b=>{
+        if(b!==btn){b.classList.remove('open');b.nextElementSibling.classList.remove('open');}
+      });
+    };
+    const list=document.createElement('div');
+    list.className='section-list';
+    ch.sections.forEach(sec=>{
+      const a=document.createElement('a');
+      a.className='section-link';
+      a.href='#'+sec.id;
+      a.textContent=sec.title;
+      a.dataset.secId=sec.id;
+      a.onclick=(e)=>{
+        e.preventDefault();
+        scrollToSection(sec.id);
+        if(window.innerWidth<768) closeSidebar();
+      };
+      list.appendChild(a);
+    });
+    grp.appendChild(btn);
+    grp.appendChild(list);
+    nav.appendChild(grp);
+  });
+}
+
+// ═══════════════════════════════════════════
+// BUILD CONTENT
+// ═══════════════════════════════════════════
+function buildContent(){
+  const container=document.getElementById('chapter-container');
+  CHAPTERS.forEach((ch,ci)=>{
+    const words=ch.sections.reduce((a,s)=>{
+      const tmp=document.createElement('div');tmp.innerHTML=s.content;
+      return a+tmp.textContent.split(/\s+/).length;
+    },0);
+    const mins=Math.max(1,Math.round(words/200));
+
+    const page=document.createElement('div');
+    page.className='chapter-page';
+    page.id='ch-'+ch.id;
+
+    const bmKey='bm-ch-'+ch.id;
+    const isBm=getSaved(bmKey);
+
+    page.innerHTML=`
+      <div class="chapter-header">
+        <span class="chapter-tag">Chapter ${ch.num} of ${CHAPTERS.length}</span>
+        <h2 class="chapter-title">${ch.title}</h2>
+        <div class="chapter-meta">
+          <span class="reading-time">⏱ ${mins} min read</span>
+          <button class="bm-btn ${isBm?'saved':''}" id="bm-${ch.id}" onclick="toggleBookmark('${ch.id}','${ch.title}')">
+            ${isBm?'★ Saved':'☆ Bookmark'}
+          </button>
+        </div>
+      </div>
+    `;
+
+    ch.sections.forEach(sec=>{
+      const sb=document.createElement('div');
+      sb.className='section-block';
+      sb.id=sec.id;
+      sb.innerHTML=`<h3 class="section-title">${sec.title}</h3><div class="sub-section">${sec.content}</div>`;
+      page.appendChild(sb);
+    });
+
+    // Nav
+    const nav=document.createElement('div');
+    nav.className='chapter-nav';
+    if(ci>0){
+      const prev=CHAPTERS[ci-1];
+      nav.innerHTML+=`<button class="nav-btn" onclick="goToChapter('${prev.id}')"><div class="nav-dir">‹ Previous</div><div class="nav-name">${prev.title}</div></button>`;
+    }
+    if(ci<CHAPTERS.length-1){
+      const next=CHAPTERS[ci+1];
+      nav.innerHTML+=`<button class="nav-btn next" onclick="goToChapter('${next.id}')"><div class="nav-dir">Next ›</div><div class="nav-name">${next.title}</div></button>`;
+    }
+    page.appendChild(nav);
+    container.appendChild(page);
+  });
+}
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+let currentChapter=null;
+function goToChapter(id){
+  document.querySelectorAll('.chapter-page').forEach(p=>p.style.display='none');
+  const page=document.getElementById('ch-'+id);
+  if(page){page.style.display='block';}
+  currentChapter=id;
+  // Sidebar highlight
+  document.querySelectorAll('.chapter-btn').forEach(b=>{
+    b.classList.toggle('active',b.dataset.id===id);
+  });
+  window.scrollTo({top:document.getElementById('content').offsetTop-70,behavior:'smooth'});
+}
+
+function scrollToSection(secId){
+  const el=document.getElementById(secId);
+  if(!el)return;
+  // find chapter
+  const page=el.closest('.chapter-page');
+  if(page){
+    const chId=page.id.replace('ch-','');
+    if(chId!==currentChapter) goToChapter(chId);
+  }
+  setTimeout(()=>{
+    el.scrollIntoView({behavior:'smooth',block:'start'});
+  },100);
+}
+
+function enterReader(){
+  document.getElementById('cover').style.display='none';
+  document.getElementById('content').style.display='block';
+  document.getElementById('sidebar').classList.remove('closed');
+  document.getElementById('main').classList.remove('full');
+  if(window.innerWidth<768){
+    document.getElementById('sidebar').classList.remove('open');
+  }
+  goToChapter(CHAPTERS[0].id);
+}
+
+// ═══════════════════════════════════════════
+// MENU TOGGLE
+// ═══════════════════════════════════════════
+function closeSidebar(){
+  const sb=document.getElementById('sidebar');
+  const ov=document.getElementById('overlay');
+  if(window.innerWidth<768){
+    sb.classList.remove('open');
+    ov.classList.remove('visible');
+  } else {
+    sb.classList.toggle('closed');
+    document.getElementById('main').classList.toggle('full');
+  }
+}
+
+document.getElementById('menu-btn').onclick=()=>{
+  const sb=document.getElementById('sidebar');
+  const ov=document.getElementById('overlay');
+  if(window.innerWidth<768){
+    sb.classList.toggle('open');
+    ov.classList.toggle('visible');
+  } else {
+    sb.classList.toggle('closed');
+    document.getElementById('main').classList.toggle('full');
+  }
+};
+document.getElementById('overlay').onclick=closeSidebar;
+
+// ═══════════════════════════════════════════
+// DARK MODE
+// ═══════════════════════════════════════════
+const darkBtn=document.getElementById('dark-btn');
+if(localStorage.getItem('jkbose-dark')==='1') document.body.setAttribute('data-dark','');
+function updateDarkBtn(){
+  const dark=document.body.hasAttribute('data-dark');
+  darkBtn.textContent=dark?'☀️ Light':'🌙 Dark';
+}
+updateDarkBtn();
+darkBtn.onclick=()=>{
+  if(document.body.hasAttribute('data-dark')){
+    document.body.removeAttribute('data-dark');
+    localStorage.setItem('jkbose-dark','0');
+  } else {
+    document.body.setAttribute('data-dark','');
+    localStorage.setItem('jkbose-dark','1');
+  }
+  updateDarkBtn();
+};
+
+// ═══════════════════════════════════════════
+// PROGRESS BAR
+// ═══════════════════════════════════════════
+window.addEventListener('scroll',()=>{
+  const st=window.scrollY;
+  const dh=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('progress-bar').style.width=(dh>0?st/dh*100:0)+'%';
+});
+
+// ═══════════════════════════════════════════
+// BOOKMARKS
+// ═══════════════════════════════════════════
+function getSaved(k){return localStorage.getItem(k)==='1';}
+function setSaved(k,v){localStorage.setItem(k,v?'1':'0');}
+
+function toggleBookmark(chId,title){
+  const k='bm-ch-'+chId;
+  const current=getSaved(k);
+  setSaved(k,!current);
+  const btn=document.getElementById('bm-'+chId);
+  if(btn){
+    btn.textContent=!current?'★ Saved':'☆ Bookmark';
+    btn.classList.toggle('saved',!current);
+  }
+  renderBookmarks();
+}
+
+function renderBookmarks(){
+  const list=document.getElementById('bm-list');
+  const items=CHAPTERS.filter(ch=>getSaved('bm-ch-'+ch.id));
+  if(items.length===0){
+    list.innerHTML='<p style="color:rgba(255,255,255,.3);font-size:.82rem;text-align:center;margin-top:2rem;">No bookmarks yet.</p>';
+    return;
+  }
+  list.innerHTML=items.map(ch=>`
+    <div style="padding:.6rem .4rem;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;" onclick="goToChapter('${ch.id}');document.getElementById('bm-panel').classList.remove('open');">
+      <div style="font-size:.82rem;color:rgba(255,255,255,.8);">${ch.title}</div>
+      <div style="font-size:.72rem;color:var(--saffron);">Chapter ${ch.num}</div>
+    </div>
+  `).join('');
+}
+
+document.getElementById('bm-toggle').onclick=()=>{
+  renderBookmarks();
+  document.getElementById('bm-panel').classList.toggle('open');
+};
+
+// ═══════════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════════
+let searchIdx=null;
+const searchInput=document.getElementById('search-input');
+const searchResults=document.getElementById('search-results');
+
+searchInput.addEventListener('input',()=>{
+  const q=searchInput.value.trim().toLowerCase();
+  if(q.length<2){searchResults.classList.remove('visible');return;}
+  if(!searchIdx) searchIdx=buildSearchIndex();
+  const results=searchIdx.filter(item=>
+    item.text.toLowerCase().includes(q)||
+    item.secTitle.toLowerCase().includes(q)||
+    item.chTitle.toLowerCase().includes(q)
+  ).slice(0,8);
+  if(results.length===0){
+    searchResults.innerHTML='<div class="sr-empty">No results found</div>';
+  } else {
+    searchResults.innerHTML=results.map(r=>`
+      <div class="search-result-item" onclick="goSearchResult('${r.chId}','${r.secId}')">
+        <div class="sr-title">${r.secTitle}</div>
+        <div class="sr-snippet">${r.chTitle}</div>
+      </div>
+    `).join('');
+  }
+  searchResults.classList.add('visible');
+});
+
+function goSearchResult(chId,secId){
+  searchResults.classList.remove('visible');
+  searchInput.value='';
+  document.getElementById('cover').style.display='none';
+  document.getElementById('content').style.display='block';
+  document.getElementById('sidebar').classList.remove('closed');
+  document.getElementById('main').classList.remove('full');
+  scrollToSection(secId);
+  if(window.innerWidth<768) closeSidebar();
+}
+
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#search-wrap') && !e.target.closest('#search-results')){
+    searchResults.classList.remove('visible');
+  }
+});
+
+// ═══════════════════════════════════════════
+// SCROLL SPY
+// ═══════════════════════════════════════════
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      document.querySelectorAll('.section-link').forEach(l=>{
+        l.classList.toggle('active',l.dataset.secId===id);
+      });
+    }
+  });
+},{threshold:0.3,rootMargin:'-80px 0px -60% 0px'});
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+buildSidebar();
+buildContent();
+
+// Show only first chapter initially, hide rest
+document.querySelectorAll('.chapter-page').forEach(p=>p.style.display='none');
+
+// Observe sections after build
+setTimeout(()=>{
+  document.querySelectorAll('.section-block').forEach(el=>observer.observe(el));
+},500);
+
+// PWA Service Worker
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>

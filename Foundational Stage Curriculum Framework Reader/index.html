@@ -1,0 +1,2147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#E8825A">
+<meta name="description" content="Foundational Stage (3–8 Years) Official Curriculum Framework Reader – NEP 2020 | NCF-FS 2022 | NIPUN Bharat | NCF 2023">
+<title>Foundational Stage (3–8 Years) Curriculum Framework Reader</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="mateen.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ========================
+   CSS VARIABLES & RESET
+======================== */
+:root {
+  --peach: #E8825A;
+  --peach-light: #F5C4A8;
+  --peach-pale: #FEF0E7;
+  --yellow: #F7E9C3;
+  --yellow-mid: #F0D580;
+  --green: #7AB87A;
+  --green-light: #D4EDDA;
+  --green-dark: #2D6A4F;
+  --blue: #5B8DB8;
+  --blue-light: #D6E8F5;
+  --blue-dark: #1A4971;
+  --brown: #7B4F2E;
+  --cream: #FFFCF5;
+  --text: #2C1810;
+  --text-mid: #5C3D2E;
+  --text-soft: #8B6B5A;
+  --border: #E8D5C4;
+  --shadow: rgba(139, 90, 60, 0.15);
+  --sidebar-w: 300px;
+  --header-h: 60px;
+  --progress-h: 4px;
+  --radius: 10px;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-body: 'Lora', Georgia, serif;
+  --font-ui: 'Source Sans 3', sans-serif;
+}
+
+[data-theme="dark"] {
+  --cream: #1A1208;
+  --peach-pale: #2A1A10;
+  --yellow: #221A08;
+  --green-light: #0D2218;
+  --blue-light: #0A1820;
+  --text: #F5E8D8;
+  --text-mid: #D4B89A;
+  --text-soft: #A08070;
+  --border: #3A2A1E;
+  --shadow: rgba(0,0,0,0.4);
+  --peach: #D4713E;
+  --green: #5A9A5A;
+  --blue: #4A78A0;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.75;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ========================
+   PROGRESS BAR
+======================== */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: var(--progress-h);
+  width: 0%;
+  background: linear-gradient(90deg, var(--peach), var(--yellow-mid), var(--green));
+  z-index: 1000;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 8px var(--peach);
+}
+
+/* ========================
+   TOP HEADER
+======================== */
+#top-header {
+  position: fixed;
+  top: var(--progress-h);
+  left: 0; right: 0;
+  height: var(--header-h);
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.2rem;
+  z-index: 900;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+
+#top-header .brand {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--peach);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50%;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text-mid);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s;
+  font-family: var(--font-ui);
+}
+
+.icon-btn:hover {
+  background: var(--peach-pale);
+  border-color: var(--peach);
+  color: var(--peach);
+}
+
+#menu-toggle {
+  display: none;
+  font-size: 1.3rem;
+}
+
+/* ========================
+   LAYOUT
+======================== */
+#app {
+  display: flex;
+  margin-top: calc(var(--header-h) + var(--progress-h));
+  min-height: calc(100vh - var(--header-h) - var(--progress-h));
+}
+
+/* ========================
+   SIDEBAR
+======================== */
+#sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--peach-pale);
+  border-right: 1px solid var(--border);
+  height: calc(100vh - var(--header-h) - var(--progress-h));
+  position: sticky;
+  top: calc(var(--header-h) + var(--progress-h));
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1rem 0;
+  transition: transform 0.3s ease;
+  z-index: 800;
+}
+
+#sidebar::-webkit-scrollbar { width: 4px; }
+#sidebar::-webkit-scrollbar-track { background: transparent; }
+#sidebar::-webkit-scrollbar-thumb { background: var(--peach-light); border-radius: 2px; }
+
+.sidebar-search {
+  padding: 0 1rem 0.8rem;
+}
+
+.sidebar-search input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--cream);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.sidebar-search input:focus {
+  border-color: var(--peach);
+}
+
+.sidebar-section {
+  margin-bottom: 0.3rem;
+}
+
+.sidebar-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 6px;
+  margin: 0 0.5rem;
+  transition: background 0.2s;
+  user-select: none;
+}
+
+.sidebar-section-header:hover {
+  background: var(--border);
+}
+
+.sidebar-section-header .badge {
+  padding: 0.1rem 0.45rem;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.nep { color: #C0392B; }
+.nep .badge { background: #FADBD8; color: #C0392B; }
+.ncffs { color: var(--green-dark); }
+.ncffs .badge { background: var(--green-light); color: var(--green-dark); }
+.nipun { color: var(--blue-dark); }
+.nipun .badge { background: var(--blue-light); color: var(--blue-dark); }
+.ncf23 { color: #6C3483; }
+.ncf23 .badge { background: #E8DAEF; color: #6C3483; }
+
+.sidebar-items {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease;
+}
+
+.sidebar-items.open {
+  max-height: 1000px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem 0.4rem 1.5rem;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--text-mid);
+  border-left: 2px solid transparent;
+  transition: all 0.2s;
+  line-height: 1.3;
+}
+
+.sidebar-item:hover {
+  color: var(--text);
+  background: var(--yellow);
+  border-left-color: var(--peach);
+}
+
+.sidebar-item.active {
+  color: var(--peach);
+  background: var(--peach-pale);
+  border-left-color: var(--peach);
+  font-weight: 600;
+}
+
+.sidebar-item .num {
+  font-size: 0.7rem;
+  color: var(--text-soft);
+  min-width: 1.4rem;
+}
+
+/* ========================
+   MAIN CONTENT
+======================== */
+#main {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+}
+
+/* ========================
+   TITLE PAGE
+======================== */
+#title-page {
+  background: linear-gradient(160deg, #FFF0E0 0%, #FFF8E8 40%, #FAFFF5 100%);
+  padding: 4rem 3rem 5rem;
+  text-align: center;
+  border-bottom: 3px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+#title-page::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(232,130,90,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+#title-page::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: -60px;
+  width: 240px; height: 240px;
+  background: radial-gradient(circle, rgba(122,184,122,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.title-emblem {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.title-main {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: var(--peach);
+  line-height: 1.2;
+  margin-bottom: 0.3rem;
+}
+
+.title-years {
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: var(--text-mid);
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+.title-divider {
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--peach), var(--yellow-mid), var(--green), transparent);
+  margin: 0 auto 1.5rem;
+  border-radius: 2px;
+}
+
+.title-sub {
+  font-family: var(--font-serif);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.source-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem 0 2.5rem;
+}
+
+.src-badge {
+  padding: 0.3rem 0.9rem;
+  border-radius: 20px;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.src-nep { background: #FADBD8; color: #C0392B; border: 1px solid #F5B7B1; }
+.src-ncffs { background: var(--green-light); color: var(--green-dark); border: 1px solid #A9DFBF; }
+.src-nipun { background: var(--blue-light); color: var(--blue-dark); border: 1px solid #AED6F1; }
+.src-ncf23 { background: #E8DAEF; color: #6C3483; border: 1px solid #D2B4DE; }
+
+.author-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.author-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  border: 3px solid var(--peach);
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+.author-photo-placeholder {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--peach), var(--yellow-mid));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  border: 3px solid var(--peach);
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+.author-name {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.author-role {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+
+/* ========================
+   CONTENT SECTIONS
+======================== */
+.content-section {
+  padding: 2.5rem 3rem;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: calc(var(--header-h) + var(--progress-h) + 1rem);
+}
+
+.content-section:last-child {
+  border-bottom: none;
+}
+
+.section-part-header {
+  background: linear-gradient(135deg, var(--peach) 0%, #C8603A 100%);
+  color: white;
+  padding: 1.5rem 3rem;
+  text-align: center;
+  position: relative;
+}
+
+.section-part-header.ncffs-header {
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+}
+
+.section-part-header.nipun-header {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+}
+
+.section-part-header.ncf23-header {
+  background: linear-gradient(135deg, #9B59B6 0%, #6C3483 100%);
+}
+
+.part-label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: 0.3rem;
+}
+
+.part-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 3vw, 1.9rem);
+  font-weight: 700;
+}
+
+.source-ribbon {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.2rem 0.8rem;
+  background: rgba(255,255,255,0.2);
+  border-radius: 20px;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Section content styles */
+.section-number {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.section-number.nep-num { color: #C0392B; }
+.section-number.ncffs-num { color: var(--green-dark); }
+.section-number.nipun-num { color: var(--blue-dark); }
+.section-number.ncf23-num { color: #6C3483; }
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 700;
+  color: var(--peach);
+  line-height: 1.25;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.section-title.green-title { color: var(--green-dark); border-color: var(--green-light); }
+.section-title.blue-title { color: var(--blue-dark); border-color: var(--blue-light); }
+.section-title.purple-title { color: #6C3483; border-color: #E8DAEF; }
+
+.source-doc-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  float: right;
+}
+
+.tag-nep { background: #FADBD8; color: #C0392B; }
+.tag-ncffs { background: var(--green-light); color: var(--green-dark); }
+.tag-nipun { background: var(--blue-light); color: var(--blue-dark); }
+.tag-ncf23 { background: #E8DAEF; color: #6C3483; }
+
+.content-text {
+  font-size: 0.97rem;
+  line-height: 1.9;
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+.content-text p { margin-bottom: 1rem; }
+.content-text p:last-child { margin-bottom: 0; }
+
+.highlight-box {
+  padding: 1.2rem 1.5rem;
+  border-radius: var(--radius);
+  margin: 1.2rem 0;
+  border-left: 4px solid;
+  font-size: 0.94rem;
+}
+
+.highlight-box.green {
+  background: var(--green-light);
+  border-color: var(--green);
+  color: var(--green-dark);
+}
+
+.highlight-box.yellow {
+  background: var(--yellow);
+  border-color: var(--yellow-mid);
+  color: #5A4A00;
+}
+
+.highlight-box.blue {
+  background: var(--blue-light);
+  border-color: var(--blue);
+  color: var(--blue-dark);
+}
+
+.highlight-box.peach {
+  background: var(--peach-pale);
+  border-color: var(--peach);
+  color: var(--brown);
+}
+
+.highlight-box.purple {
+  background: #F5EEF8;
+  border-color: #9B59B6;
+  color: #5B2C6F;
+}
+
+.highlight-box strong {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+
+.content-list {
+  margin: 0.8rem 0 0.8rem 1rem;
+  padding-left: 1rem;
+}
+
+.content-list li {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.content-list li::marker {
+  color: var(--peach);
+}
+
+.green-list li::marker { color: var(--green-dark); }
+.blue-list li::marker { color: var(--blue-dark); }
+.purple-list li::marker { color: #9B59B6; }
+
+.ol-list {
+  margin: 0.8rem 0 0.8rem 0.5rem;
+  padding-left: 1.2rem;
+}
+
+.ol-list li {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  padding-left: 0.3rem;
+}
+
+.subsection-title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 1.5rem 0 0.6rem;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+}
+
+.data-table th {
+  background: var(--peach);
+  color: white;
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.data-table td {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.data-table tr:nth-child(even) td {
+  background: var(--peach-pale);
+}
+
+.green-table th { background: var(--green-dark); }
+.green-table tr:nth-child(even) td { background: var(--green-light); }
+.blue-table th { background: var(--blue-dark); }
+.blue-table tr:nth-child(even) td { background: var(--blue-light); }
+
+/* ========================
+   SVG DIAGRAMS
+======================== */
+.diagram-container {
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.diagram-title {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-mid);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* ========================
+   BOOKMARK BUTTON
+======================== */
+.bookmark-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.bookmark-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--text-soft);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-ui);
+  transition: all 0.2s;
+}
+
+.bookmark-btn:hover, .bookmark-btn.saved {
+  background: var(--yellow);
+  border-color: var(--yellow-mid);
+  color: #8B6A00;
+}
+
+/* ========================
+   READING TIME
+======================== */
+.reading-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--text-soft);
+}
+
+/* ========================
+   RESPONSIVE
+======================== */
+@media (max-width: 768px) {
+  #menu-toggle { display: flex; }
+
+  #sidebar {
+    position: fixed;
+    top: calc(var(--header-h) + var(--progress-h));
+    left: 0;
+    height: calc(100vh - var(--header-h) - var(--progress-h));
+    transform: translateX(-100%);
+    box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+  }
+
+  #sidebar.open {
+    transform: translateX(0);
+  }
+
+  .content-section { padding: 2rem 1.2rem; }
+  .section-part-header { padding: 1.2rem 1.2rem; }
+  #title-page { padding: 2.5rem 1.5rem 3.5rem; }
+}
+
+/* ========================
+   PRINT STYLES
+======================== */
+@media print {
+  #top-header, #sidebar, #progress-bar { display: none !important; }
+  #main { margin: 0; }
+  .content-section { break-inside: avoid; }
+}
+
+/* ========================
+   OVERLAY
+======================== */
+#overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 700;
+}
+
+#overlay.active { display: block; }
+
+/* ========================
+   BOOKMARKS PANEL
+======================== */
+#bookmarks-panel {
+  display: none;
+  position: fixed;
+  top: calc(var(--header-h) + var(--progress-h));
+  right: 0;
+  width: 280px;
+  height: calc(100vh - var(--header-h) - var(--progress-h));
+  background: var(--cream);
+  border-left: 1px solid var(--border);
+  padding: 1rem;
+  overflow-y: auto;
+  z-index: 850;
+  box-shadow: -4px 0 20px var(--shadow);
+}
+
+#bookmarks-panel.open { display: block; }
+
+#bookmarks-panel h3 {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--peach);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.bookmark-entry {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--text-mid);
+  transition: color 0.2s;
+}
+
+.bookmark-entry:hover { color: var(--peach); }
+
+/* ========================
+   SEARCH RESULTS OVERLAY
+======================== */
+#search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 0 0 8px 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  display: none;
+  z-index: 950;
+  box-shadow: 0 8px 20px var(--shadow);
+}
+
+#search-results.visible { display: block; }
+
+.search-result-item {
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.83rem;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.search-result-item:hover { background: var(--yellow); }
+.search-result-item .result-title { font-weight: 600; color: var(--text); }
+.search-result-item .result-source { font-size: 0.72rem; color: var(--text-soft); margin-top: 0.1rem; }
+
+.search-wrapper {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-wrapper input {
+  width: 100%;
+  padding: 0.4rem 0.8rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  background: var(--cream);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-wrapper input:focus { border-color: var(--peach); }
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="progress-bar"></div>
+
+<!-- Top Header -->
+<header id="top-header">
+  <div class="brand">📖 Foundational Stage Curriculum Reader</div>
+  <div class="header-controls">
+    <div class="search-wrapper">
+      <input type="text" id="global-search" placeholder="🔍 Search sections..." autocomplete="off">
+      <div id="search-results"></div>
+    </div>
+    <button class="icon-btn" id="bookmark-toggle" title="Bookmarks">🔖</button>
+    <button class="icon-btn" id="dark-toggle" title="Dark Mode">🌙</button>
+    <button class="icon-btn" onclick="window.print()" title="Print">🖨️</button>
+    <button class="icon-btn" id="menu-toggle" title="Menu">☰</button>
+  </div>
+</header>
+
+<!-- Overlay -->
+<div id="overlay"></div>
+
+<!-- Bookmarks Panel -->
+<div id="bookmarks-panel">
+  <h3>🔖 Bookmarked Sections</h3>
+  <div id="bookmarks-list"><em style="color:var(--text-soft);font-size:0.85rem;">No bookmarks yet. Click the bookmark icon on any section.</em></div>
+</div>
+
+<!-- Main App -->
+<div id="app">
+
+<!-- Sidebar -->
+<nav id="sidebar">
+  <div class="sidebar-search">
+    <input type="text" id="sidebar-filter" placeholder="Filter sections...">
+  </div>
+
+  <!-- Section I: NEP 2020 -->
+  <div class="sidebar-section">
+    <div class="sidebar-section-header nep" onclick="toggleSidebarSection(this)">
+      <span>📕 Section I — NEP 2020</span>
+      <span class="badge">8</span>
+    </div>
+    <div class="sidebar-items open" id="sec1-items">
+      <div class="sidebar-item" onclick="scrollToSection('s1')"><span class="num">1.</span> ECCE Vision</div>
+      <div class="sidebar-item" onclick="scrollToSection('s2')"><span class="num">2.</span> Foundational Stage Structure</div>
+      <div class="sidebar-item" onclick="scrollToSection('s3')"><span class="num">3.</span> School Readiness</div>
+      <div class="sidebar-item" onclick="scrollToSection('s4')"><span class="num">4.</span> Play-Based Learning</div>
+      <div class="sidebar-item" onclick="scrollToSection('s5')"><span class="num">5.</span> Foundational Literacy & Numeracy</div>
+      <div class="sidebar-item" onclick="scrollToSection('s6')"><span class="num">6.</span> Holistic Development</div>
+      <div class="sidebar-item" onclick="scrollToSection('s7')"><span class="num">7.</span> Anganwadi Integration</div>
+      <div class="sidebar-item" onclick="scrollToSection('s8')"><span class="num">8.</span> Teacher Preparation for ECCE</div>
+    </div>
+  </div>
+
+  <!-- Section II: NCF-FS 2022 -->
+  <div class="sidebar-section">
+    <div class="sidebar-section-header ncffs" onclick="toggleSidebarSection(this)">
+      <span>📗 Section II — NCF-FS 2022</span>
+      <span class="badge">8</span>
+    </div>
+    <div class="sidebar-items open" id="sec2-items">
+      <div class="sidebar-item" onclick="scrollToSection('s9')"><span class="num">9.</span> Foundational Stage Philosophy</div>
+      <div class="sidebar-item" onclick="scrollToSection('s10')"><span class="num">10.</span> Developmental Domains</div>
+      <div class="sidebar-item" onclick="scrollToSection('s11')"><span class="num">11.</span> Play-Based Pedagogy</div>
+      <div class="sidebar-item" onclick="scrollToSection('s12')"><span class="num">12.</span> Learning Through Discovery</div>
+      <div class="sidebar-item" onclick="scrollToSection('s13')"><span class="num">13.</span> Balvatika Framework</div>
+      <div class="sidebar-item" onclick="scrollToSection('s14')"><span class="num">14.</span> Competency Benchmarks</div>
+      <div class="sidebar-item" onclick="scrollToSection('s15')"><span class="num">15.</span> Language Development</div>
+      <div class="sidebar-item" onclick="scrollToSection('s16')"><span class="num">16.</span> Early Numeracy Framework</div>
+    </div>
+  </div>
+
+  <!-- Section III: NIPUN Bharat -->
+  <div class="sidebar-section">
+    <div class="sidebar-section-header nipun" onclick="toggleSidebarSection(this)">
+      <span>📘 Section III — NIPUN Bharat</span>
+      <span class="badge">6</span>
+    </div>
+    <div class="sidebar-items open" id="sec3-items">
+      <div class="sidebar-item" onclick="scrollToSection('s17')"><span class="num">17.</span> FLN Goals by Grade 3</div>
+      <div class="sidebar-item" onclick="scrollToSection('s18')"><span class="num">18.</span> Literacy Benchmarks</div>
+      <div class="sidebar-item" onclick="scrollToSection('s19')"><span class="num">19.</span> Numeracy Benchmarks</div>
+      <div class="sidebar-item" onclick="scrollToSection('s20')"><span class="num">20.</span> Assessment Guidelines</div>
+      <div class="sidebar-item" onclick="scrollToSection('s21')"><span class="num">21.</span> Remedial Support</div>
+      <div class="sidebar-item" onclick="scrollToSection('s22')"><span class="num">22.</span> Monitoring Mechanisms</div>
+    </div>
+  </div>
+
+  <!-- Section IV: NCF 2023 -->
+  <div class="sidebar-section">
+    <div class="sidebar-section-header ncf23" onclick="toggleSidebarSection(this)">
+      <span>📙 Section IV — NCF 2023</span>
+      <span class="badge">9</span>
+    </div>
+    <div class="sidebar-items open" id="sec4-items">
+      <div class="sidebar-item" onclick="scrollToSection('s23')"><span class="num">23.</span> Stage-Wise Learning Standards</div>
+      <div class="sidebar-item" onclick="scrollToSection('s24')"><span class="num">24.</span> Multilingual Foundation</div>
+      <div class="sidebar-item" onclick="scrollToSection('s25')"><span class="num">25.</span> Experiential Approach</div>
+      <div class="sidebar-item" onclick="scrollToSection('s26')"><span class="num">26.</span> Inclusive Early Childhood Education</div>
+      <div class="sidebar-item" onclick="scrollToSection('s27')"><span class="num">27.</span> Holistic Progress Card</div>
+      <div class="sidebar-item" onclick="scrollToSection('s28')"><span class="num">28.</span> Role of the Teacher</div>
+      <div class="sidebar-item" onclick="scrollToSection('s29')"><span class="num">29.</span> Family & Community Engagement</div>
+      <div class="sidebar-item" onclick="scrollToSection('s30')"><span class="num">30.</span> Curriculum Planning at School Level</div>
+      <div class="sidebar-item" onclick="scrollToSection('s31')"><span class="num">31.</span> Learning Environment Design</div>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main id="main">
+
+<!-- ==================== TITLE PAGE ==================== -->
+<div id="title-page">
+  <div class="title-emblem">🏛️</div>
+  <h1 class="title-main">Foundational Stage</h1>
+  <div class="title-years">(3–8 Years)</div>
+  <div class="title-divider"></div>
+  <div class="title-sub">Official Curriculum Framework Reader</div>
+  <div class="source-badges">
+    <span class="src-badge src-nep">NEP 2020</span>
+    <span class="src-badge src-ncffs">NCF-FS 2022</span>
+    <span class="src-badge src-nipun">NIPUN Bharat</span>
+    <span class="src-badge src-ncf23">NCF 2023</span>
+  </div>
+
+  <!-- 5+3+3+4 Structure Diagram -->
+  <div class="diagram-container" style="max-width:600px;margin:2rem auto;">
+    <div class="diagram-title">India's New School Structure under NEP 2020</div>
+    <svg viewBox="0 0 560 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+      <defs>
+        <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#E8825A"/>
+          <stop offset="100%" style="stop-color:#F5A87E"/>
+        </linearGradient>
+        <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#7AB87A"/>
+          <stop offset="100%" style="stop-color:#A0D4A0"/>
+        </linearGradient>
+        <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#5B8DB8"/>
+          <stop offset="100%" style="stop-color:#85B0D4"/>
+        </linearGradient>
+        <linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#9B59B6"/>
+          <stop offset="100%" style="stop-color:#BF80D8"/>
+        </linearGradient>
+      </defs>
+      <!-- Foundational -->
+      <rect x="5" y="25" width="118" height="60" rx="8" fill="url(#g1)"/>
+      <text x="64" y="48" text-anchor="middle" font-family="Playfair Display,serif" font-size="11" fill="white" font-weight="700">Foundational</text>
+      <text x="64" y="63" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="rgba(255,255,255,0.9)">Pre-school + Gr.1–2</text>
+      <text x="64" y="77" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="14" fill="white" font-weight="800">5 yrs</text>
+      <!-- arrow -->
+      <path d="M126 55 L133 55" stroke="#ccc" stroke-width="2" marker-end="url(#arr)"/>
+      <!-- Preparatory -->
+      <rect x="136" y="25" width="118" height="60" rx="8" fill="url(#g2)"/>
+      <text x="195" y="48" text-anchor="middle" font-family="Playfair Display,serif" font-size="11" fill="white" font-weight="700">Preparatory</text>
+      <text x="195" y="63" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="rgba(255,255,255,0.9)">Grades 3–5</text>
+      <text x="195" y="77" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="14" fill="white" font-weight="800">3 yrs</text>
+      <!-- Middle -->
+      <rect x="267" y="25" width="118" height="60" rx="8" fill="url(#g3)"/>
+      <text x="326" y="48" text-anchor="middle" font-family="Playfair Display,serif" font-size="11" fill="white" font-weight="700">Middle</text>
+      <text x="326" y="63" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="rgba(255,255,255,0.9)">Grades 6–8</text>
+      <text x="326" y="77" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="14" fill="white" font-weight="800">3 yrs</text>
+      <!-- Secondary -->
+      <rect x="398" y="25" width="155" height="60" rx="8" fill="url(#g4)"/>
+      <text x="475" y="48" text-anchor="middle" font-family="Playfair Display,serif" font-size="11" fill="white" font-weight="700">Secondary</text>
+      <text x="475" y="63" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="rgba(255,255,255,0.9)">Grades 9–12</text>
+      <text x="475" y="77" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="14" fill="white" font-weight="800">4 yrs</text>
+      <!-- Labels top -->
+      <text x="64" y="16" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="#E8825A" font-weight="700">★ FOCUS</text>
+    </svg>
+  </div>
+
+  <div class="author-section">
+    <img src="mateen.jpg" alt="Dr. Mateen Yousuf" class="author-photo" onerror="this.style.display='none';document.getElementById('author-fallback').style.display='flex'">
+    <div class="author-photo-placeholder" id="author-fallback" style="display:none">👨‍🏫</div>
+    <div>
+      <div class="author-name">Dr. Mateen Yousuf</div>
+      <div class="author-role">Teacher – School Education Department<br>Jammu & Kashmir</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION I HEADER ==================== -->
+<div class="section-part-header">
+  <div class="part-label">Section I</div>
+  <div class="part-title">NEP 2020 — Early Childhood Care & Education</div>
+  <span class="source-ribbon">National Education Policy 2020 | Ministry of Education, Government of India</span>
+</div>
+
+<!-- S1: ECCE Vision -->
+<div class="content-section" id="s1">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-nep">📕 NEP 2020</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s1', 'Early Childhood Care & Education Vision')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number nep-num">Section I · Chapter 1</div>
+  <h2 class="section-title">1. Early Childhood Care & Education Vision</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📕 NEP 2020</span></div>
+  <div class="content-text">
+    <div class="highlight-box peach">
+      <strong>NEP 2020 Vision Statement</strong>
+      The highest priority of the education system will be to achieve universal foundational literacy and numeracy in primary school by 2025. The rest of this Policy, including all the goals and targets, will be largely irrelevant if this most basic learning goal is not achieved.
+    </div>
+    <p>Early childhood is the most critical period for the development of children's cognitive, affective, and psychomotor capacities. It is during this period that over 85% of a child's cumulative brain development occurs. High-quality ECCE can therefore positively and significantly affect the outcomes of the schooling system and beyond.</p>
+    <p>The vast majority of children, however, do not have access to quality early childhood education in India. Currently, early childhood education is offered via Anganwadi centres (approximately 1.4 million of them across the country), government and private pre-schools, and government and private primary schools. The Anganwadi system primarily covers children from birth to 6 years of age and has traditionally focused more on providing nutrition and health services rather than high-quality educational content and stimulation.</p>
+    <p>Given the importance of ECCE to India's development, the new education policy gives ECCE the highest priority. The NEP envisions that by 2030, there will be universal access to high-quality ECCE across the country.</p>
+    <div class="highlight-box yellow">
+      <strong>Key NEP 2020 Goal</strong>
+      By 2030, all children in the age group of 3–6 years will have access to high quality and equitable early childhood care and education.
+    </div>
+    <p>A strong curricular and pedagogical framework for early childhood education, developed by NCERT in consultation with relevant ministries and experts, will be adopted. This framework will be built around multidisciplinary play-based, activity-based, and discovery-based learning, which is developmentally appropriate for children in the age range of 3–8 years.</p>
+  </div>
+</div>
+
+<!-- S2: Foundational Stage Structure -->
+<div class="content-section" id="s2">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-nep">📕 NEP 2020</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s2', 'Foundational Stage Structure (5+3+3+4)')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number nep-num">Section I · Chapter 2</div>
+  <h2 class="section-title">2. Foundational Stage Structure (5+3+3+4)</h2>
+  <div class="reading-meta"><span>⏱ ~5 min read</span><span>📕 NEP 2020</span></div>
+  <div class="content-text">
+    <p>The new curricular and pedagogical structure of school education will be based on a 5+3+3+4 design corresponding to the age groups 3–8 years, 8–11 years, 11–14 years, and 14–18 years. This is as opposed to the previous 10+2 structure, which did not include the foundational years from ages 3–6. The most critical years of a child's development are ages 3–8 years.</p>
+    <div class="highlight-box peach">
+      <strong>The Foundational Stage (Ages 3–8)</strong>
+      This stage consists of 5 years, including 3 years of pre-primary school (ages 3–6) which may be done at Anganwadis, pre-schools/Balwadis, or primary schools, followed by 2 years in primary school (ages 6–8) in Grades 1 and 2.
+    </div>
+    <p>The focus at the Foundational Stage will be on activity-based, play-based and discovery-based learning with emphasis on developing language and literacy skills, as well as basic number concepts. Both oral and written learning will be developed. Mathematical thinking, including counting, shapes, spatial understanding, patterns, and measurement, will all be integrated into the learning outcomes at this stage.</p>
+    <table class="data-table" style="margin:1rem 0;">
+      <thead>
+        <tr><th>Stage</th><th>Age Group</th><th>Classes</th><th>Years</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Foundational</strong></td><td>3–8 years</td><td>Pre-school (3 yrs) + Gr. 1–2</td><td>5 years</td></tr>
+        <tr><td>Preparatory</td><td>8–11 years</td><td>Grades 3–5</td><td>3 years</td></tr>
+        <tr><td>Middle</td><td>11–14 years</td><td>Grades 6–8</td><td>3 years</td></tr>
+        <tr><td>Secondary</td><td>14–18 years</td><td>Grades 9–12</td><td>4 years</td></tr>
+      </tbody>
+    </table>
+    <p>The transition from pre-primary to primary needs to be smooth. It is important to note that the Foundational Stage curriculum, pedagogy, and assessment would need to be well-aligned, so that children transition into formal schooling naturally and comfortably.</p>
+  </div>
+</div>
+
+<!-- S3: School Readiness -->
+<div class="content-section" id="s3">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-nep">📕 NEP 2020</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s3', 'School Readiness')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number nep-num">Section I · Chapter 3</div>
+  <h2 class="section-title">3. School Readiness</h2>
+  <div class="reading-meta"><span>⏱ ~3 min read</span><span>📕 NEP 2020</span></div>
+  <div class="content-text">
+    <p>School readiness refers to children's preparedness to enter primary school and benefit from formal schooling. NEP 2020 emphasises that school readiness is not merely about cognitive preparation but must be understood holistically — covering physical, social, emotional, and cognitive development.</p>
+    <div class="highlight-box green">
+      <strong>Dimensions of School Readiness (NEP 2020)</strong>
+      Children must be ready across all dimensions: physical health and motor development; social and emotional development; learning approaches; language and communication; and cognition and general knowledge.
+    </div>
+    <p>Schooling in India traditionally starts at Grade 1 (at age 5 or 6), without any provision for the systematic development of school readiness competencies in early years. NEP 2020 addresses this by integrating 3 years of quality ECCE into the formal school framework, thereby ensuring that all children entering Grade 1 are school-ready.</p>
+    <p>The policy requires that children entering Grade 1 must have completed at least two years of ECCE / pre-primary school and must have acquired the foundational cognitive and socio-emotional competencies needed for effective school participation. Local communities, Anganwadis, and pre-schools must work together to ensure every child is school-ready by age 6.</p>
+  </div>
+</div>
+
+<!-- S4: Play-Based Learning -->
+<div class="content-section" id="s4">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-nep">📕 NEP 2020</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s4', 'Play-Based Learning')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number nep-num">Section I · Chapter 4</div>
+  <h2 class="section-title">4. Play-Based Learning</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📕 NEP 2020</span></div>
+  <div class="content-text">
+    <p>NEP 2020 explicitly mandates play-based learning as the primary pedagogical approach for the Foundational Stage. Children learn best through direct experience, discovery, and play. The new policy recognises that the pre-primary years should be characterised by joyful and inspiring learning environments, and that teaching should be activity-based.</p>
+    <div class="highlight-box peach">
+      <strong>NEP 2020 on Play-Based Learning</strong>
+      The curricular and pedagogical structure of the Foundational Stage will be built on the principle that the best way for young children to learn is through play. Rote learning will be replaced by activity-based and discovery-based learning that is child-centred, joyful, and stimulating.
+    </div>
+    <div class="diagram-container">
+      <div class="diagram-title">Play-Based Learning Cycle (NEP 2020 Framework)</div>
+      <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:400px;display:block;margin:0 auto;">
+        <circle cx="200" cy="150" r="55" fill="#FFF8F0" stroke="#E8825A" stroke-width="2.5"/>
+        <text x="200" y="144" text-anchor="middle" font-family="Playfair Display,serif" font-size="11" fill="#E8825A" font-weight="700">Play-Based</text>
+        <text x="200" y="159" text-anchor="middle" font-family="Playfair Display,serif" font-size="11" fill="#E8825A" font-weight="700">Learning</text>
+        <!-- Nodes -->
+        <circle cx="200" cy="40" r="38" fill="#FADBD8" stroke="#C0392B" stroke-width="1.5"/>
+        <text x="200" y="35" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="#C0392B" font-weight="700">Explore &amp;</text>
+        <text x="200" y="47" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="#C0392B">Discover</text>
+        <circle cx="340" cy="110" r="38" fill="#D4EDDA" stroke="#2D6A4F" stroke-width="1.5"/>
+        <text x="340" y="105" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="#2D6A4F" font-weight="700">Create &amp;</text>
+        <text x="340" y="117" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="#2D6A4F">Imagine</text>
+        <circle cx="310" cy="245" r="38" fill="#D6E8F5" stroke="#1A4971" stroke-width="1.5"/>
+        <text x="310" y="240" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="#1A4971" font-weight="700">Reflect &amp;</text>
+        <text x="310" y="252" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="#1A4971">Share</text>
+        <circle cx="90" cy="245" r="38" fill="#E8DAEF" stroke="#6C3483" stroke-width="1.5"/>
+        <text x="90" y="240" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="#6C3483" font-weight="700">Collaborate</text>
+        <text x="90" y="252" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="#6C3483">&amp; Engage</text>
+        <circle cx="60" cy="110" r="38" fill="#FEF0E7" stroke="#E8825A" stroke-width="1.5"/>
+        <text x="60" y="105" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="#E8825A" font-weight="700">Observe &amp;</text>
+        <text x="60" y="117" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="#E8825A">Question</text>
+        <!-- Connecting arrows -->
+        <path d="M200 78 L200 95" stroke="#E8825A" stroke-width="1.5" stroke-dasharray="4,2" fill="none" marker-end="url(#arrowEnd)"/>
+        <path d="M303 113 L253 133" stroke="#7AB87A" stroke-width="1.5" stroke-dasharray="4,2" fill="none"/>
+        <path d="M281 208 L228 177" stroke="#5B8DB8" stroke-width="1.5" stroke-dasharray="4,2" fill="none"/>
+        <path d="M119 208 L172 177" stroke="#9B59B6" stroke-width="1.5" stroke-dasharray="4,2" fill="none"/>
+        <path d="M97 113 L147 133" stroke="#E8825A" stroke-width="1.5" stroke-dasharray="4,2" fill="none"/>
+      </svg>
+    </div>
+    <p>The implementation of play-based learning in India requires significant changes in teacher training, classroom design, and assessment methods. NEP 2020 calls for all ECCE teachers to be specially trained in play-based pedagogy, child development, and the socio-emotional needs of young learners.</p>
+  </div>
+</div>
+
+<!-- S5: FLN -->
+<div class="content-section" id="s5">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-nep">📕 NEP 2020</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s5', 'Foundational Literacy & Numeracy')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number nep-num">Section I · Chapter 5</div>
+  <h2 class="section-title">5. Foundational Literacy & Numeracy</h2>
+  <div class="reading-meta"><span>⏱ ~5 min read</span><span>📕 NEP 2020</span></div>
+  <div class="content-text">
+    <p>The ability to read and write, and to perform basic mathematical operations with real numbers, is the most essential foundational skill of education. Without these, a child can never succeed in school or beyond. Yet, a large proportion of students in India who finish primary school have not attained basic reading and arithmetic skills. This needs to be tackled on an urgent and mission-mode basis.</p>
+    <div class="highlight-box yellow">
+      <strong>NEP 2020 Priority Declaration</strong>
+      Attaining foundational literacy and numeracy for all children by Grade 3 will be the highest priority of the education system. A National Mission on Foundational Literacy and Numeracy will be set up by the Ministry of Education to immediately plan and implement in each State/UT the means and ways to achieve universal foundational literacy and numeracy in primary schools by 2025.
+    </div>
+    <p>Foundational literacy and numeracy includes: reading with comprehension and writing in the child's home/first language; understanding of basic arithmetic including number concept, shapes, spatial understanding, patterns, and measurement; problem-solving using arithmetic; and financial literacy concepts at a basic level.</p>
+    <p>Every State and UT will prepare an implementation plan for attaining universal foundational literacy and numeracy in all primary schools by 2025, and to monitor and report this on a digital dashboard.</p>
+    <div class="highlight-box green">
+      <strong>National Mission on FLN</strong>
+      The National Mission will set up a dedicated unit under NIPUN Bharat for strategic planning, coordination, implementation, and monitoring of the FLN goals, and will release annual reports on the status of foundational learning in every State and UT.
+    </div>
+  </div>
+</div>
+
+<!-- S6: Holistic Development -->
+<div class="content-section" id="s6">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-nep">📕 NEP 2020</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s6', 'Holistic Development in Early Years')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number nep-num">Section I · Chapter 6</div>
+  <h2 class="section-title">6. Holistic Development in Early Years</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📕 NEP 2020</span></div>
+  <div class="content-text">
+    <p>NEP 2020 emphasises that ECCE must address all dimensions of a child's development — physical, cognitive, social, emotional, ethical, and cultural. The curriculum framework for the foundational stage must be comprehensive and holistic, ensuring that no developmental domain is neglected.</p>
+    <div class="diagram-container">
+      <div class="diagram-title">Holistic Development Domains (NEP 2020)</div>
+      <svg viewBox="0 0 500 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:500px;display:block;margin:0 auto;">
+        <!-- Central -->
+        <ellipse cx="250" cy="130" rx="65" ry="45" fill="#FEF0E7" stroke="#E8825A" stroke-width="2"/>
+        <text x="250" y="125" text-anchor="middle" font-family="Playfair Display,serif" font-size="11" fill="#E8825A" font-weight="700">Holistic</text>
+        <text x="250" y="140" text-anchor="middle" font-family="Playfair Display,serif" font-size="11" fill="#E8825A">Development</text>
+        <!-- Domain boxes -->
+        <rect x="10" y="15" width="110" height="50" rx="8" fill="#FADBD8" stroke="#C0392B" stroke-width="1.5"/>
+        <text x="65" y="37" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9.5" fill="#C0392B" font-weight="700">Physical &amp; Motor</text>
+        <text x="65" y="51" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="8.5" fill="#C0392B">Gross &amp; Fine Motor</text>
+        <rect x="195" y="5" width="110" height="50" rx="8" fill="#D4EDDA" stroke="#2D6A4F" stroke-width="1.5"/>
+        <text x="250" y="27" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9.5" fill="#2D6A4F" font-weight="700">Cognitive</text>
+        <text x="250" y="41" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="8.5" fill="#2D6A4F">Problem-solving</text>
+        <rect x="380" y="15" width="110" height="50" rx="8" fill="#D6E8F5" stroke="#1A4971" stroke-width="1.5"/>
+        <text x="435" y="37" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9.5" fill="#1A4971" font-weight="700">Social-Emotional</text>
+        <text x="435" y="51" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="8.5" fill="#1A4971">Relationships</text>
+        <rect x="380" y="195" width="110" height="50" rx="8" fill="#E8DAEF" stroke="#6C3483" stroke-width="1.5"/>
+        <text x="435" y="217" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9.5" fill="#6C3483" font-weight="700">Language &amp;</text>
+        <text x="435" y="231" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9.5" fill="#6C3483">Literacy</text>
+        <rect x="195" y="205" width="110" height="50" rx="8" fill="#FEF9E7" stroke="#D4AC0D" stroke-width="1.5"/>
+        <text x="250" y="227" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9.5" fill="#9A7D0A" font-weight="700">Ethical &amp;</text>
+        <text x="250" y="241" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9.5" fill="#9A7D0A">Cultural</text>
+        <rect x="10" y="195" width="110" height="50" rx="8" fill="#FDFEFE" stroke="#7AB87A" stroke-width="1.5"/>
+        <text x="65" y="217" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9.5" fill="#2D6A4F" font-weight="700">Early Numeracy</text>
+        <text x="65" y="231" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="8.5" fill="#2D6A4F">&amp; Spatial Skills</text>
+        <!-- Lines to center -->
+        <line x1="120" y1="40" x2="185" y2="105" stroke="#E8825A" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="250" y1="55" x2="250" y2="85" stroke="#7AB87A" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="380" y1="40" x2="315" y2="105" stroke="#5B8DB8" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="380" y1="220" x2="315" y2="160" stroke="#9B59B6" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="250" y1="205" x2="250" y2="175" stroke="#D4AC0D" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="120" y1="220" x2="185" y2="160" stroke="#7AB87A" stroke-width="1" stroke-dasharray="4,3"/>
+      </svg>
+    </div>
+    <p>The ECCE curriculum must promote all six domains of holistic development simultaneously, with no domain being given exclusive priority. Assessment and progress tracking must similarly cover all domains, not just academic learning outcomes.</p>
+  </div>
+</div>
+
+<!-- S7: Anganwadi Integration -->
+<div class="content-section" id="s7">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-nep">📕 NEP 2020</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s7', 'Anganwadi Integration')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number nep-num">Section I · Chapter 7</div>
+  <h2 class="section-title">7. Anganwadi Integration</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📕 NEP 2020</span></div>
+  <div class="content-text">
+    <p>Anganwadi centres under ICDS (Integrated Child Development Services) have been the primary vehicle for ECCE delivery in India, particularly for children from disadvantaged backgrounds. NEP 2020 envisions a major upgrade of Anganwadi centres to deliver high-quality early childhood education aligned with the new Foundational Stage curriculum.</p>
+    <div class="highlight-box peach">
+      <strong>NEP 2020 on Anganwadi Centres</strong>
+      All Anganwadi centres will be strengthened and upgraded to deliver high-quality ECCE. Existing Anganwadis may be co-located with primary schools or upgraded, as per local needs, to provide children access to the full 5-year Foundational Stage education.
+    </div>
+    <p>The policy envisions co-location of Anganwadi centres with primary schools wherever possible, to facilitate a smooth educational continuum from age 3 to 8. This will also enable sharing of infrastructure, resources, and trained personnel.</p>
+    <p>NEP 2020 calls for the deployment of qualified ECCE teachers and Anganwadi workers who have received adequate training in child development and play-based pedagogy. The Ministry of Women and Child Development and the Ministry of Education must work together to align the ICDS programme with NEP's vision for ECCE.</p>
+  </div>
+</div>
+
+<!-- S8: Teacher Preparation -->
+<div class="content-section" id="s8">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-nep">📕 NEP 2020</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s8', 'Teacher Preparation for ECCE')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number nep-num">Section I · Chapter 8</div>
+  <h2 class="section-title">8. Teacher Preparation for ECCE</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📕 NEP 2020</span></div>
+  <div class="content-text">
+    <p>The quality of ECCE ultimately depends on the quality of teachers and caregivers who interact with young children. NEP 2020 recognises that ECCE educators need specialised training that is distinct from general teacher preparation programmes.</p>
+    <div class="highlight-box green">
+      <strong>Teacher Training Requirements (NEP 2020)</strong>
+      All teachers, Anganwadi workers, and pre-primary educators working with children aged 3–8 must be trained in child development, play-based pedagogy, multilingual approaches, and inclusive early education. Special two-year diplomas in ECCE will be developed and offered.
+    </div>
+    <p>NEP 2020 mandates that NCTE, in consultation with NCERT and NIEPA, develop a comprehensive framework for ECCE teacher preparation that covers: child development and psychology; play-based and activity-based pedagogy; multilingual approaches to early literacy; early numeracy teaching; observation and documentation of child learning; and working with families and communities.</p>
+    <p>Existing teachers at the Foundational Stage must be provided with bridge courses, professional development programmes, and access to current research and best practices in early childhood education. DIETs (District Institutes of Education and Training) will play a central role in delivering teacher training for ECCE at the district level.</p>
+  </div>
+</div>
+
+<!-- ==================== SECTION II HEADER ==================== -->
+<div class="section-part-header ncffs-header">
+  <div class="part-label">Section II</div>
+  <div class="part-title">NCF-FS 2022 — National Curriculum Framework for Foundational Stage</div>
+  <span class="source-ribbon">NCF-FS 2022 | NCERT | Ministry of Education</span>
+</div>
+
+<!-- S9: NCF-FS Philosophy -->
+<div class="content-section" id="s9">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncffs">📗 NCF-FS 2022</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s9', 'Foundational Stage Philosophy')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncffs-num">Section II · Chapter 9</div>
+  <h2 class="section-title green-title">9. Foundational Stage Philosophy</h2>
+  <div class="reading-meta"><span>⏱ ~5 min read</span><span>📗 NCF-FS 2022</span></div>
+  <div class="content-text">
+    <p>The National Curriculum Framework for the Foundational Stage 2022 (NCF-FS) provides a comprehensive and detailed curricular framework for children aged 3–8 years. It is the first dedicated framework for early childhood education in India.</p>
+    <div class="highlight-box green">
+      <strong>Core Philosophy (NCF-FS 2022)</strong>
+      The curriculum for the Foundational Stage must be built on the understanding that children are active learners who construct their own knowledge through interaction with people and the environment. Learning at this stage is inherently social, contextual, and driven by the child's natural curiosity.
+    </div>
+    <p>NCF-FS 2022 is grounded in a developmentally appropriate approach that recognises the unique characteristics of children aged 3–8. The framework draws on contemporary research in developmental psychology, neuroscience, and early childhood education to articulate a vision of holistic, joyful, and meaningful learning.</p>
+    <p>The framework explicitly rejects a narrowly academic approach to early childhood education and endorses a broad, comprehensive understanding of learning that covers physical, cognitive, social, emotional, language, and aesthetic development.</p>
+    <p>India's rich cultural diversity is acknowledged as a resource for curriculum design. The framework encourages the use of local languages, indigenous knowledge, folk traditions, and community practices as starting points for learning.</p>
+    <div class="highlight-box yellow">
+      <strong>Guiding Values of NCF-FS 2022</strong>
+      The framework is guided by values of equity, inclusion, respect for diversity, child agency, and the right of every child to quality education. It recognises the importance of the child's home language, family, and community as the first curriculum.
+    </div>
+  </div>
+</div>
+
+<!-- S10: Developmental Domains -->
+<div class="content-section" id="s10">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncffs">📗 NCF-FS 2022</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s10', 'Developmental Domains')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncffs-num">Section II · Chapter 10</div>
+  <h2 class="section-title green-title">10. Developmental Domains</h2>
+  <div class="reading-meta"><span>⏱ ~5 min read</span><span>📗 NCF-FS 2022</span></div>
+  <div class="content-text">
+    <p>NCF-FS 2022 identifies five interrelated developmental domains that form the foundation of early childhood learning. These domains are interdependent — growth in one domain supports and enhances development in all others.</p>
+    <table class="data-table green-table">
+      <thead>
+        <tr><th>#</th><th>Domain</th><th>Key Components</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td><strong>Physical Development & Health</strong></td><td>Gross motor, fine motor, health habits, personal safety</td></tr>
+        <tr><td>2</td><td><strong>Socio-emotional Development</strong></td><td>Self-awareness, self-regulation, empathy, relationships, community sense</td></tr>
+        <tr><td>3</td><td><strong>Cognitive Development</strong></td><td>Curiosity, reasoning, problem-solving, creative thinking, memory</td></tr>
+        <tr><td>4</td><td><strong>Language & Literacy Development</strong></td><td>Listening, speaking, reading readiness, writing readiness, multilingual awareness</td></tr>
+        <tr><td>5</td><td><strong>Aesthetic & Cultural Development</strong></td><td>Art, music, movement, storytelling, cultural appreciation</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight-box green">
+      <strong>Principle of Integration</strong>
+      The five developmental domains are not separate subject areas but are deeply interconnected dimensions of a child's growth. Curriculum activities should be designed to promote development across multiple domains simultaneously.
+    </div>
+    <p>For each developmental domain, NCF-FS 2022 articulates expected developmental milestones and competencies for different age groups within the Foundational Stage (3–4 years, 4–5 years, 5–6 years, 6–7 years, and 7–8 years). These are provided as benchmarks, not rigid standards, and are to be interpreted with sensitivity to individual differences and diverse contexts.</p>
+  </div>
+</div>
+
+<!-- S11: Play-Based Pedagogy -->
+<div class="content-section" id="s11">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncffs">📗 NCF-FS 2022</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s11', 'Play-Based Pedagogy')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncffs-num">Section II · Chapter 11</div>
+  <h2 class="section-title green-title">11. Play-Based Pedagogy</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📗 NCF-FS 2022</span></div>
+  <div class="content-text">
+    <p>NCF-FS 2022 establishes play-based pedagogy as the defining characteristic of education at the Foundational Stage. Play is not merely a break from learning — it is the primary medium through which young children learn about themselves, others, and the world around them.</p>
+    <div class="highlight-box green">
+      <strong>NCF-FS 2022 Definition of Play</strong>
+      Play is any activity that is intrinsically motivated, freely chosen, enjoyable, and actively engaging. Through play, children develop language, cognitive, physical, and socio-emotional competencies simultaneously in an integrated and joyful manner.
+    </div>
+    <p>The framework identifies several types of play that should be incorporated into the daily schedule of Foundational Stage classrooms:</p>
+    <ul class="content-list green-list">
+      <li><strong>Free play:</strong> Child-initiated, unstructured exploration with minimal adult intervention</li>
+      <li><strong>Guided play:</strong> Teacher-designed activities with open-ended exploration built in</li>
+      <li><strong>Cooperative play:</strong> Group activities that build social skills and collaborative learning</li>
+      <li><strong>Pretend/Dramatic play:</strong> Role play and imaginative scenarios that develop language and creativity</li>
+      <li><strong>Constructive play:</strong> Building, creating, and making that develops spatial thinking and problem-solving</li>
+      <li><strong>Games with rules:</strong> Structured play that develops rule-following, turn-taking, and mathematical thinking</li>
+    </ul>
+    <p>Teachers at the Foundational Stage must be skilled at creating rich play environments, observing children during play, asking thoughtful open-ended questions, and extending children's thinking without directing or over-structuring their play.</p>
+  </div>
+</div>
+
+<!-- S12: Learning Through Discovery -->
+<div class="content-section" id="s12">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncffs">📗 NCF-FS 2022</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s12', 'Learning Through Discovery')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncffs-num">Section II · Chapter 12</div>
+  <h2 class="section-title green-title">12. Learning Through Discovery</h2>
+  <div class="reading-meta"><span>⏱ ~3 min read</span><span>📗 NCF-FS 2022</span></div>
+  <div class="content-text">
+    <p>Discovery-based learning is a cornerstone of the NCF-FS 2022 framework. Children are born curious and learn naturally through exploration and discovery. The role of the school is to provide an environment rich in materials, experiences, and provocations that stimulate children's natural curiosity.</p>
+    <div class="highlight-box yellow">
+      <strong>Discovery Learning Principles (NCF-FS 2022)</strong>
+      Children construct understanding by actively manipulating objects, observing phenomena, forming hypotheses, testing them, and drawing conclusions. Teachers support this process by asking open-ended questions, providing materials, and creating a safe environment for experimentation.
+    </div>
+    <p>Discovery learning at the Foundational Stage includes nature walks, sensory exploration, cooking activities, construction projects, experiments with water, sand, and materials, and community-based investigations. The environment itself is considered the "third teacher" after the child and the educator.</p>
+  </div>
+</div>
+
+<!-- S13: Balvatika Framework -->
+<div class="content-section" id="s13">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncffs">📗 NCF-FS 2022</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s13', 'Balvatika Framework')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncffs-num">Section II · Chapter 13</div>
+  <h2 class="section-title green-title">13. Balvatika Framework</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📗 NCF-FS 2022</span></div>
+  <div class="content-text">
+    <p>Balvatika refers to the three-year pre-primary programme (ages 3–6) that forms the first part of the Foundational Stage under NEP 2020. NCF-FS 2022 provides a detailed curricular framework specifically for Balvatika, which may be offered at Anganwadi centres, pre-schools, or within government school premises.</p>
+    <div class="highlight-box green">
+      <strong>Balvatika Structure</strong>
+      Balvatika consists of three years: Balvatika 1 (age 3–4), Balvatika 2 (age 4–5), and Balvatika 3 (age 5–6). Children completing Balvatika 3 transition directly into Grade 1, having already acquired school readiness competencies.
+    </div>
+    <p>The Balvatika curriculum is entirely play-based and activity-based. There are no formal examinations or written tests at this stage. Assessment is done through observation, portfolio documentation, and developmental milestone tracking by teachers and caregivers.</p>
+    <p>NCF-FS 2022 emphasises that the language of instruction at Balvatika must be the child's mother tongue or home language. Multilingual exposure is encouraged but must not interfere with the development of first-language competency.</p>
+    <p>The daily schedule at Balvatika must include time for: free play, outdoor play, guided activities, storytelling, songs and rhymes, art and craft, and daily routines like eating, resting, and personal hygiene — all of which are treated as learning opportunities.</p>
+  </div>
+</div>
+
+<!-- S14: Competency Benchmarks -->
+<div class="content-section" id="s14">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncffs">📗 NCF-FS 2022</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s14', 'Competency Benchmarks')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncffs-num">Section II · Chapter 14</div>
+  <h2 class="section-title green-title">14. Competency Benchmarks</h2>
+  <div class="reading-meta"><span>⏱ ~5 min read</span><span>📗 NCF-FS 2022</span></div>
+  <div class="content-text">
+    <p>NCF-FS 2022 articulates specific competency benchmarks for children at the end of each year of the Foundational Stage. These benchmarks are described in terms of observable behaviours and capabilities that teachers and caregivers can look for during daily interactions and play-based activities.</p>
+    <div class="highlight-box yellow">
+      <strong>Nature of Benchmarks</strong>
+      Competency benchmarks in NCF-FS 2022 are aspirational targets, not rigid standards. They represent what most children can be expected to achieve given a high-quality, stimulating, and supportive learning environment. Individual variation is expected and must be respected.
+    </div>
+    <p>Selected competency benchmarks by domain at the end of Grade 2 (age 7–8):</p>
+    <ul class="content-list green-list">
+      <li>Reads simple texts with comprehension in home language and/or school language</li>
+      <li>Writes simple sentences about familiar topics</li>
+      <li>Counts, reads, and writes numbers up to 999</li>
+      <li>Performs basic addition and subtraction with understanding</li>
+      <li>Demonstrates empathy, cooperation, and conflict resolution skills</li>
+      <li>Engages in sustained imaginative play and creative expression</li>
+      <li>Demonstrates curiosity and asks meaningful questions about the environment</li>
+    </ul>
+  </div>
+</div>
+
+<!-- S15: Language Development -->
+<div class="content-section" id="s15">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncffs">📗 NCF-FS 2022</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s15', 'Language Development')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncffs-num">Section II · Chapter 15</div>
+  <h2 class="section-title green-title">15. Language Development</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📗 NCF-FS 2022</span></div>
+  <div class="content-text">
+    <p>Language development is the most critical learning domain at the Foundational Stage. Language is the medium through which all other learning occurs, and it is the foundation for both literacy and cognitive development. NCF-FS 2022 adopts a multilingual approach that recognises the linguistic diversity of Indian children.</p>
+    <div class="highlight-box green">
+      <strong>NCF-FS 2022 on Home Language</strong>
+      The mother tongue or home language must be the primary medium of instruction at the Foundational Stage. Research consistently shows that children learn most effectively and deeply in their first language. Strong first-language skills also facilitate acquisition of additional languages.
+    </div>
+    <p>Language development in NCF-FS 2022 covers four strands: listening (developing the ability to understand spoken language), speaking (developing expressive language and communication skills), reading readiness (developing phonological awareness, print awareness, and comprehension), and writing readiness (developing fine motor skills and early mark-making).</p>
+    <p>The framework recommends rich oral language experiences as the foundation for literacy: storytelling, songs, rhymes, conversations, discussions, word games, and exposure to a variety of books. Read-aloud by teachers is identified as one of the most powerful strategies for developing language and literacy at this stage.</p>
+  </div>
+</div>
+
+<!-- S16: Early Numeracy -->
+<div class="content-section" id="s16">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncffs">📗 NCF-FS 2022</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s16', 'Early Numeracy Framework')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncffs-num">Section II · Chapter 16</div>
+  <h2 class="section-title green-title">16. Early Numeracy Framework</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📗 NCF-FS 2022</span></div>
+  <div class="content-text">
+    <p>Early numeracy development is a central priority of NCF-FS 2022. Mathematical thinking begins long before formal schooling, as young children naturally engage with counting, sorting, comparing, and pattern-making in their daily lives. The curriculum must build on these naturally occurring mathematical activities.</p>
+    <div class="highlight-box yellow">
+      <strong>Early Numeracy Components (NCF-FS 2022)</strong>
+      Number sense, operations, shapes and spatial thinking, measurement, patterns, and data handling form the six core components of early numeracy. All six are to be developed through hands-on, concrete, and play-based activities.
+    </div>
+    <p>NCF-FS 2022 emphasises conceptual understanding over procedural memorisation. Children should understand the meaning of numbers before being taught to write numerals. Counting must be connected to real objects and contexts. Mathematical language (more, less, equal, bigger, smaller, before, after) should be developed through everyday conversation.</p>
+    <p>The CPA (Concrete-Pictorial-Abstract) progression is recommended: children first work with physical objects, then representations and pictures, and only finally with abstract symbols and numerals. This progression must not be rushed.</p>
+  </div>
+</div>
+
+<!-- ==================== SECTION III HEADER ==================== -->
+<div class="section-part-header nipun-header">
+  <div class="part-label">Section III</div>
+  <div class="part-title">NIPUN Bharat — National Initiative for Proficiency in Reading with Understanding and Numeracy</div>
+  <span class="source-ribbon">NIPUN Bharat 2021 | Ministry of Education, Government of India</span>
+</div>
+
+<!-- S17: FLN Goals -->
+<div class="content-section" id="s17">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-nipun">📘 NIPUN Bharat</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s17', 'FLN Goals by Grade 3')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number nipun-num">Section III · Chapter 17</div>
+  <h2 class="section-title blue-title">17. FLN Goals by Grade 3</h2>
+  <div class="reading-meta"><span>⏱ ~5 min read</span><span>📘 NIPUN Bharat</span></div>
+  <div class="content-text">
+    <div class="highlight-box blue">
+      <strong>NIPUN Bharat Mission Vision</strong>
+      NIPUN Bharat aims to create a strong foundation of Basic Literacy and Numeracy (BLN) for all children by end of Grade 3 by 2026–27, so that every child attains the desired learning competencies in reading with comprehension and basic numeracy.
+    </div>
+    <p>NIPUN Bharat (National Initiative for Proficiency in Reading with Understanding and Numeracy) was launched by the Ministry of Education in July 2021 as a national mission to address the foundational learning crisis in India. It sets specific, measurable learning goals for children by the end of Grade 3 (approximately age 8–9).</p>
+    <div class="diagram-container">
+      <div class="diagram-title">FLN Progression Ladder — NIPUN Bharat</div>
+      <svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;display:block;margin:0 auto;">
+        <!-- Ladder rungs -->
+        <rect x="60" y="210" width="300" height="40" rx="8" fill="#D6E8F5" stroke="#1A4971" stroke-width="2"/>
+        <text x="210" y="226" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" fill="#1A4971" font-weight="700">Pre-School (Balvatika 1–3)</text>
+        <text x="210" y="241" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="#1A4971">Oral language · Print awareness · Number sense</text>
+        <rect x="80" y="158" width="260" height="40" rx="8" fill="#AED6F1" stroke="#1A4971" stroke-width="2"/>
+        <text x="210" y="174" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" fill="#1A4971" font-weight="700">Grade 1</text>
+        <text x="210" y="189" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="#1A4971">Phonemic awareness · Letter-sound · Counting to 99</text>
+        <rect x="100" y="106" width="220" height="40" rx="8" fill="#5DADE2" stroke="#1A4971" stroke-width="2"/>
+        <text x="210" y="122" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" fill="white" font-weight="700">Grade 2</text>
+        <text x="210" y="137" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="white">Decoding · Reading fluency · Addition &amp; subtraction</text>
+        <rect x="120" y="54" width="180" height="40" rx="8" fill="#1A4971" stroke="#154360" stroke-width="2"/>
+        <text x="210" y="70" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" fill="white" font-weight="700">Grade 3 — NIPUN Target</text>
+        <text x="210" y="85" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="9" fill="#AED6F1">Read with comprehension · Basic operations</text>
+        <!-- Star -->
+        <text x="310" y="75" font-size="22" text-anchor="middle">⭐</text>
+        <!-- Arrows -->
+        <path d="M210 198 L210 210" stroke="#1A4971" stroke-width="2" fill="none"/>
+        <path d="M210 146 L210 158" stroke="#1A4971" stroke-width="2" fill="none"/>
+        <path d="M210 94 L210 106" stroke="#1A4971" stroke-width="2" fill="none"/>
+        <path d="M210 54 L210 42" stroke="#5DADE2" stroke-width="2" marker-end="url(#arrowBlue)" fill="none"/>
+      </svg>
+    </div>
+    <p>NIPUN Bharat sets the overarching goal that by 2026–27, all children completing Grade 3 across India should be able to read a simple text with comprehension and perform basic mathematical operations. This is a measurable, time-bound, and legally endorsed commitment of the Government of India.</p>
+  </div>
+</div>
+
+<!-- S18: Literacy Benchmarks -->
+<div class="content-section" id="s18">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-nipun">📘 NIPUN Bharat</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s18', 'Literacy Benchmarks')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number nipun-num">Section III · Chapter 18</div>
+  <h2 class="section-title blue-title">18. Literacy Benchmarks</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📘 NIPUN Bharat</span></div>
+  <div class="content-text">
+    <p>NIPUN Bharat defines specific, grade-wise literacy benchmarks that represent the minimum expected proficiency levels for all children in government schools across India.</p>
+    <table class="data-table blue-table">
+      <thead>
+        <tr><th>Grade</th><th>Literacy Benchmark</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Pre-School</strong></td><td>Oral language proficiency; print awareness; recognises letters; phonological awareness</td></tr>
+        <tr><td><strong>Grade 1</strong></td><td>Reads familiar words; understands phoneme-grapheme relationships; reads simple sentences</td></tr>
+        <tr><td><strong>Grade 2</strong></td><td>Reads simple paragraphs; reads aloud with appropriate pace; identifies main ideas</td></tr>
+        <tr><td><strong>Grade 3</strong></td><td>Reads grade-appropriate text with comprehension; can retell; can write simple sentences</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight-box blue">
+      <strong>NIPUN Bharat Literacy Goal (Grade 3)</strong>
+      By end of Grade 3, every child must be able to read a text of approximately 60 words per minute with comprehension, identify the main idea, and retell the story in their own words.
+    </div>
+    <p>NIPUN Bharat provides detailed learning outcomes for each sub-skill of literacy: phonological awareness, phonics, vocabulary, fluency, and comprehension. These outcomes are organised by grade level and serve as the basis for assessment and intervention planning.</p>
+  </div>
+</div>
+
+<!-- S19: Numeracy Benchmarks -->
+<div class="content-section" id="s19">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-nipun">📘 NIPUN Bharat</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s19', 'Numeracy Benchmarks')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number nipun-num">Section III · Chapter 19</div>
+  <h2 class="section-title blue-title">19. Numeracy Benchmarks</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📘 NIPUN Bharat</span></div>
+  <div class="content-text">
+    <p>NIPUN Bharat defines grade-wise numeracy benchmarks aligned with the NCF-FS 2022 framework. These benchmarks cover number sense, operations, patterns, measurement, and spatial understanding.</p>
+    <table class="data-table blue-table">
+      <thead>
+        <tr><th>Grade</th><th>Numeracy Benchmark</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Pre-School</strong></td><td>Counts objects to 10; sorts and classifies; identifies basic shapes; understands more/less</td></tr>
+        <tr><td><strong>Grade 1</strong></td><td>Counts, reads, writes numbers to 99; simple addition and subtraction within 20</td></tr>
+        <tr><td><strong>Grade 2</strong></td><td>Numbers to 999; addition and subtraction with regrouping; multiplication concept; time and money</td></tr>
+        <tr><td><strong>Grade 3</strong></td><td>Numbers to 9999; all four operations; fractions; measurement; simple data representation</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight-box blue">
+      <strong>NIPUN Bharat Numeracy Goal (Grade 3)</strong>
+      By end of Grade 3, every child must demonstrate number sense up to 9,999, perform addition and subtraction with regrouping, understand multiplication and division, solve word problems, and apply mathematical thinking to everyday situations.
+    </div>
+  </div>
+</div>
+
+<!-- S20: Assessment Guidelines -->
+<div class="content-section" id="s20">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-nipun">📘 NIPUN Bharat</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s20', 'Assessment Guidelines')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number nipun-num">Section III · Chapter 20</div>
+  <h2 class="section-title blue-title">20. Assessment Guidelines</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📘 NIPUN Bharat</span></div>
+  <div class="content-text">
+    <p>NIPUN Bharat prescribes a comprehensive assessment framework for tracking FLN progress. Assessment at the Foundational Stage must be formative, frequent, low-stakes, and designed to inform teaching rather than rank or grade children.</p>
+    <div class="highlight-box blue">
+      <strong>Assessment Principles (NIPUN Bharat)</strong>
+      Assessment must be competency-based, not content-based. It must measure actual skill levels through tasks that children perform, not through written tests. It must be conducted in the child's home language to ensure accurate measurement of competency.
+    </div>
+    <p>NIPUN Bharat prescribes four types of assessment tools for FLN monitoring:</p>
+    <ul class="content-list blue-list">
+      <li><strong>ELST (Early Literacy Screening Tool):</strong> Classroom-level tool for teachers to identify children at risk</li>
+      <li><strong>ASER (Annual Status of Education Report) type assessments:</strong> Oral reading assessments conducted annually at household level</li>
+      <li><strong>NAS (National Achievement Survey):</strong> Sample-based national assessment at Grade 3</li>
+      <li><strong>State-level assessments:</strong> Adapted tools developed by each State/UT for regular monitoring</li>
+    </ul>
+  </div>
+</div>
+
+<!-- S21: Remedial Support -->
+<div class="content-section" id="s21">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-nipun">📘 NIPUN Bharat</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s21', 'Remedial Support')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number nipun-num">Section III · Chapter 21</div>
+  <h2 class="section-title blue-title">21. Remedial Support</h2>
+  <div class="reading-meta"><span>⏱ ~3 min read</span><span>📘 NIPUN Bharat</span></div>
+  <div class="content-text">
+    <p>NIPUN Bharat recognises that a significant proportion of children in government schools are currently below the expected FLN benchmarks. The mission mandates systematic remedial support for these children, delivered through structured intervention programmes.</p>
+    <div class="highlight-box blue">
+      <strong>Structured Pedagogy Approach</strong>
+      NIPUN Bharat recommends structured pedagogy as the primary approach for FLN remediation. This involves explicit, systematic instruction in foundational skills using carefully sequenced materials and activities, combined with regular assessment and feedback.
+    </div>
+    <p>States and UTs are required to develop or adopt evidence-based remedial programmes for FLN. These programmes must include daily structured learning time, small-group instruction for children needing additional support, trained peer tutors, and family engagement strategies. No child is to be passed to the next grade without achieving the FLN benchmarks for the current grade.</p>
+  </div>
+</div>
+
+<!-- S22: Monitoring -->
+<div class="content-section" id="s22">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-nipun">📘 NIPUN Bharat</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s22', 'Monitoring Mechanisms')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number nipun-num">Section III · Chapter 22</div>
+  <h2 class="section-title blue-title">22. Monitoring Mechanisms</h2>
+  <div class="reading-meta"><span>⏱ ~3 min read</span><span>📘 NIPUN Bharat</span></div>
+  <div class="content-text">
+    <p>NIPUN Bharat establishes a multi-level monitoring system for tracking progress towards FLN goals at classroom, school, block, district, State, and national levels.</p>
+    <div class="highlight-box blue">
+      <strong>Monitoring Architecture (NIPUN Bharat)</strong>
+      A three-tier monitoring structure is prescribed: (1) School-level: teacher-maintained registers and assessment portfolios; (2) Block/District-level: Academic Resource Persons (ARPs) and Block Resource Coordinators (BRCs) conducting classroom observations; (3) State/National-level: digital dashboards and annual sample surveys.
+    </div>
+    <p>A digital dashboard — the NIPUN Dashboard — tracks progress at every level of the system. This dashboard is accessible to all stakeholders including teachers, school heads, district officers, and national planners. It enables real-time identification of districts and blocks that are lagging behind and allows targeted support to be mobilised quickly.</p>
+  </div>
+</div>
+
+<!-- ==================== SECTION IV HEADER ==================== -->
+<div class="section-part-header ncf23-header">
+  <div class="part-label">Section IV</div>
+  <div class="part-title">NCF 2023 — National Curriculum Framework (Foundational Sections)</div>
+  <span class="source-ribbon">NCF 2023 | NCERT | Ministry of Education</span>
+</div>
+
+<!-- S23: Stage-Wise Learning Standards -->
+<div class="content-section" id="s23">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncf23">📙 NCF 2023</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s23', 'Stage-Wise Learning Standards')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncf23-num">Section IV · Chapter 23</div>
+  <h2 class="section-title purple-title">23. Stage-Wise Learning Standards</h2>
+  <div class="reading-meta"><span>⏱ ~5 min read</span><span>📙 NCF 2023</span></div>
+  <div class="content-text">
+    <p>NCF 2023 introduces the concept of Curricular Goals, Competencies, and Learning Outcomes as a three-level framework for articulating what children should know, understand, and be able to do at each stage of schooling. For the Foundational Stage, this framework replaces the earlier subject-based, content-heavy approach with a competency-based structure.</p>
+    <div class="highlight-box purple">
+      <strong>Three-Level Standards Framework (NCF 2023)</strong>
+      Curricular Goals define the broad aims of education for each stage. Competencies describe the specific abilities that students should develop. Learning Outcomes provide observable, measurable indicators of competency attainment for teacher assessment and curriculum planning.
+    </div>
+    <p>At the Foundational Stage, NCF 2023 identifies the following Curricular Goals:</p>
+    <ul class="content-list purple-list" style="--list-color:#9B59B6">
+      <li>Development of a joyful, curious, creative, and ethical disposition towards learning and life</li>
+      <li>Development of strong foundational literacy and numeracy competencies</li>
+      <li>Physical wellbeing and development of gross and fine motor skills</li>
+      <li>Social and emotional development including empathy, self-regulation, and collaboration</li>
+      <li>Aesthetic development through engagement with arts, crafts, and cultural practices</li>
+      <li>Understanding of the natural, social, and cultural world through play and discovery</li>
+    </ul>
+    <p>These goals are elaborated into specific competencies and learning outcomes for each year of the Foundational Stage. The outcomes are presented in child-friendly language and are observable through everyday classroom activities.</p>
+  </div>
+</div>
+
+<!-- S24: Multilingual Foundation -->
+<div class="content-section" id="s24">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncf23">📙 NCF 2023</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s24', 'Multilingual Foundation')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncf23-num">Section IV · Chapter 24</div>
+  <h2 class="section-title purple-title">24. Multilingual Foundation</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📙 NCF 2023</span></div>
+  <div class="content-text">
+    <p>India is one of the most linguistically diverse nations in the world, with hundreds of languages and thousands of dialects. NCF 2023 acknowledges this diversity as a strength and builds a multilingual foundation for education at the Foundational Stage.</p>
+    <div class="highlight-box purple">
+      <strong>NCF 2023 Multilingual Principle</strong>
+      Children should always be taught in their home language at the Foundational Stage. Additional languages may be introduced as subjects from Grade 1 onwards, but the medium of instruction should remain the home language until the child has developed strong literacy skills in that language.
+    </div>
+    <p>NCF 2023 prescribes a four-step multilingual pathway for foundational education:</p>
+    <ol class="ol-list">
+      <li><strong>Home Language First:</strong> All learning begins in the child's home language or mother tongue</li>
+      <li><strong>Bridging to School Language:</strong> Gradual introduction of the school/regional language as a subject</li>
+      <li><strong>Bilingual Literacy:</strong> Development of literacy in both home language and school language</li>
+      <li><strong>Additional Language:</strong> Third language (typically English or another language) introduced as a subject at Grade 3</li>
+    </ol>
+    <p>NCF 2023 requires States and UTs to develop multilingual teaching-learning materials in local languages and to ensure that teachers are proficient in the languages spoken by children in their classrooms.</p>
+  </div>
+</div>
+
+<!-- S25: Experiential Approach -->
+<div class="content-section" id="s25">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncf23">📙 NCF 2023</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s25', 'Experiential Approach')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncf23-num">Section IV · Chapter 25</div>
+  <h2 class="section-title purple-title">25. Experiential Approach</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📙 NCF 2023</span></div>
+  <div class="content-text">
+    <p>NCF 2023 places experiential learning at the heart of the Foundational Stage curriculum. Experiential learning is a process through which children develop understanding and skills by doing, reflecting, conceptualising, and experimenting — a cycle that NCF 2023 calls the "experiential learning cycle."</p>
+    <div class="highlight-box purple">
+      <strong>Experiential Learning Cycle (NCF 2023)</strong>
+      The four-phase cycle of experiential learning includes: (1) Concrete Experience — doing and feeling; (2) Reflective Observation — watching and reflecting; (3) Abstract Conceptualisation — thinking and connecting; (4) Active Experimentation — planning and trying.
+    </div>
+    <p>At the Foundational Stage, experiential learning takes the form of hands-on activities with real materials, outdoor experiences, art and construction, storytelling and role play, cooking and craft activities, and nature exploration. Abstract concepts are always introduced through concrete, embodied experiences before symbolic representation is introduced.</p>
+    <p>NCF 2023 requires schools to redesign learning environments to support experiential learning — with open spaces, nature areas, construction corners, art studios, books, and materials that invite exploration and creation.</p>
+  </div>
+</div>
+
+<!-- S26: Inclusive ECCE -->
+<div class="content-section" id="s26">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncf23">📙 NCF 2023</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s26', 'Inclusive Early Childhood Education')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncf23-num">Section IV · Chapter 26</div>
+  <h2 class="section-title purple-title">26. Inclusive Early Childhood Education</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📙 NCF 2023</span></div>
+  <div class="content-text">
+    <p>NCF 2023 adopts a Universal Design for Learning (UDL) approach to ensure that all children — regardless of disability, language, socio-economic status, gender, caste, or religion — have equal access to high-quality Foundational Stage education.</p>
+    <div class="highlight-box purple">
+      <strong>Inclusive Education Mandate (NCF 2023)</strong>
+      Inclusion is not about placing children with disabilities into regular classrooms without support. It requires proactive design of curriculum, pedagogy, materials, and environments to ensure every child can participate, engage, and learn. Every teacher must be trained in inclusive practices.
+    </div>
+    <p>Key inclusive practices recommended by NCF 2023 for the Foundational Stage include:</p>
+    <ul class="content-list purple-list">
+      <li>Flexible grouping and individualised instruction based on developmental levels</li>
+      <li>Use of assistive technologies and adapted materials for children with disabilities</li>
+      <li>Representation of diverse families, cultures, and abilities in classroom materials and stories</li>
+      <li>Elimination of gender stereotyping in play, tasks, and language</li>
+      <li>Special attention to girls, children from SC/ST/OBC communities, and children in remote areas</li>
+      <li>Collaboration with parents and communities to identify and address barriers to participation</li>
+    </ul>
+  </div>
+</div>
+
+<!-- S27: Holistic Progress Card -->
+<div class="content-section" id="s27">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncf23">📙 NCF 2023</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s27', 'Holistic Progress Card')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncf23-num">Section IV · Chapter 27</div>
+  <h2 class="section-title purple-title">27. Holistic Progress Card</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📙 NCF 2023</span></div>
+  <div class="content-text">
+    <p>NCF 2023 replaces traditional report cards with a Holistic Progress Card (HPC) for the Foundational Stage. The HPC reflects the full range of a child's development across all domains, replacing numerical marks and grades with descriptive observations and competency-based indicators.</p>
+    <div class="highlight-box purple">
+      <strong>Holistic Progress Card — Key Features</strong>
+      The HPC documents development across all five domains (physical, cognitive, social-emotional, language, aesthetic). It uses portfolios, teacher observations, and child self-assessments. It is shared with families in the home language. It is never used for competitive ranking or grade retention.
+    </div>
+    <p>The HPC includes:</p>
+    <ul class="content-list purple-list">
+      <li>Teacher's observational notes about the child's engagement, curiosity, and social behaviour</li>
+      <li>Sample work from the child's portfolio (drawings, emergent writing, photographs)</li>
+      <li>Developmental milestone checklists for each domain</li>
+      <li>The child's own reflections (through drawing or conversation) about their learning</li>
+      <li>Family observations about the child's development at home</li>
+      <li>Plans for next steps in supporting the child's growth</li>
+    </ul>
+    <p>NCF 2023 mandates that HPC conferences between teachers and families be conducted twice a year, in the home language, in a supportive and non-judgmental atmosphere.</p>
+  </div>
+</div>
+
+<!-- S28: Role of the Teacher -->
+<div class="content-section" id="s28">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncf23">📙 NCF 2023</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s28', 'Role of the Teacher')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncf23-num">Section IV · Chapter 28</div>
+  <h2 class="section-title purple-title">28. Role of the Teacher at the Foundational Stage</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📙 NCF 2023</span></div>
+  <div class="content-text">
+    <p>NCF 2023 describes the Foundational Stage teacher as a facilitator, observer, co-learner, and environment designer — rather than a transmitter of knowledge. This reconceptualisation of the teacher's role is fundamental to the implementation of play-based, child-centred pedagogy.</p>
+    <div class="highlight-box purple">
+      <strong>NCF 2023 — The Teacher as Facilitator</strong>
+      The teacher's primary role at the Foundational Stage is to observe children carefully, understand their interests and needs, design rich learning environments, ask open-ended questions, scaffold thinking, and support emotional wellbeing — not to lecture, drill, or test.
+    </div>
+    <p>Key professional competencies required of Foundational Stage teachers under NCF 2023 include: deep knowledge of child development; skill in designing and facilitating play-based learning; ability to observe and document children's learning; proficiency in the home languages of children; knowledge of early literacy and numeracy pedagogy; skill in working with diverse learners; and ability to build trusting relationships with families.</p>
+    <p>NCF 2023 calls for a major reform of pre-service teacher education programmes for the Foundational Stage, to ensure that all new teachers graduate with these competencies. DIETs must be strengthened to offer high-quality in-service training and ongoing mentoring to practising teachers.</p>
+  </div>
+</div>
+
+<!-- S29: Family & Community -->
+<div class="content-section" id="s29">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncf23">📙 NCF 2023</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s29', 'Family & Community Engagement')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncf23-num">Section IV · Chapter 29</div>
+  <h2 class="section-title purple-title">29. Family & Community Engagement</h2>
+  <div class="reading-meta"><span>⏱ ~3 min read</span><span>📙 NCF 2023</span></div>
+  <div class="content-text">
+    <p>NCF 2023 recognises that the family and community are the child's first and most important educators. The school cannot be effective without the active partnership of families and the broader community in supporting children's learning and development.</p>
+    <div class="highlight-box purple">
+      <strong>Family-School Partnership (NCF 2023)</strong>
+      Schools must create a welcoming environment for families, communicate regularly with families in their home language, invite families to participate in learning activities, and treat families as partners and experts on their own children. Family engagement goes beyond attending meetings — it means genuine partnership in the child's education.
+    </div>
+    <p>Specific community engagement strategies recommended by NCF 2023 include: home visits by teachers, community storytelling sessions, inviting community members with traditional knowledge to share with children, involving families in creating learning materials, and integrating local festivals, customs, and practices into the curriculum.</p>
+  </div>
+</div>
+
+<!-- S30: Curriculum Planning -->
+<div class="content-section" id="s30">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncf23">📙 NCF 2023</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s30', 'Curriculum Planning at School Level')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncf23-num">Section IV · Chapter 30</div>
+  <h2 class="section-title purple-title">30. Curriculum Planning at School Level</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📙 NCF 2023</span></div>
+  <div class="content-text">
+    <p>NCF 2023 emphasises that curriculum planning must happen at the school level, not just at the State level. Each school must contextualise the national curriculum framework to its local community, language, culture, and ecological context.</p>
+    <div class="highlight-box purple">
+      <strong>School-Level Curriculum Adaptation (NCF 2023)</strong>
+      Schools have the autonomy and responsibility to adapt curriculum content, select local examples, choose culturally relevant stories and songs, plan outdoor learning experiences, and integrate community resources into the curriculum. This contextualisation is essential for meaningful learning.
+    </div>
+    <p>Annual curriculum planning at the Foundational Stage should include: identification of local learning contexts and community resources; planning of a balanced weekly schedule with adequate time for free play, outdoor play, guided activities, and literacy and numeracy sessions; selection of culturally relevant stories, songs, and materials; planning of parent engagement activities; and preparation of simple, locally-made learning materials.</p>
+  </div>
+</div>
+
+<!-- S31: Learning Environment Design -->
+<div class="content-section" id="s31">
+  <div class="bookmark-row">
+    <span class="source-doc-tag tag-ncf23">📙 NCF 2023</span>
+    <button class="bookmark-btn" onclick="toggleBookmark('s31', 'Learning Environment Design')">🔖 Bookmark</button>
+  </div>
+  <div class="section-number ncf23-num">Section IV · Chapter 31</div>
+  <h2 class="section-title purple-title">31. Learning Environment Design</h2>
+  <div class="reading-meta"><span>⏱ ~4 min read</span><span>📙 NCF 2023</span></div>
+  <div class="content-text">
+    <p>NCF 2023 treats the physical and social environment as a critical component of the curriculum. The design of learning spaces directly shapes what children can learn and how they can engage with materials, peers, and ideas.</p>
+    <div class="highlight-box purple">
+      <strong>The Environment as the Third Teacher (NCF 2023)</strong>
+      Following the Reggio Emilia tradition, NCF 2023 describes the learning environment as the "third teacher." Alongside the teacher and the child's peers, the environment — its materials, organisation, aesthetics, and outdoor spaces — actively shapes learning. Schools must invest in designing rich, beautiful, and stimulating learning environments for young children.
+    </div>
+    <p>Essential features of a high-quality Foundational Stage learning environment according to NCF 2023:</p>
+    <ul class="content-list purple-list">
+      <li><strong>Book corner:</strong> A cosy, well-stocked library area with books in home language and school language</li>
+      <li><strong>Art and construction area:</strong> Materials for drawing, painting, clay, collage, and building</li>
+      <li><strong>Dramatic play area:</strong> Props and costumes for imaginative and role play</li>
+      <li><strong>Maths and science area:</strong> Manipulatives, natural objects, measuring tools, and sorting materials</li>
+      <li><strong>Outdoor space:</strong> A safe, natural outdoor area with opportunities for gross motor play, gardening, and nature exploration</li>
+      <li><strong>Quiet area:</strong> A calm, comfortable space for rest, reflection, and one-on-one conversations</li>
+    </ul>
+    <p>NCF 2023 encourages use of locally available, natural, and low-cost materials in the learning environment. Expensive commercial toys and gadgets are not required — creativity, natural materials, and the teacher's thoughtful organisation of space are far more important.</p>
+    <div class="highlight-box yellow">
+      <strong>Concluding Note</strong>
+      The Foundational Stage (3–8 years) represents the most significant period of investment in India's educational reform. NEP 2020, NCF-FS 2022, NIPUN Bharat, and NCF 2023 together constitute a comprehensive policy and curricular architecture for high-quality early childhood education. Realising this vision requires the sustained commitment of teachers, school leaders, DIETs, district officials, State governments, and the Ministry of Education working in concert.
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div style="background:var(--peach-pale);border-top:2px solid var(--border);padding:2rem 3rem;text-align:center;">
+  <div style="font-family:var(--font-serif);font-size:1.1rem;color:var(--peach);font-weight:700;margin-bottom:0.5rem;">Foundational Stage (3–8 Years) Curriculum Framework Reader</div>
+  <div style="font-family:var(--font-ui);font-size:0.82rem;color:var(--text-soft);">
+    Compiled by Dr. Mateen Yousuf · School Education Department, J&amp;K<br>
+    Sources: NEP 2020 · NCF-FS 2022 · NIPUN Bharat 2021 · NCF 2023<br>
+    <span style="margin-top:0.3rem;display:block">For ECCE Educators · DIET Trainers · Cluster Mentors · Anganwadi Coordinators</span>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+// =====================
+// SERVICE WORKER
+// =====================
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+  });
+}
+
+// =====================
+// PROGRESS BAR
+// =====================
+function updateProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+
+// =====================
+// DARK MODE
+// =====================
+const darkToggle = document.getElementById('dark-toggle');
+const savedTheme = localStorage.getItem('fs-theme') || 'light';
+if (savedTheme === 'dark') {
+  document.documentElement.setAttribute('data-theme', 'dark');
+  darkToggle.textContent = '☀️';
+}
+darkToggle.addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  if (cur === 'dark') {
+    document.documentElement.removeAttribute('data-theme');
+    darkToggle.textContent = '🌙';
+    localStorage.setItem('fs-theme', 'light');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    darkToggle.textContent = '☀️';
+    localStorage.setItem('fs-theme', 'dark');
+  }
+});
+
+// =====================
+// SIDEBAR TOGGLE (mobile)
+// =====================
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+document.getElementById('menu-toggle').addEventListener('click', () => {
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('active');
+});
+overlay.addEventListener('click', () => {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('active');
+  document.getElementById('bookmarks-panel').classList.remove('open');
+});
+
+// =====================
+// SIDEBAR SECTION TOGGLE
+// =====================
+function toggleSidebarSection(header) {
+  const items = header.nextElementSibling;
+  items.classList.toggle('open');
+}
+
+// =====================
+// SCROLL TO SECTION
+// =====================
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (window.innerWidth <= 768) {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    }
+    highlightSidebarItem(id);
+  }
+}
+
+function highlightSidebarItem(id) {
+  document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(item => {
+    if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(`'${id}'`)) {
+      item.classList.add('active');
+    }
+  });
+}
+
+// =====================
+// SCROLL SPY
+// =====================
+const sections = document.querySelectorAll('.content-section[id]');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      highlightSidebarItem(entry.target.id);
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// =====================
+// BOOKMARKS
+// =====================
+function getBookmarks() {
+  try { return JSON.parse(localStorage.getItem('fs-bookmarks') || '{}'); } catch { return {}; }
+}
+function saveBookmarks(bm) {
+  localStorage.setItem('fs-bookmarks', JSON.stringify(bm));
+}
+function toggleBookmark(id, title) {
+  const bm = getBookmarks();
+  const btn = document.querySelector(`#${id} .bookmark-btn`);
+  if (bm[id]) {
+    delete bm[id];
+    if (btn) { btn.classList.remove('saved'); btn.textContent = '🔖 Bookmark'; }
+  } else {
+    bm[id] = title;
+    if (btn) { btn.classList.add('saved'); btn.textContent = '✅ Saved'; }
+  }
+  saveBookmarks(bm);
+  renderBookmarksPanel();
+}
+function renderBookmarksPanel() {
+  const bm = getBookmarks();
+  const list = document.getElementById('bookmarks-list');
+  const keys = Object.keys(bm);
+  if (!keys.length) {
+    list.innerHTML = '<em style="color:var(--text-soft);font-size:0.85rem;">No bookmarks yet.</em>';
+    return;
+  }
+  list.innerHTML = keys.map(id => `
+    <div class="bookmark-entry" onclick="scrollToSection('${id}')">
+      📌 ${bm[id]}
+    </div>
+  `).join('');
+}
+// Restore bookmark states on load
+(function() {
+  const bm = getBookmarks();
+  Object.keys(bm).forEach(id => {
+    const btn = document.querySelector(`#${id} .bookmark-btn`);
+    if (btn) { btn.classList.add('saved'); btn.textContent = '✅ Saved'; }
+  });
+  renderBookmarksPanel();
+})();
+
+// Bookmarks panel toggle
+document.getElementById('bookmark-toggle').addEventListener('click', () => {
+  document.getElementById('bookmarks-panel').classList.toggle('open');
+  overlay.classList.toggle('active');
+});
+
+// =====================
+// SIDEBAR FILTER
+// =====================
+document.getElementById('sidebar-filter').addEventListener('input', function() {
+  const val = this.value.toLowerCase();
+  document.querySelectorAll('.sidebar-item').forEach(item => {
+    item.style.display = item.textContent.toLowerCase().includes(val) ? 'flex' : 'none';
+  });
+  if (!val) {
+    document.querySelectorAll('.sidebar-items').forEach(group => {
+      if (!group.classList.contains('open')) group.classList.add('open');
+    });
+  }
+});
+
+// =====================
+// GLOBAL SEARCH
+// =====================
+const sections_data = [
+  { id: 's1', title: 'Early Childhood Care & Education Vision', source: 'NEP 2020' },
+  { id: 's2', title: 'Foundational Stage Structure (5+3+3+4)', source: 'NEP 2020' },
+  { id: 's3', title: 'School Readiness', source: 'NEP 2020' },
+  { id: 's4', title: 'Play-Based Learning', source: 'NEP 2020' },
+  { id: 's5', title: 'Foundational Literacy & Numeracy', source: 'NEP 2020' },
+  { id: 's6', title: 'Holistic Development in Early Years', source: 'NEP 2020' },
+  { id: 's7', title: 'Anganwadi Integration', source: 'NEP 2020' },
+  { id: 's8', title: 'Teacher Preparation for ECCE', source: 'NEP 2020' },
+  { id: 's9', title: 'Foundational Stage Philosophy', source: 'NCF-FS 2022' },
+  { id: 's10', title: 'Developmental Domains', source: 'NCF-FS 2022' },
+  { id: 's11', title: 'Play-Based Pedagogy', source: 'NCF-FS 2022' },
+  { id: 's12', title: 'Learning Through Discovery', source: 'NCF-FS 2022' },
+  { id: 's13', title: 'Balvatika Framework', source: 'NCF-FS 2022' },
+  { id: 's14', title: 'Competency Benchmarks', source: 'NCF-FS 2022' },
+  { id: 's15', title: 'Language Development', source: 'NCF-FS 2022' },
+  { id: 's16', title: 'Early Numeracy Framework', source: 'NCF-FS 2022' },
+  { id: 's17', title: 'FLN Goals by Grade 3', source: 'NIPUN Bharat' },
+  { id: 's18', title: 'Literacy Benchmarks', source: 'NIPUN Bharat' },
+  { id: 's19', title: 'Numeracy Benchmarks', source: 'NIPUN Bharat' },
+  { id: 's20', title: 'Assessment Guidelines', source: 'NIPUN Bharat' },
+  { id: 's21', title: 'Remedial Support', source: 'NIPUN Bharat' },
+  { id: 's22', title: 'Monitoring Mechanisms', source: 'NIPUN Bharat' },
+  { id: 's23', title: 'Stage-Wise Learning Standards', source: 'NCF 2023' },
+  { id: 's24', title: 'Multilingual Foundation', source: 'NCF 2023' },
+  { id: 's25', title: 'Experiential Approach', source: 'NCF 2023' },
+  { id: 's26', title: 'Inclusive Early Childhood Education', source: 'NCF 2023' },
+  { id: 's27', title: 'Holistic Progress Card', source: 'NCF 2023' },
+  { id: 's28', title: 'Role of the Teacher', source: 'NCF 2023' },
+  { id: 's29', title: 'Family & Community Engagement', source: 'NCF 2023' },
+  { id: 's30', title: 'Curriculum Planning at School Level', source: 'NCF 2023' },
+  { id: 's31', title: 'Learning Environment Design', source: 'NCF 2023' },
+];
+
+const searchInput = document.getElementById('global-search');
+const searchResults = document.getElementById('search-results');
+
+searchInput.addEventListener('input', function() {
+  const val = this.value.toLowerCase().trim();
+  if (!val) { searchResults.classList.remove('visible'); return; }
+  const matches = sections_data.filter(s =>
+    s.title.toLowerCase().includes(val) || s.source.toLowerCase().includes(val)
+  );
+  if (!matches.length) { searchResults.classList.remove('visible'); return; }
+  searchResults.innerHTML = matches.map(m => `
+    <div class="search-result-item" onclick="scrollToSection('${m.id}');searchInput.value='';searchResults.classList.remove('visible');">
+      <div class="result-title">${m.title}</div>
+      <div class="result-source">${m.source}</div>
+    </div>
+  `).join('');
+  searchResults.classList.add('visible');
+});
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.search-wrapper')) {
+    searchResults.classList.remove('visible');
+  }
+});
+</script>
+</body>
+</html>

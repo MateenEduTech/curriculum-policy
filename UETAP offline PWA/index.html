@@ -1,0 +1,2749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0a1628">
+<meta name="description" content="Unified Education Transformation Architecture Platform - NEP 2020 | NCF 2023">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="UETAP">
+<link rel="manifest" href="manifest.json">
+<title>UETAP - Unified Education Transformation Architecture Platform</title>
+<style>
+/* ===== GLOBAL RESET & VARIABLES ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0a1628;
+  --navy-mid: #0f2044;
+  --navy-light: #162850;
+  --blue: #1a3a6b;
+  --blue-bright: #1e4d8c;
+  --accent: #c8a84b;
+  --accent-light: #e8c96a;
+  --platinum: #d4dce8;
+  --white: #f0f4fb;
+  --text: #b8c8e0;
+  --text-light: #dce6f4;
+  --success: #2ecc71;
+  --warning: #f39c12;
+  --danger: #e74c3c;
+  --card-bg: rgba(15,32,68,0.85);
+  --border: rgba(200,168,75,0.25);
+  --glow: 0 0 20px rgba(200,168,75,0.15);
+  --font-display: 'Georgia', 'Times New Roman', serif;
+  --font-body: 'Segoe UI', 'Trebuchet MS', sans-serif;
+  --font-mono: 'Courier New', monospace;
+  --transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--navy);
+  color: var(--text-light);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(26,58,107,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(200,168,75,0.08) 0%, transparent 60%);
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+/* ===== SCREENS ===== */
+.screen { display: none; min-height: 100vh; animation: fadeIn 0.5s ease; }
+.screen.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== TITLE SCREEN ===== */
+#title-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-grid {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background-image:
+    linear-gradient(rgba(200,168,75,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,168,75,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none; z-index: 0;
+}
+
+.title-content { position: relative; z-index: 1; text-align: center; max-width: 860px; width: 100%; }
+
+.title-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(200,168,75,0.2), rgba(200,168,75,0.05));
+  border: 1px solid var(--accent);
+  color: var(--accent-light);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  padding: 0.45rem 1.4rem;
+  border-radius: 2px;
+  margin-bottom: 1.8rem;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+
+.title-main {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 5vw, 3.4rem);
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 0.6rem;
+  text-shadow: 0 2px 30px rgba(200,168,75,0.2);
+}
+
+.title-main span { color: var(--accent-light); }
+.title-sub {
+  font-size: 0.85rem;
+  color: var(--text);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.divider-ornament {
+  display: flex; align-items: center; gap: 1rem;
+  margin: 1.8rem auto;
+  max-width: 420px;
+}
+.divider-ornament::before, .divider-ornament::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(to right, transparent, var(--accent), transparent);
+}
+.divider-ornament span { color: var(--accent); font-size: 1.1rem; }
+
+.author-section {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.2rem 2rem;
+  backdrop-filter: blur(8px);
+}
+
+.author-photo {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  object-fit: cover;
+  box-shadow: 0 0 16px rgba(200,168,75,0.3);
+}
+
+.author-info h3 { color: var(--white); font-size: 1rem; font-family: var(--font-display); }
+.author-info p { color: var(--text); font-size: 0.78rem; line-height: 1.6; }
+.author-info span { color: var(--accent-light); }
+
+.nep-badge {
+  display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+.nep-pill {
+  background: rgba(200,168,75,0.12);
+  border: 1px solid rgba(200,168,75,0.35);
+  color: var(--accent-light);
+  font-size: 0.72rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 20px;
+  letter-spacing: 0.1em;
+}
+
+.title-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent) 0%, #a8882e 100%);
+  color: var(--navy);
+  border: none;
+  padding: 0.95rem 1.5rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: var(--transition);
+  font-family: var(--font-body);
+  box-shadow: 0 4px 20px rgba(200,168,75,0.25);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(200,168,75,0.4); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--platinum);
+  border: 1px solid var(--border);
+  padding: 0.95rem 1.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: var(--transition);
+  font-family: var(--font-body);
+  backdrop-filter: blur(4px);
+}
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent-light); transform: translateY(-2px); }
+
+/* ===== NAVIGATION ===== */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,22,40,0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  display: flex; align-items: center;
+  padding: 0 1.5rem;
+  height: 56px;
+  gap: 1rem;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  color: var(--accent-light);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-tabs {
+  display: flex; gap: 0.25rem; overflow-x: auto;
+  scrollbar-width: none; flex: 1;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+
+.nav-tab {
+  background: none; border: none;
+  color: var(--text);
+  font-size: 0.75rem;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  border-radius: 3px;
+  white-space: nowrap;
+  transition: var(--transition);
+  letter-spacing: 0.05em;
+  font-family: var(--font-body);
+}
+.nav-tab:hover { color: var(--white); background: rgba(200,168,75,0.1); }
+.nav-tab.active { color: var(--accent-light); background: rgba(200,168,75,0.12); border-bottom: 2px solid var(--accent); }
+
+.nav-home {
+  background: rgba(200,168,75,0.15);
+  border: 1px solid rgba(200,168,75,0.3);
+  color: var(--accent);
+  font-size: 0.72rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: var(--font-body);
+  transition: var(--transition);
+}
+.nav-home:hover { background: rgba(200,168,75,0.25); }
+
+/* ===== MAIN CONTENT AREA ===== */
+.page-content { padding: 2rem 1.5rem; max-width: 960px; margin: 0 auto; }
+
+/* ===== SECTION HEADER ===== */
+.section-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+.section-tag {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  margin-bottom: 0.6rem;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  color: var(--white);
+  line-height: 1.25;
+}
+.section-sub { color: var(--text); font-size: 0.88rem; margin-top: 0.5rem; line-height: 1.7; }
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.5rem;
+  backdrop-filter: blur(8px);
+  transition: var(--transition);
+}
+.card:hover { border-color: rgba(200,168,75,0.5); box-shadow: var(--glow); }
+
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+.card-grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.2rem; }
+
+.card-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
+.card-title { color: var(--white); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; }
+.card-text { color: var(--text); font-size: 0.82rem; line-height: 1.7; }
+
+/* ===== FRAMEWORK PAGES ===== */
+.framework-page { display: none; }
+.framework-page.active { display: block; animation: fadeIn 0.4s ease; }
+
+.page-header {
+  background: linear-gradient(135deg, var(--navy-mid), var(--blue));
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+.page-number {
+  font-size: 0.7rem; letter-spacing: 0.2em; color: var(--accent);
+  text-transform: uppercase; font-family: var(--font-mono); margin-bottom: 0.5rem;
+}
+.page-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 3vw, 1.9rem);
+  color: var(--white); line-height: 1.3;
+}
+
+.content-block { margin-bottom: 2rem; }
+.content-block h3 {
+  color: var(--accent-light);
+  font-size: 0.95rem;
+  font-family: var(--font-display);
+  margin-bottom: 0.8rem;
+  padding-left: 0.8rem;
+  border-left: 3px solid var(--accent);
+}
+.content-block p {
+  color: var(--text-light);
+  font-size: 0.88rem;
+  line-height: 1.85;
+  margin-bottom: 0.8rem;
+}
+.content-block ul {
+  padding-left: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+.content-block li {
+  color: var(--text-light);
+  font-size: 0.86rem;
+  line-height: 1.8;
+  margin-bottom: 0.3rem;
+}
+.content-block li::marker { color: var(--accent); }
+
+.reflection-box {
+  background: rgba(200,168,75,0.06);
+  border: 1px solid rgba(200,168,75,0.2);
+  border-radius: 4px;
+  padding: 1.2rem;
+  margin-top: 1.5rem;
+}
+.reflection-box h4 { color: var(--accent); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.6rem; }
+.reflection-box p { color: var(--text); font-size: 0.83rem; line-height: 1.75; }
+
+.page-nav-btns {
+  display: flex; justify-content: space-between; gap: 1rem;
+  margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+}
+
+.concept-diagram {
+  background: rgba(15,32,68,0.9);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent-light);
+  line-height: 1.8;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* ===== MODULE CARDS ===== */
+.module-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.module-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  transform: scaleX(0); transition: var(--transition);
+}
+.module-card:hover::before { transform: scaleX(1); }
+.module-card:hover { border-color: rgba(200,168,75,0.5); transform: translateY(-3px); box-shadow: var(--glow); }
+
+.module-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+.module-name { color: var(--white); font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+.module-desc { color: var(--text); font-size: 0.8rem; line-height: 1.65; margin-bottom: 1rem; }
+.module-btn {
+  display: inline-block;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.72rem;
+  padding: 0.4rem 1rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.module-btn:hover { background: rgba(200,168,75,0.15); }
+
+/* ===== MODULE DETAIL ===== */
+.module-detail { display: none; }
+.module-detail.active { display: block; animation: fadeIn 0.4s ease; }
+
+/* ===== DASHBOARD ===== */
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.metric-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.2rem;
+  text-align: center;
+}
+.metric-value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--accent-light);
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.metric-label { color: var(--text); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.metric-trend { font-size: 0.7rem; color: var(--success); margin-top: 0.3rem; }
+
+/* ===== RADAR CHART ===== */
+.chart-container {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.chart-title { color: var(--white); font-size: 0.9rem; margin-bottom: 1rem; }
+
+/* ===== SIMULATION ===== */
+.slider-group { margin-bottom: 1.5rem; }
+.slider-label {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 0.5rem;
+  color: var(--text-light);
+  font-size: 0.82rem;
+}
+.slider-label span { color: var(--accent); font-family: var(--font-mono); }
+input[type="range"] {
+  width: 100%; height: 4px;
+  background: rgba(200,168,75,0.2);
+  outline: none; border-radius: 2px;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(200,168,75,0.4);
+}
+
+.projection-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.5rem;
+}
+.year-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+.year-tab {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text); font-size: 0.78rem; padding: 0.5rem 1rem;
+  border-radius: 3px; cursor: pointer; transition: var(--transition);
+  font-family: var(--font-body);
+}
+.year-tab.active { background: rgba(200,168,75,0.15); border-color: var(--accent); color: var(--accent-light); }
+
+.projection-bar {
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 0.8rem;
+}
+.proj-label { color: var(--text); font-size: 0.78rem; width: 160px; flex-shrink: 0; }
+.proj-track { flex: 1; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
+.proj-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue-bright), var(--accent)); transition: width 0.8s ease; }
+.proj-val { color: var(--accent-light); font-size: 0.78rem; font-family: var(--font-mono); width: 40px; text-align: right; }
+
+/* ===== VISUALIZER ===== */
+.layer-grid { display: grid; gap: 1rem; }
+.arch-layer {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.arch-layer:hover { border-color: rgba(200,168,75,0.6); }
+.arch-layer-header {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 1.2rem;
+}
+.arch-layer-icon { font-size: 1.4rem; }
+.arch-layer-name { color: var(--white); font-size: 0.95rem; font-weight: 600; flex: 1; }
+.arch-layer-badge {
+  font-size: 0.68rem; padding: 0.25rem 0.6rem; border-radius: 10px;
+  letter-spacing: 0.08em;
+}
+.arch-layer-expand { color: var(--accent); font-size: 0.9rem; transition: var(--transition); }
+.arch-layer.open .arch-layer-expand { transform: rotate(180deg); }
+.arch-layer-body {
+  display: none;
+  padding: 0 1.2rem 1.2rem;
+  border-top: 1px solid var(--border);
+}
+.arch-layer.open .arch-layer-body { display: block; animation: fadeIn 0.3s ease; }
+.arch-layer-body p { color: var(--text-light); font-size: 0.85rem; line-height: 1.8; margin-bottom: 0.6rem; }
+.impact-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+.impact-tag {
+  background: rgba(200,168,75,0.08);
+  border: 1px solid rgba(200,168,75,0.2);
+  color: var(--accent-light);
+  font-size: 0.68rem; padding: 0.25rem 0.6rem;
+  border-radius: 10px;
+}
+
+/* ===== EQUITY MONITOR ===== */
+.equity-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.2rem; }
+.equity-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.2rem;
+}
+.equity-name { color: var(--text); font-size: 0.78rem; margin-bottom: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.equity-score { font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 0.5rem; }
+.equity-bar { height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+.equity-bar-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+.equity-note { color: var(--text); font-size: 0.72rem; margin-top: 0.5rem; }
+
+.ethics-score-display {
+  text-align: center; padding: 2rem;
+  background: linear-gradient(135deg, rgba(200,168,75,0.08), transparent);
+  border: 1px solid var(--border);
+  border-radius: 6px; margin-top: 1.5rem;
+}
+.ethics-big {
+  font-family: var(--font-display);
+  font-size: 4rem; color: var(--accent-light);
+  line-height: 1;
+}
+.ethics-label { color: var(--text); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.15em; margin-top: 0.5rem; }
+
+/* ===== REPORT GENERATOR ===== */
+.report-form { max-width: 600px; }
+.form-group { margin-bottom: 1.2rem; }
+.form-label { display: block; color: var(--text); font-size: 0.8rem; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.form-input, .form-select {
+  width: 100%; background: rgba(15,32,68,0.8);
+  border: 1px solid var(--border);
+  color: var(--white); font-size: 0.85rem;
+  padding: 0.7rem 0.9rem; border-radius: 3px;
+  outline: none; transition: var(--transition);
+  font-family: var(--font-body);
+}
+.form-input:focus, .form-select:focus { border-color: var(--accent); }
+.form-select option { background: var(--navy-mid); }
+
+/* ===== INTEGRATION FLOW ===== */
+.flow-steps { display: flex; flex-direction: column; gap: 0; }
+.flow-step {
+  display: flex; gap: 1.2rem; align-items: flex-start;
+  padding: 1rem 0;
+  position: relative;
+}
+.flow-step:not(:last-child)::after {
+  content: ''; position: absolute; left: 18px; top: 52px;
+  width: 2px; height: calc(100% - 20px);
+  background: linear-gradient(to bottom, var(--accent), transparent);
+}
+.flow-dot {
+  width: 38px; height: 38px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--accent), #8a6020);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 700; color: var(--navy);
+  position: relative; z-index: 1;
+}
+.flow-body h4 { color: var(--white); font-size: 0.9rem; margin-bottom: 0.3rem; }
+.flow-body p { color: var(--text); font-size: 0.82rem; line-height: 1.7; }
+
+/* ===== PROGRESS TRACKER ===== */
+.progress-bar-container {
+  background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px;
+  overflow: hidden; margin-bottom: 1.5rem;
+}
+.progress-bar-fill {
+  height: 100%; background: linear-gradient(90deg, var(--blue-bright), var(--accent));
+  border-radius: 3px; transition: width 0.5s ease;
+}
+
+/* ===== APK GUIDE ===== */
+.step-list { counter-reset: steps; }
+.step-item {
+  counter-increment: steps;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.2rem 1.2rem 1.2rem 4rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.step-item::before {
+  content: counter(steps);
+  position: absolute; left: 1.2rem; top: 1.2rem;
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, var(--accent), #8a6020);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 700; color: var(--navy);
+  line-height: 28px; text-align: center;
+}
+.step-item h4 { color: var(--white); font-size: 0.9rem; margin-bottom: 0.5rem; }
+.step-item p, .step-item li { color: var(--text); font-size: 0.83rem; line-height: 1.75; }
+.step-item ul { padding-left: 1.2rem; }
+.code-snippet {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(200,168,75,0.15);
+  border-radius: 3px;
+  padding: 0.8rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent-light);
+  margin-top: 0.5rem;
+  overflow-x: auto;
+}
+
+/* ===== FORMULA DISPLAY ===== */
+.formula-card {
+  background: rgba(15,32,68,0.9);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+}
+.formula-name { color: var(--accent-light); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem; }
+.formula-expr {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--white);
+  background: rgba(0,0,0,0.3);
+  padding: 0.5rem 0.8rem;
+  border-radius: 3px;
+  margin-bottom: 0.4rem;
+}
+.formula-desc { color: var(--text); font-size: 0.78rem; line-height: 1.7; }
+
+/* ===== TOAST NOTIFICATION ===== */
+.toast {
+  position: fixed; bottom: 2rem; right: 1.5rem; z-index: 9999;
+  background: linear-gradient(135deg, var(--navy-mid), var(--blue));
+  border: 1px solid var(--accent);
+  color: var(--white);
+  padding: 0.9rem 1.4rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  transform: translateY(100px); opacity: 0;
+  transition: all 0.4s ease;
+  max-width: 320px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* ===== LOADING SCREEN ===== */
+#loading-screen {
+  position: fixed; inset: 0; z-index: 9998;
+  background: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 1.5rem;
+}
+.loader-ring {
+  width: 60px; height: 60px;
+  border: 3px solid rgba(200,168,75,0.15);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loader-text { color: var(--text); font-size: 0.82rem; letter-spacing: 0.15em; text-transform: uppercase; }
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  .nav, .nav-home, .title-buttons, .page-nav-btns { display: none !important; }
+  body { background: white; color: black; }
+  .card, .content-block, .section-header { border-color: #ccc; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .title-buttons { grid-template-columns: 1fr; }
+  .author-section { flex-direction: column; text-align: center; }
+  .page-nav-btns { flex-direction: column; }
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<!-- LOADING SCREEN -->
+<div id="loading-screen">
+  <div class="loader-ring"></div>
+  <div class="loader-text">Initializing Platform...</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ===== TITLE SCREEN ===== -->
+<div id="title-screen" class="screen active">
+  <div class="title-content">
+    <div class="title-badge">Offline Edition · Version 2.0</div>
+    <h1 class="title-main">
+      Unified Education<br>
+      <span>Transformation Architecture</span><br>
+      Platform
+    </h1>
+    <p class="title-sub">UETAP · Offline Educational Super-Platform</p>
+
+    <div class="divider-ornament"><span>✦</span></div>
+
+    <div class="author-section">
+      <img src="author.jpg" alt="Mateen Yousuf" class="author-photo" onerror="this.style.display='none'">
+      <div class="author-info">
+        <h3>Mateen Yousuf</h3>
+        <p>Teacher, School Education Department<br><span>Kashmir</span></p>
+        <p style="margin-top:0.3rem; font-size:0.72rem; color: var(--text);">Educational Systems Architect & Reform Strategist</p>
+      </div>
+    </div>
+
+    <div class="nep-badge">
+      <span class="nep-pill">NEP 2020</span>
+      <span class="nep-pill">NCF 2023</span>
+      <span class="nep-pill">Competency-Based System</span>
+      <span class="nep-pill">Offline First</span>
+      <span class="nep-pill">PWA Enabled</span>
+    </div>
+
+    <div class="title-buttons">
+      <button class="btn-primary" onclick="showScreen('framework-screen'); loadFrameworkPage(1)">
+        📐 Enter System Architecture
+      </button>
+      <button class="btn-secondary" onclick="showScreen('modules-screen')">
+        🧩 Select Module
+      </button>
+      <button class="btn-secondary" onclick="showScreen('dashboard-screen')">
+        📊 Unified Dashboard
+      </button>
+      <button class="btn-primary" onclick="showScreen('vision-screen')">
+        🔭 Vision &amp; Framework
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== NAVIGATION (shown on sub-screens) ===== -->
+<nav class="nav" id="main-nav" style="display:none">
+  <span class="nav-logo" onclick="showScreen('title-screen')">UETAP</span>
+  <div class="nav-tabs">
+    <button class="nav-tab" onclick="showScreen('framework-screen')">📐 Architecture</button>
+    <button class="nav-tab" onclick="showScreen('modules-screen')">🧩 Modules</button>
+    <button class="nav-tab" onclick="showScreen('dashboard-screen')">📊 Dashboard</button>
+    <button class="nav-tab" onclick="showScreen('simulation-screen')">🔮 Simulation</button>
+    <button class="nav-tab" onclick="showScreen('visualizer-screen')">🗺️ Visualizer</button>
+    <button class="nav-tab" onclick="showScreen('equity-screen')">⚖️ Equity</button>
+    <button class="nav-tab" onclick="showScreen('formulas-screen')">🧮 Formulas</button>
+    <button class="nav-tab" onclick="showScreen('report-screen')">📋 Reports</button>
+    <button class="nav-tab" onclick="showScreen('apk-screen')">📱 APK Guide</button>
+    <button class="nav-tab" onclick="showScreen('vision-screen')">🔭 Vision</button>
+  </div>
+  <button class="nav-home" onclick="showScreen('title-screen')">🏠 Home</button>
+</nav>
+
+<!-- ===== SECTION 1: FRAMEWORK SCREEN (20 pages) ===== -->
+<div id="framework-screen" class="screen">
+  <div class="page-content">
+    <div class="section-header">
+      <div class="section-tag">Section 01 · Systemic Framework Foundation</div>
+      <h2 class="section-title">Architecture Pages</h2>
+      <p class="section-sub">20 deep architectural content pages — each 1000+ words of structured knowledge aligned with NEP 2020 and NCF 2023.</p>
+    </div>
+
+    <!-- PAGE NAVIGATOR -->
+    <div style="margin-bottom:2rem;">
+      <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1rem;">
+        <div id="progress-bar-container" class="progress-bar-container" style="width:100%; margin-bottom:0.5rem;">
+          <div class="progress-bar-fill" id="fw-progress" style="width:5%"></div>
+        </div>
+        <span style="color:var(--text); font-size:0.78rem;" id="fw-page-indicator">Page 1 of 20</span>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.4rem;" id="fw-page-btns"></div>
+    </div>
+
+    <!-- PAGES CONTAINER -->
+    <div id="fw-pages-container"></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 2: MODULES SCREEN ===== -->
+<div id="modules-screen" class="screen">
+  <div class="page-content">
+    <div class="section-header">
+      <div class="section-tag">Section 02 · Modular System Selector</div>
+      <h2 class="section-title">Learning & Analytics Modules</h2>
+      <p class="section-sub">Each module functions independently but shares a unified data architecture. Select any module to enter its workspace.</p>
+    </div>
+
+    <div id="modules-grid" class="card-grid">
+      <!-- Modules inserted by JS -->
+    </div>
+
+    <!-- MODULE DETAIL VIEWS -->
+    <div id="module-details-container"></div>
+  </div>
+</div>
+
+<!-- ===== SECTION 5: DASHBOARD SCREEN ===== -->
+<div id="dashboard-screen" class="screen">
+  <div class="page-content">
+    <div class="section-header">
+      <div class="section-tag">Section 05 · Unified Dashboard</div>
+      <h2 class="section-title">System Intelligence Dashboard</h2>
+      <p class="section-sub">All indices computed locally using deterministic rule-based engines. Data persisted in LocalStorage.</p>
+    </div>
+
+    <div class="metrics-grid" id="dashboard-metrics">
+      <!-- Inserted by JS -->
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin-bottom:1.5rem;">
+      <div class="chart-container">
+        <div class="chart-title">📡 System Radar — Competency Overview</div>
+        <canvas id="radarChart" width="340" height="280"></canvas>
+      </div>
+      <div class="chart-container">
+        <div class="chart-title">📈 Growth Trend — 5-Year Projection</div>
+        <canvas id="trendChart" width="340" height="280"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-title">🌡️ Competency Heatmap — Subject × Grade</div>
+      <canvas id="heatmapChart" width="860" height="200"></canvas>
+    </div>
+
+    <div style="margin-top:1.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
+      <button class="btn-primary" onclick="refreshDashboard()">🔄 Refresh Metrics</button>
+      <button class="btn-secondary" onclick="exportDashboardData()">💾 Export State</button>
+      <button class="btn-secondary" onclick="importDashboardData()">📂 Import State</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 6: SIMULATION SCREEN ===== -->
+<div id="simulation-screen" class="screen">
+  <div class="page-content">
+    <div class="section-header">
+      <div class="section-tag">Section 06 · System Simulation Mode</div>
+      <h2 class="section-title">Reform Impact Projector</h2>
+      <p class="section-sub">Adjust parameters below. The system projects 3-year, 5-year, and 10-year outcomes using deterministic modeling.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+      <div class="card">
+        <h3 style="color:var(--white); font-size:0.95rem; margin-bottom:1.5rem;">🎛️ System Parameters</h3>
+
+        <div class="slider-group">
+          <div class="slider-label">Reform Intensity Level <span id="reform-val">65%</span></div>
+          <input type="range" min="0" max="100" value="65" id="reform-slider" oninput="updateSimulation()">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label">Budget Capacity <span id="budget-val">55%</span></div>
+          <input type="range" min="0" max="100" value="55" id="budget-slider" oninput="updateSimulation()">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label">Teacher Capacity <span id="teacher-val">70%</span></div>
+          <input type="range" min="0" max="100" value="70" id="teacher-slider" oninput="updateSimulation()">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label">Policy Alignment Strength <span id="policy-val">60%</span></div>
+          <input type="range" min="0" max="100" value="60" id="policy-slider" oninput="updateSimulation()">
+        </div>
+        <div class="slider-group">
+          <div class="slider-label">Community Engagement <span id="comm-val">50%</span></div>
+          <input type="range" min="0" max="100" value="50" id="comm-slider" oninput="updateSimulation()">
+        </div>
+
+        <button class="btn-primary" style="width:100%; margin-top:0.5rem;" onclick="runSimulation()">▶ Run Full Simulation</button>
+      </div>
+
+      <div class="projection-card">
+        <h3 style="color:var(--white); font-size:0.95rem; margin-bottom:1rem;">📊 Projected Outcomes</h3>
+        <div class="year-tabs">
+          <button class="year-tab active" onclick="showYear(3, this)">3 Years</button>
+          <button class="year-tab" onclick="showYear(5, this)">5 Years</button>
+          <button class="year-tab" onclick="showYear(10, this)">10 Years</button>
+        </div>
+        <div id="projection-results">
+          <!-- Inserted by JS -->
+        </div>
+        <div style="margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border);">
+          <div style="color:var(--text); font-size:0.78rem; margin-bottom:0.5rem;">SYSTEM COHERENCE SCORE</div>
+          <div style="font-family:var(--font-display); font-size:2rem; color:var(--accent-light);" id="coherence-score">72</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 7: VISUALIZER SCREEN ===== -->
+<div id="visualizer-screen" class="screen">
+  <div class="page-content">
+    <div class="section-header">
+      <div class="section-tag">Section 07 · Architecture Visualizer</div>
+      <h2 class="section-title">System Layer Architecture</h2>
+      <p class="section-sub">Click any layer to expand its detailed explanation and impact mapping.</p>
+    </div>
+
+    <div style="margin-bottom:1.5rem;">
+      <svg viewBox="0 0 700 120" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:700px; display:block; margin:0 auto;">
+        <defs>
+          <linearGradient id="connGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#c8a84b" stop-opacity="0.3"/>
+            <stop offset="50%" stop-color="#c8a84b" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#c8a84b" stop-opacity="0.3"/>
+          </linearGradient>
+        </defs>
+        <line x1="70" y1="60" x2="630" y2="60" stroke="url(#connGrad)" stroke-width="2" stroke-dasharray="6,4"/>
+        <g onclick="toggleLayer('cognitive-layer')" style="cursor:pointer">
+          <circle cx="70" cy="60" r="28" fill="#0f2044" stroke="#c8a84b" stroke-width="1.5"/>
+          <text x="70" y="55" text-anchor="middle" font-size="16" fill="#c8a84b">🧠</text>
+          <text x="70" y="96" text-anchor="middle" font-size="8" fill="#b8c8e0">Cognitive</text>
+        </g>
+        <g onclick="toggleLayer('pedagogical-layer')" style="cursor:pointer">
+          <circle cx="196" cy="60" r="28" fill="#0f2044" stroke="#c8a84b" stroke-width="1.5"/>
+          <text x="196" y="55" text-anchor="middle" font-size="16" fill="#c8a84b">📚</text>
+          <text x="196" y="96" text-anchor="middle" font-size="8" fill="#b8c8e0">Pedagogical</text>
+        </g>
+        <g onclick="toggleLayer('assessment-layer')" style="cursor:pointer">
+          <circle cx="322" cy="60" r="28" fill="#0f2044" stroke="#c8a84b" stroke-width="1.5"/>
+          <text x="322" y="55" text-anchor="middle" font-size="16" fill="#c8a84b">📝</text>
+          <text x="322" y="96" text-anchor="middle" font-size="8" fill="#b8c8e0">Assessment</text>
+        </g>
+        <g onclick="toggleLayer('governance-layer')" style="cursor:pointer">
+          <circle cx="448" cy="60" r="28" fill="#0f2044" stroke="#c8a84b" stroke-width="1.5"/>
+          <text x="448" y="55" text-anchor="middle" font-size="16" fill="#c8a84b">🏛️</text>
+          <text x="448" y="96" text-anchor="middle" font-size="8" fill="#b8c8e0">Governance</text>
+        </g>
+        <g onclick="toggleLayer('policy-layer')" style="cursor:pointer">
+          <circle cx="574" cy="60" r="28" fill="#0f2044" stroke="#c8a84b" stroke-width="1.5"/>
+          <text x="574" y="55" text-anchor="middle" font-size="16" fill="#c8a84b">📜</text>
+          <text x="574" y="96" text-anchor="middle" font-size="8" fill="#b8c8e0">Policy</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="layer-grid" id="arch-layers-container">
+      <!-- Inserted by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 8: EQUITY SCREEN ===== -->
+<div id="equity-screen" class="screen">
+  <div class="page-content">
+    <div class="section-header">
+      <div class="section-tag">Section 08 · Equity &amp; Ethics Monitor</div>
+      <h2 class="section-title">Inclusion & Equity Dashboard</h2>
+      <p class="section-sub">Monitoring systemic equity across access, gender, geography, and digital inclusion.</p>
+    </div>
+
+    <div class="equity-grid" id="equity-grid-container">
+      <!-- Inserted by JS -->
+    </div>
+
+    <div class="ethics-score-display">
+      <div class="ethics-big" id="ethics-score">76</div>
+      <div class="ethics-label">Ethical Balance Score</div>
+      <p style="color:var(--text); font-size:0.82rem; margin-top:0.8rem; max-width:500px; margin-left:auto; margin-right:auto; line-height:1.8;">
+        The Ethical Balance Score measures the composite equity of the system across inclusion, access, gender parity, and digital divide indicators. A score above 70 reflects good systemic equity.
+      </p>
+      <button class="btn-primary" style="margin-top:1rem;" onclick="recalcEquity()">🔄 Recalculate Equity Score</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FORMULAS SCREEN ===== -->
+<div id="formulas-screen" class="screen">
+  <div class="page-content">
+    <div class="section-header">
+      <div class="section-tag">Analytics Engine · Deterministic Formulas</div>
+      <h2 class="section-title">System Index Formulas</h2>
+      <p class="section-sub">All indices computed locally in JavaScript using weighted deterministic algorithms. No API. No backend.</p>
+    </div>
+    <div id="formulas-container">
+      <!-- Inserted by JS -->
+    </div>
+    <div style="margin-top:2rem; padding:1.5rem; background:var(--card-bg); border:1px solid var(--border); border-radius:6px;">
+      <h3 style="color:var(--white); font-size:0.95rem; margin-bottom:1rem;">📦 Sample JSON Data Schema</h3>
+      <pre class="code-snippet" id="json-schema-display">Loading schema...</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ===== REPORT SCREEN ===== -->
+<div id="report-screen" class="screen">
+  <div class="page-content">
+    <div class="section-header">
+      <div class="section-tag">Section 09 · Master Report Generator</div>
+      <h2 class="section-title">Institutional Report Generator</h2>
+      <p class="section-sub">Generate comprehensive transformation reports based on locally stored system data.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+      <div class="card report-form">
+        <h3 style="color:var(--white); font-size:0.95rem; margin-bottom:1.5rem;">📋 Configure Report</h3>
+        <div class="form-group">
+          <label class="form-label">Institution Name</label>
+          <input type="text" class="form-input" id="inst-name" placeholder="e.g. Government High School, Srinagar">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Report Type</label>
+          <select class="form-select" id="report-type">
+            <option value="transformation">Institutional Transformation Report</option>
+            <option value="competency">Unified Competency Report</option>
+            <option value="sustainability">Reform Sustainability Report</option>
+            <option value="policy">Policy Impact Summary</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Academic Year</label>
+          <input type="text" class="form-input" id="acad-year" placeholder="e.g. 2025–26">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Principal / HoD Name</label>
+          <input type="text" class="form-input" id="principal-name" placeholder="Enter name">
+        </div>
+        <button class="btn-primary" style="width:100%; margin-top:0.5rem;" onclick="generateReport()">📄 Generate Report</button>
+      </div>
+
+      <div class="card">
+        <h3 style="color:var(--white); font-size:0.95rem; margin-bottom:1rem;">📑 Report Preview</h3>
+        <div id="report-preview" style="color:var(--text); font-size:0.82rem; line-height:1.8; min-height:300px;">
+          Configure the form on the left and click Generate Report to preview your report here.
+        </div>
+        <div style="margin-top:1rem; display:flex; gap:0.8rem;">
+          <button class="btn-primary" onclick="printReport()">🖨️ Print Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== APK GUIDE SCREEN ===== -->
+<div id="apk-screen" class="screen">
+  <div class="page-content">
+    <div class="section-header">
+      <div class="section-tag">APK Conversion Guide</div>
+      <h2 class="section-title">Convert to Android APK</h2>
+      <p class="section-sub">Step-by-step guide to package this PWA as a native-like Android APK using Android Studio WebView wrapper.</p>
+    </div>
+    <div class="step-list" id="apk-steps-container">
+      <!-- Inserted by JS -->
+    </div>
+
+    <div style="margin-top:2rem;">
+      <h3 style="color:var(--white); font-size:0.95rem; margin-bottom:1rem;">📁 File Structure</h3>
+      <pre class="code-snippet">jkbose-class9-science-app/
+├── index.html          ← Main application (this file)
+├── manifest.json       ← PWA manifest
+├── service-worker.js   ← Offline caching logic
+└── author.jpg          ← Author photograph</pre>
+
+      <h3 style="color:var(--white); font-size:0.95rem; margin:1.5rem 0 1rem;">📜 manifest.json</h3>
+      <pre class="code-snippet">{
+  "name": "Unified Education Transformation Architecture Platform",
+  "short_name": "UETAP",
+  "description": "NEP 2020 | NCF 2023 Offline Education Platform",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a1628",
+  "theme_color": "#0a1628",
+  "icons": [
+    { "src": "author.jpg", "sizes": "192x192", "type": "image/jpeg" },
+    { "src": "author.jpg", "sizes": "512x512", "type": "image/jpeg" }
+  ]
+}</pre>
+
+      <h3 style="color:var(--white); font-size:0.95rem; margin:1.5rem 0 1rem;">🔧 service-worker.js</h3>
+      <pre class="code-snippet">const CACHE = 'uetap-v1';
+const FILES = ['./index.html','./manifest.json','./author.jpg'];
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+});</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ===== VISION SCREEN ===== -->
+<div id="vision-screen" class="screen">
+  <div class="page-content">
+    <div class="section-header">
+      <div class="section-tag">Vision &amp; Framework</div>
+      <h2 class="section-title">NEP 2020 · NCF 2023 Integration Framework</h2>
+      <p class="section-sub">The philosophical and policy foundations of this platform.</p>
+    </div>
+
+    <div class="flow-steps" id="integration-flow">
+      <!-- Inserted by JS -->
+    </div>
+
+    <div style="margin-top:2rem;">
+      <h3 style="color:var(--white); font-size:1rem; margin-bottom:1.2rem; font-family:var(--font-display);">Cross-Module Integration Engine</h3>
+      <div class="concept-diagram" id="integration-diagram">Loading integration diagram...</div>
+    </div>
+
+    <div style="margin-top:2rem; display:grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap:1rem;">
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <div class="card-title">Holistic Development</div>
+        <div class="card-text">NEP 2020 emphasizes the 5+3+3+4 curricular structure, integrating cognitive, emotional, and physical development across all stages.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <div class="card-title">Competency Continuum</div>
+        <div class="card-text">NCF 2023 maps every learning outcome to measurable competencies, creating a continuous growth pathway from foundational to advanced.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Evidence-Based Governance</div>
+        <div class="card-text">Data-driven decision making at every layer — from classroom to national policy — using local analytics without any cloud dependency.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Adaptive Systems</div>
+        <div class="card-text">Deterministic rule engines adapt learning pathways, mentoring strategies, and reform models based on real-time local data signals.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== JAVASCRIPT ENGINE ===== -->
+<script>
+'use strict';
+
+/* ==============================
+   STATE MANAGEMENT
+============================== */
+const STATE_KEY = 'uetap_unified_state';
+let unifiedState = {
+  studentLayer: { competencyIndex: 72, fln: 68, literacy: 75, numeracy: 65, subjects: [72,68,80,61,74,70] },
+  teacherLayer: { growthIndex: 74, cpd: 70, observation: 78, mentoring: 72 },
+  schoolLayer: { reformIndex: 69, benchmark: 65, sustainability: 73 },
+  systemLayer: { policyScore: 67, equityIndex: 76, coherence: 71 },
+  simulation: { reform: 65, budget: 55, teacher: 70, policy: 60, community: 50 },
+  equity: { inclusion: 74, gender: 71, access: 68, digital: 62, rural: 65, minority: 70 }
+};
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STATE_KEY);
+    if (saved) unifiedState = { ...unifiedState, ...JSON.parse(saved) };
+  } catch(e) {}
+}
+function saveState() {
+  try { localStorage.setItem(STATE_KEY, JSON.stringify(unifiedState)); } catch(e) {}
+}
+loadState();
+
+/* ==============================
+   SCREEN NAVIGATION
+============================== */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const nav = document.getElementById('main-nav');
+  nav.style.display = id === 'title-screen' ? 'none' : 'flex';
+
+  // Update nav active tab
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  const screenToNav = {
+    'framework-screen': 0, 'modules-screen': 1, 'dashboard-screen': 2,
+    'simulation-screen': 3, 'visualizer-screen': 4, 'equity-screen': 5,
+    'formulas-screen': 6, 'report-screen': 7, 'apk-screen': 8, 'vision-screen': 9
+  };
+  const tabs = document.querySelectorAll('.nav-tab');
+  if (screenToNav[id] !== undefined) tabs[screenToNav[id]]?.classList.add('active');
+
+  // Init screen-specific content
+  if (id === 'dashboard-screen') initDashboard();
+  if (id === 'simulation-screen') { initSimulation(); updateSimulation(); }
+  if (id === 'visualizer-screen') initVisualizer();
+  if (id === 'equity-screen') initEquity();
+  if (id === 'formulas-screen') initFormulas();
+  if (id === 'modules-screen') initModules();
+  if (id === 'vision-screen') initVision();
+  if (id === 'apk-screen') initApkGuide();
+
+  window.scrollTo(0, 0);
+}
+
+/* ==============================
+   FRAMEWORK PAGES DATA
+============================== */
+const frameworkPages = [
+  {
+    title: "What is Education Architecture?",
+    content: `
+    <div class="content-block">
+      <h3>Defining Education Architecture</h3>
+      <p>Education architecture is the systematic design of all structural, functional, and relational elements that constitute a learning ecosystem. Unlike traditional educational planning, which often addresses individual components in isolation, education architecture takes a holistic, integrated view — treating the school system as a living, adaptive organism where every part influences every other.</p>
+      <p>At its core, education architecture answers three fundamental questions: How is knowledge structured and delivered? How is learning measured and validated? And how does the system adapt and improve over time? These questions span multiple dimensions — cognitive, institutional, policy, and social — making architecture an inherently multidisciplinary discipline.</p>
+      <p>NEP 2020 explicitly calls for a systemic reimagining of Indian education. Rather than incremental reform, it envisions a complete architectural overhaul — one that connects curriculum design, pedagogical practice, assessment philosophy, teacher development, and governance into a coherent whole. This platform is designed to make that architecture visible, navigable, and actionable.</p>
+    </div>
+    <div class="concept-diagram">Education Architecture Stack
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ [POLICY LAYER]          ← Macro Vision & Goals
+      ↕
+ [GOVERNANCE LAYER]      ← Institutional Design
+      ↕
+ [CURRICULUM LAYER]      ← Knowledge Architecture
+      ↕
+ [PEDAGOGY LAYER]        ← Teaching-Learning Engine
+      ↕
+ [ASSESSMENT LAYER]      ← Feedback & Validation
+      ↕
+ [STUDENT LAYER]         ← Competency Development
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Key Principles of Educational Architecture</h3>
+      <ul>
+        <li><strong>Coherence:</strong> All parts must work in alignment toward shared outcomes.</li>
+        <li><strong>Adaptivity:</strong> The system must respond to data and change intelligently.</li>
+        <li><strong>Equity:</strong> Architecture must guarantee access and quality for all learners.</li>
+        <li><strong>Evidence-Base:</strong> Design decisions must be grounded in learning science and field data.</li>
+        <li><strong>Sustainability:</strong> The system must be designed for long-term institutional memory.</li>
+      </ul>
+    </div>
+    <div class="content-block">
+      <h3>NEP 2020 and Architectural Vision</h3>
+      <p>NEP 2020 represents the most comprehensive architectural blueprint for Indian education since 1968. It introduces the 5+3+3+4 structure, recognizes the foundational stage as critical, mandates mother-tongue instruction, integrates vocational education, and frames assessment as a learning tool rather than a gatekeeping mechanism.</p>
+      <p>The policy places special emphasis on systemic coherence — the idea that no reform is sustainable unless the underlying architecture supports it. Teacher training must align with curriculum, which must align with assessment, which must align with competency goals, which must align with national and societal needs.</p>
+      <p>This platform embodies that architectural vision. Every module connects to every other. Data flows between layers. The teacher mentoring system is informed by what the adaptive learning engine discovers. The policy modeling lab is grounded in real school-level data. This is architecture in action.</p>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Consider your own school or educational context. Draw a simple map of how curriculum, assessment, and teacher development currently connect — or fail to connect. Where are the gaps? Where is there misalignment? How would a coherent architectural approach change the system? Discuss with colleagues or write your reflection in a journal.</p>
+    </div>`
+  },
+  {
+    title: "System Thinking in Education",
+    content: `
+    <div class="content-block">
+      <h3>From Linear to Systems Thinking</h3>
+      <p>Traditional educational reform has been largely linear: identify a problem, design a solution, implement it. But education is not a machine with simple cause-and-effect relationships. It is a complex adaptive system — one where interventions produce unexpected outcomes, where feedback loops shape behavior, and where emergent properties arise from the interaction of components that cannot be predicted by studying those components in isolation.</p>
+      <p>Systems thinking, as developed by Peter Senge, Donella Meadows, and others, gives us tools to understand these dynamics. It teaches us to look for leverage points — places where a small intervention can produce significant change. It helps us see delays — the gap between an action and its educational outcome. And it reveals unintended consequences — the ways in which well-intentioned reforms can undermine themselves.</p>
+    </div>
+    <div class="concept-diagram">Reinforcing Loop: Teacher Quality → Student Outcome
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Teacher Training Quality
+        ↓ (+)
+Teacher Instructional Skill
+        ↓ (+)
+Student Learning Outcome
+        ↓ (+)
+Student Motivation & Engagement
+        ↓ (+)
+Teacher Job Satisfaction
+        ↓ (+)
+[Back to] Teacher Professional Development ← Reinforcing Loop
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Feedback Loops in Educational Systems</h3>
+      <p>Educational systems operate through both reinforcing and balancing feedback loops. Reinforcing loops amplify change — both positive and negative. When student motivation increases, engagement increases, which increases learning, which increases confidence, which further increases motivation. This is a virtuous cycle that good architecture must cultivate.</p>
+      <p>Balancing loops act as stabilizers. When student performance drops below threshold, interventions are triggered — tutoring, curriculum adjustment, teacher support — that restore performance to baseline. These loops are essential for system resilience.</p>
+      <p>NCF 2023 implicitly recognizes these dynamics by insisting on assessment as a feedback mechanism rather than a judgment tool. When assessments diagnose learning gaps and trigger targeted interventions, they create a balancing loop that continuously improves learning outcomes.</p>
+    </div>
+    <div class="content-block">
+      <h3>Leverage Points for Educational Reform</h3>
+      <ul>
+        <li><strong>Teacher quality</strong> is the highest-leverage point in any educational system. Research consistently shows that teacher effectiveness accounts for more variance in student outcomes than any other school-based factor.</li>
+        <li><strong>Foundational learning (FLN)</strong> is a critical leverage point in the early years. Gaps in reading and numeracy compound exponentially over time.</li>
+        <li><strong>Assessment philosophy</strong> shapes everything that happens in classrooms. When high-stakes exams drive instruction, curriculum narrows, pedagogy stagnates, and creativity disappears.</li>
+        <li><strong>School leadership</strong> mediates the impact of all other interventions. A transformational principal can multiply the effect of any reform; a disengaged one can neutralize it.</li>
+      </ul>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Identify one reform that was implemented in your school or district in the last five years. Map the feedback loops it created. Did it produce reinforcing cycles of improvement or unintended balancing reactions? What would a systems thinker have designed differently? Consider how delayed feedback (e.g., exam results appearing 6 months after instruction) distorts the system.</p>
+    </div>`
+  },
+  {
+    title: "Curriculum as Core Engine",
+    content: `
+    <div class="content-block">
+      <h3>Curriculum as the Heart of the System</h3>
+      <p>If education architecture is a machine, curriculum is its engine. It defines what is worth knowing, in what sequence it should be learned, and to what depth. A well-designed curriculum is not merely a list of topics — it is a theory of knowledge, a theory of learning, and a theory of human development all woven together.</p>
+      <p>NCF 2023 represents a fundamental shift in curriculum philosophy for India. Moving away from content-heavy, exam-driven syllabi, it orients the curriculum around competencies — the ability to think, reason, communicate, collaborate, and create. This shift has profound architectural implications: it changes what teachers need to know, how assessment must work, and what school environments must provide.</p>
+    </div>
+    <div class="concept-diagram">Curriculum Architecture — Competency Continuum
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FOUNDATIONAL (Ages 3-8)   → Play, Exploration, Language
+PREPARATORY  (Ages 8-11)  → Concepts, Skills, Discovery
+MIDDLE       (Ages 11-14) → Critical Thinking, Analysis
+SECONDARY    (Ages 14-18) → Synthesis, Specialization, Application
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Key Elements of a Competency-Based Curriculum</h3>
+      <ul>
+        <li><strong>Learning Outcomes (LOs):</strong> Specific, observable, measurable statements of what students will know and be able to do.</li>
+        <li><strong>Competency Indicators (CIs):</strong> Behavioral anchors that describe performance at different levels of mastery.</li>
+        <li><strong>Content Maps:</strong> Structured knowledge domains aligned to competency progression.</li>
+        <li><strong>Pedagogical Scaffolds:</strong> Sequenced instructional support that helps learners move from assisted to independent performance.</li>
+        <li><strong>Integration Threads:</strong> Cross-disciplinary themes (environmental literacy, constitutional values, digital citizenship) woven throughout.</li>
+      </ul>
+    </div>
+    <div class="content-block">
+      <h3>Curriculum as a Living System</h3>
+      <p>A competency-based curriculum must be dynamic, not static. It must incorporate diagnostic data about student learning to continuously improve sequencing and emphasis. It must respond to emerging societal needs (AI literacy, climate education, mental health) without losing its developmental coherence.</p>
+      <p>This platform's Curriculum Mapping module allows educators to visualize competency progressions, identify gaps in their local curriculum implementation, and design contextually relevant learning experiences that remain aligned to national frameworks.</p>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Take any one chapter from your current textbook. Map it to the competency framework: What competencies does it develop? At what level? What prerequisite knowledge does it assume? What follow-up learning does it enable? Is the sequencing optimal? This exercise reveals the hidden architecture of your curriculum.</p>
+    </div>`
+  },
+  {
+    title: "Assessment as Feedback Loop",
+    content: `
+    <div class="content-block">
+      <h3>Reconceiving Assessment</h3>
+      <p>The most powerful architectural shift that NEP 2020 proposes is the reconception of assessment — from a tool for ranking and selection to a tool for learning and system improvement. This is not merely a semantic change; it demands a complete redesign of assessment architecture at every level of the system.</p>
+      <p>Assessment as a feedback loop means that information about student learning continuously flows back to teachers, students, curriculum designers, and school leaders — enabling real-time adjustments that keep the learning system on course. This is what engineers call a closed-loop control system: the output (student learning) continuously informs the input (instructional decisions).</p>
+    </div>
+    <div class="concept-diagram">Assessment Feedback Architecture
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PLAN → TEACH → ASSESS → DIAGNOSE
+  ↑                          ↓
+  └──── ADJUST ← INTERVENE ──┘
+      (Closed-Loop System)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Types of Assessment in the Architecture</h3>
+      <ul>
+        <li><strong>Formative Assessment:</strong> Continuous, informal checks for understanding that inform daily instruction. Low stakes. High frequency. Immediate feedback.</li>
+        <li><strong>Diagnostic Assessment:</strong> Targeted probes that identify specific learning gaps before or during instruction. Maps to competency indicators.</li>
+        <li><strong>Summative Assessment:</strong> End-of-unit or end-of-year evaluations that validate mastery. Redesigned under NEP to measure competencies, not content recall.</li>
+        <li><strong>Portfolio Assessment:</strong> Evidence-based documentation of learning growth over time. Authentic, multidimensional, narrative.</li>
+        <li><strong>Competency-Based Progression:</strong> Students advance when they demonstrate mastery, not merely when time passes.</li>
+      </ul>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Audit your last month of teaching: What percentage of your assessment effort was formative vs. summative? Did diagnostic information actually change your instruction? If not, what would need to change — in your practice, your tools, your time, or your school culture — to make assessment genuinely informative?</p>
+    </div>`
+  },
+  {
+    title: "Teacher Development as Multiplier",
+    content: `
+    <div class="content-block">
+      <h3>The Teacher as System Multiplier</h3>
+      <p>Every architectural reform ultimately reaches students through teachers. This is why teacher development is not one component among many in an educational architecture — it is the multiplier that determines whether every other component produces impact. A brilliant curriculum delivered poorly produces poor outcomes. A mediocre curriculum delivered masterfully can produce extraordinary learning.</p>
+      <p>Research from McKinsey, Hattie, and ASER consistently confirms: teacher quality is the single most important in-school factor affecting student outcomes. Countries that lead in educational performance (Finland, Singapore, South Korea) invest massively in teacher selection, initial preparation, ongoing development, and professional standing.</p>
+    </div>
+    <div class="concept-diagram">Teacher Development Architecture
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RECRUITMENT → INDUCTION → CPD → MENTORING
+      ↕              ↕          ↕         ↕
+  Selection      Classroom  Subject   Coaching
+  Criteria       Practice   Mastery   Cycles
+      ↕              ↕          ↕         ↕
+  [Teacher Growth Index → School Reform Index]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Four Pillars of Teacher Development</h3>
+      <ul>
+        <li><strong>Subject Mastery:</strong> Deep conceptual understanding of the discipline being taught, including its history, structure, and frontiers.</li>
+        <li><strong>Pedagogical Content Knowledge (PCK):</strong> Understanding of how students learn specific content, including common misconceptions and effective representations.</li>
+        <li><strong>Reflective Practice:</strong> The habit and skill of analyzing one's own teaching, using evidence to identify improvement opportunities.</li>
+        <li><strong>Collaborative Professionalism:</strong> Working with peers through lesson study, professional learning communities, and peer observation cycles.</li>
+      </ul>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Rate your own development across the four pillars on a scale of 1-10. Where are your strengths? Where are the gaps? Design a 3-month CPD plan that addresses your lowest-scoring dimension. What resources, time, and support would you need? How would you know it was working?</p>
+    </div>`
+  },
+  {
+    title: "Student Competency Continuum",
+    content: `
+    <div class="content-block">
+      <h3>The Competency Continuum Model</h3>
+      <p>The student competency continuum is the central organizing structure for understanding learner development in a competency-based system. Unlike age-grade progression, which assumes that time spent equals learning achieved, the competency continuum tracks demonstrated mastery across a developmental progression.</p>
+      <p>NCF 2023 defines competencies at multiple levels — from basic foundational skills (reading with comprehension, performing basic operations) to higher-order competencies (analyzing complex texts, applying mathematical reasoning to real-world problems, evaluating evidence, creating original work).</p>
+    </div>
+    <div class="concept-diagram">Competency Continuum — Student Growth Map
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Level 1: Pre-Emergent   → Basic Exposure, Recognition
+Level 2: Emergent       → Developing Skill with Support
+Level 3: Developing     → Inconsistent Independent Use
+Level 4: Proficient     → Consistent Independent Mastery
+Level 5: Advanced       → Transfer to Novel Contexts
+Level 6: Expert         → Generating New Knowledge
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Portfolio as Evidence of Competency</h3>
+      <p>The student portfolio is the primary instrument for tracking competency progression. It captures multiple forms of evidence — written work, project artifacts, oral presentations, teacher observations, self-assessments — that together paint a rich picture of a learner's growth over time.</p>
+      <p>Unlike mark sheets, portfolios are longitudinal. They reveal trajectory, not just position. They capture growth in dimensions that marks cannot — metacognitive development, collaborative skill, creative confidence, ethical reasoning.</p>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Select three students from your class — one high-achieving, one average, one struggling. For each student, identify: What competency level are they at in your subject? What specific skills do they need to move to the next level? What evidence would confirm they have made that move? This is competency-based teaching in practice.</p>
+    </div>`
+  },
+  {
+    title: "Cognitive Science Integration",
+    content: `
+    <div class="content-block">
+      <h3>Learning Science as Architectural Foundation</h3>
+      <p>Educational architecture must be grounded in how brains actually learn — not in assumptions, traditions, or convenience. The cognitive science of learning has advanced dramatically in the last three decades, and this knowledge must inform every layer of educational design, from how teachers explain concepts to how curricula are sequenced to how assessments are designed.</p>
+    </div>
+    <div class="concept-diagram">Cognitive Science → Instructional Principles
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Working Memory Limits → Reduce Cognitive Load
+Spaced Practice Effect → Distributed Review Schedules
+Retrieval Practice     → Low-Stakes Testing
+Interleaving           → Mixed Problem Types
+Elaborative Inquiry    → Why-Questions
+Dual Coding            → Text + Visual Combined
+Metacognition          → Teach Self-Monitoring
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Six Principles from Cognitive Science</h3>
+      <ul>
+        <li><strong>Spaced Practice:</strong> Distributing learning over time significantly improves long-term retention compared to massed practice (cramming).</li>
+        <li><strong>Retrieval Practice:</strong> Actively recalling information from memory strengthens memory traces more effectively than re-reading.</li>
+        <li><strong>Cognitive Load Management:</strong> Working memory has strict limits. Effective instruction minimizes extraneous load and structures intrinsic load.</li>
+        <li><strong>Dual Coding:</strong> Combining verbal and visual information creates richer memory representations and supports deeper understanding.</li>
+        <li><strong>Elaborative Interrogation:</strong> Asking "why" and "how" questions promotes deeper encoding and stronger connections to prior knowledge.</li>
+        <li><strong>Interleaving:</strong> Mixing different types of problems and topics during practice improves discrimination and transfer.</li>
+      </ul>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Audit one week of your instruction against the six cognitive science principles. Which are you applying systematically? Which are absent? Design one lesson that deliberately incorporates retrieval practice, spaced review, and dual coding. Teach it, then reflect: what changed about student engagement and retention?</p>
+    </div>`
+  },
+  {
+    title: "Leadership as Governance Layer",
+    content: `
+    <div class="content-block">
+      <h3>The Leadership Architecture</h3>
+      <p>In educational systems, leadership is the governance layer — the mechanism by which vision is translated into institutional reality. Without strong, informed, and pedagogically grounded leadership, even the most brilliantly designed architecture remains unrealized potential.</p>
+      <p>NEP 2020 recognizes this explicitly, calling for the professionalization of school leadership and the development of instructional leadership competencies in principals. The old model of the principal as administrator must give way to the principal as educational architect — someone who designs learning environments, develops teachers, builds culture, and connects school practice to systemic reform.</p>
+    </div>
+    <div class="concept-diagram">Leadership Competency Framework
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Instructional Leadership   → Drives Teaching Quality
+Cultural Leadership        → Shapes Learning Environment
+Strategic Leadership       → Aligns School to Policy
+Relational Leadership      → Builds Team Capacity
+Analytical Leadership      → Uses Data for Decisions
+Transformational Leadership → Sustains Change
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Distributed Leadership Model</h3>
+      <p>Research consistently shows that distributed leadership — where leadership responsibility is shared across multiple individuals rather than concentrated in a single person — produces more sustainable improvement. This model creates depth in the leadership bench, ensures continuity through personnel changes, and develops leadership capacity throughout the system.</p>
+      <p>The Leadership Decision Simulator module in this platform allows school leaders to model reform decisions, project their consequences, and build decision-making competency in a risk-free environment.</p>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Map your school's current leadership distribution. Who leads what? Where is leadership concentrated? Where are there gaps? Design a distributed leadership model that better aligns responsibilities to competencies and creates development pathways for emerging leaders.</p>
+    </div>`
+  },
+  {
+    title: "Data as Diagnostic Layer",
+    content: `
+    <div class="content-block">
+      <h3>The Data Architecture</h3>
+      <p>In a competency-based educational architecture, data is not merely a management reporting function — it is a diagnostic intelligence layer that continuously monitors system health and guides intervention. This requires a fundamental shift in how educational data is collected, structured, analyzed, and used.</p>
+      <p>This platform implements a fully offline data architecture using LocalStorage and IndexedDB. No internet connection is required. No data leaves the device. This ensures that even in the most resource-constrained educational environments, data-informed decision making is possible.</p>
+    </div>
+    <div class="concept-diagram">Data Flow Architecture
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Student Performance Data
+        ↓
+Assessment Engine → Competency Mapping
+        ↓
+Gap Analysis → Intervention Triggers
+        ↓
+Teacher Dashboard → Instructional Adjustments
+        ↓
+School Analytics → Leadership Decisions
+        ↓
+System Dashboard → Policy Feedback
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Key Data Dimensions</h3>
+      <ul>
+        <li><strong>Learning Data:</strong> Assessment results, competency attainment, growth trajectories, diagnostic profiles.</li>
+        <li><strong>Process Data:</strong> Attendance, time-on-task, instructional quality observations, curriculum coverage.</li>
+        <li><strong>Contextual Data:</strong> Socioeconomic factors, family literacy, community resources, infrastructure.</li>
+        <li><strong>System Data:</strong> Teacher development, resource allocation, policy implementation fidelity.</li>
+      </ul>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>What data does your school currently collect? How is it used — or not used? Identify one decision that was made this year without data that should have been data-informed. What data would have been needed? How could it have been collected within existing constraints? This is the beginning of a data-informed culture.</p>
+    </div>`
+  },
+  {
+    title: "Adaptive Learning as Micro Engine",
+    content: `
+    <div class="content-block">
+      <h3>Adaptive Learning Systems</h3>
+      <p>Adaptive learning represents the ultimate expression of personalized education — a system that dynamically adjusts content, sequence, pace, and pedagogy based on each learner's demonstrated performance, learning style, and motivational state. While sophisticated digital adaptive systems require significant technology investment, the principles of adaptive learning can be implemented at any scale, including in low-technology classrooms.</p>
+    </div>
+    <div class="concept-diagram">Adaptive Learning Engine
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Assess Learner State → Identify Gap → Select Path
+         ↑                                  ↓
+   Update Model ← Evaluate Response ← Deliver Content
+     (Deterministic Rule Engine — No AI Required)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Deterministic Adaptive Rules</h3>
+      <p>This platform implements adaptive learning through deterministic rule engines — not machine learning or AI. The rules are transparent, auditable, and designed by domain experts. Examples:</p>
+      <ul>
+        <li>IF student scores below 40% on Fractions diagnostic THEN route to Place Value remediation sequence.</li>
+        <li>IF student completes 5 consecutive correct answers THEN advance to next competency level.</li>
+        <li>IF student has been at same level for 3+ sessions THEN trigger alternative pathway with visual scaffolding.</li>
+        <li>IF student achieves mastery in Geometry THEN unlock cross-disciplinary connection to Science measurement.</li>
+      </ul>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Write 5 adaptive rules for your subject area. What diagnostic conditions trigger what instructional responses? How would you implement these rules in a classroom without technology? (Hint: flexible grouping, differentiated worksheets, peer tutoring assignments.) This exercise reveals the logic underlying good differentiation.</p>
+    </div>`
+  },
+  {
+    title: "Portfolio as Evidence Layer",
+    content: `
+    <div class="content-block">
+      <h3>The Portfolio Philosophy</h3>
+      <p>The student portfolio is one of the most powerful instruments in a competency-based educational architecture. Unlike tests, which capture performance at a single moment under artificial conditions, portfolios document learning over time across authentic contexts. They make growth visible, celebrate achievement, and create rich evidence for evaluation, reflection, and communication.</p>
+      <p>NCF 2023 explicitly promotes portfolio-based assessment as a complement to standardized measurement. This recognition reflects a deeper shift in the philosophy of evidence — from performance to growth, from product to process, from single to multiple sources.</p>
+    </div>
+    <div class="concept-diagram">Portfolio Architecture
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Evidence Types:
+  Written Work    → Essays, reports, reflections
+  Creative Work   → Drawings, models, projects
+  Performance     → Presentations, demonstrations
+  Self-Assessment → Reflections, goal-setting
+  Peer Feedback   → Collaborative evaluations
+  Teacher Notes   → Observations, anecdotes
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Portfolio as Communication Tool</h3>
+      <p>Well-maintained portfolios transform parent-teacher communication. Instead of reporting abstract numbers, teachers can share specific evidence of growth: "Here is Razia's writing from September. Here is her writing from March. Look at how her sentence construction has developed, how her vocabulary has expanded, how her arguments have become more structured."</p>
+      <p>This kind of evidence-based narrative builds parental confidence in the school's educational quality, engages parents as partners in learning, and creates shared accountability for student success.</p>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Design a portfolio system for your class. What evidence will you collect? How will you organize it? How will students contribute to curating their own portfolios? How will you use portfolios in parent meetings? What three pieces of student work from this year best capture growth — and why?</p>
+    </div>`
+  },
+  {
+    title: "Benchmarking as Macro Layer",
+    content: `
+    <div class="content-block">
+      <h3>The Benchmarking Architecture</h3>
+      <p>Educational benchmarking is the process of establishing reference points against which institutional performance can be measured, compared, and improved. In a well-designed educational architecture, benchmarking operates at multiple levels simultaneously: within schools (classroom to classroom), between schools (school to district), and against external standards (national and international frameworks).</p>
+      <p>The purpose of benchmarking is not ranking — it is diagnosis and improvement. When a school discovers that its Grade 5 mathematics proficiency is 20 percentage points below the district average, this is not a verdict but a signal that triggers investigation: What are high-performing schools doing differently? What contextual factors explain the gap? What targeted interventions would close it?</p>
+    </div>
+    <div class="concept-diagram">Multi-Level Benchmarking Framework
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Class Level    → Teacher vs. Teacher comparison
+School Level   → Department vs. Benchmark standards
+District Level → School vs. District average
+State Level    → District vs. State norms
+National Level → State vs. NIPUN, NAS benchmarks
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Using Benchmarks Constructively</h3>
+      <ul>
+        <li><strong>Diagnostic use:</strong> Identify specific competency gaps rather than overall performance differentials.</li>
+        <li><strong>Best-practice identification:</strong> Find schools or classrooms outperforming their context and study their practices.</li>
+        <li><strong>Resource targeting:</strong> Direct additional support to schools with the greatest needs and highest potential for improvement.</li>
+        <li><strong>Accountability:</strong> Create transparent expectations while providing support for achievement.</li>
+      </ul>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>What benchmarks does your school currently use? Are they measuring what matters? Design a school-level benchmarking dashboard with 5 indicators: 2 that measure academic outcomes, 1 that measures equity, 1 that measures teacher development, and 1 that measures school culture. How would you collect this data? How would you use it monthly?</p>
+    </div>`
+  },
+  {
+    title: "Policy Modeling as Strategic Layer",
+    content: `
+    <div class="content-block">
+      <h3>Policy as System Design</h3>
+      <p>Educational policy is not merely legislation or administrative directive — it is an act of system design. When a ministry mandates competency-based progression, restructures teacher certification, or introduces a new assessment framework, it is reshaping the architecture of millions of learning environments. The quality of that design determines its impact.</p>
+      <p>Good policy modeling requires understanding second and third-order effects. A policy that reduces class size without increasing teacher supply creates hiring crises and budget pressure. A curriculum reform that demands new pedagogical approaches without supporting teacher development produces compliance without capability. Systems thinkers can anticipate these dynamics; policy modelers must account for them.</p>
+    </div>
+    <div class="concept-diagram">Policy Impact Pathway
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Policy Design → Piloting → Scaling → Institutionalization
+       ↕            ↕           ↕              ↕
+ Evidence    → Feedback → Adaptation → Sustainability
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>The Policy Modeling Lab</h3>
+      <p>This platform includes a Policy Modeling module that allows educators and administrators to simulate the impact of reform decisions using deterministic models. Parameters include reform intensity, budget allocation, teacher capacity, and timeline. Outputs include projected student outcomes, system sustainability scores, and equity impacts.</p>
+      <p>This offline simulation capability is particularly valuable for school and district leaders who need to make evidence-informed decisions about reform sequencing — what to implement first, what requires prerequisite capacity building, and what risks must be mitigated.</p>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Identify one policy that is currently being implemented in your school or district. Map its implementation pathway: Is there fidelity to the intended design? What adaptations have occurred? What evidence is being collected about its impact? What would need to be different for this policy to achieve its intended outcomes? Use the simulation module to model alternative scenarios.</p>
+    </div>`
+  },
+  {
+    title: "Knowledge Systems Integration",
+    content: `
+    <div class="content-block">
+      <h3>Integrating Knowledge Systems</h3>
+      <p>A progressive educational architecture must recognize that modern knowledge does not respect traditional disciplinary boundaries. The most pressing challenges of the 21st century — climate change, public health, sustainable development, digital ethics — require integration across science, social science, humanities, and arts.</p>
+      <p>NCF 2023's "Areas of Curriculum" model — rather than the traditional subject-based structure — reflects this understanding. It envisions curricular domains (Language and Literacy; Mathematics and Computational Thinking; Science; Social Science; Arts; Physical Education and Well-Being; Vocational Education) as interconnected, not isolated.</p>
+    </div>
+    <div class="concept-diagram">Knowledge Integration Framework
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Language ←→ Mathematics ←→ Science
+     ↕              ↕              ↕
+Social Sc ←→ Arts ←→ Voc. Ed.
+          ↘         ↙
+     [Integrated Themes]
+   Environment | Ethics | Identity
+   Democracy | Sustainability | Health
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Designing Integrative Learning Experiences</h3>
+      <p>Integration is not just thematic overlap — it is cognitive synthesis. When students understand how mathematical modeling applies to ecological science, or how historical narrative structures inform literary analysis, or how constitutional principles manifest in everyday democratic participation, they develop richer conceptual frameworks and stronger transfer capabilities.</p>
+      <p>Teachers working in isolated subject silos cannot design integrative experiences. This requires collaborative curriculum planning across departments, shared understanding of competency progressions, and a common language for learning design — all of which this platform facilitates.</p>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Design a 2-week integrated unit that authentically connects your subject to at least two other disciplines. What would the central driving question be? What disciplinary knowledge would each subject contribute? What product or performance would integrate these contributions? How would you assess each discipline's contribution distinctly while honoring their integration?</p>
+    </div>`
+  },
+  {
+    title: "Equity & Inclusion Architecture",
+    content: `
+    <div class="content-block">
+      <h3>Equity as Architectural Imperative</h3>
+      <p>An educational architecture that does not explicitly address equity will reproduce and amplify existing inequalities. This is not a political statement but a systemic one: educational systems are embedded in social structures characterized by differential access to resources, differential cultural capital, and differential historical opportunity. Without deliberate counter-architecture, these differentials compound over time.</p>
+      <p>NEP 2020 is explicit about equity as a foundational principle. The Socially and Educationally Disadvantaged Groups (SEDGs) include girls, children from Scheduled Castes and Tribes, children with disabilities, and those from low-income families. The policy calls for targeted interventions, tracking systems, and resources to ensure that these groups achieve equitable outcomes — not merely equitable inputs.</p>
+    </div>
+    <div class="concept-diagram">Equity Architecture — Multiple Dimensions
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Access Equity     → Schools in all geographies
+Input Equity      → Comparable resources
+Process Equity    → Culturally responsive pedagogy
+Output Equity     → Comparable competency attainment
+Outcome Equity    → Comparable life opportunities
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Designing for Inclusion</h3>
+      <ul>
+        <li><strong>Universal Design for Learning (UDL):</strong> Multiple means of representation, engagement, and expression that remove barriers to learning for all students.</li>
+        <li><strong>Culturally Responsive Pedagogy:</strong> Incorporating students' cultural backgrounds, languages, and funds of knowledge as strengths rather than deficits.</li>
+        <li><strong>Differentiated Instruction:</strong> Adjusting content, process, and product based on student readiness, interest, and learning profile.</li>
+        <li><strong>Bridge Intervention Systems:</strong> Targeted support for students at risk of falling behind, delivered early and intensively.</li>
+      </ul>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Examine your classroom practices through an equity lens: Whose knowledge is centered in your curriculum? Whose voices are heard in class discussions? Who receives more teacher attention — and why? Who is missing from your school entirely? Design three specific changes to your practice that would improve equity for the most marginalized group in your school context.</p>
+    </div>`
+  },
+  {
+    title: "Reform Sustainability Model",
+    content: `
+    <div class="content-block">
+      <h3>The Sustainability Challenge</h3>
+      <p>Educational reform is not a destination — it is a process that must be institutionalized to survive leadership changes, budget cycles, political transitions, and staff turnover. The history of education is littered with brilliant reforms that disappeared when the reformers left, or that were implemented in show schools but never scaled, or that produced short-term gains that quickly eroded.</p>
+      <p>Sustainable reform requires that changes become embedded in the system's institutional DNA — in its routines, norms, structures, and professional culture. This is Fullan's "reculturing" — not just changing what people do, but changing how they think, what they value, and how they collectively make sense of their work.</p>
+    </div>
+    <div class="concept-diagram">Reform Sustainability Framework
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Phase 1: Initiation    → Awareness, Piloting, Champions
+Phase 2: Implementation → Scaling, Capacity Building
+Phase 3: Institutionalization → Embedding in Routines
+Phase 4: Evolution     → Continuous Improvement Culture
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Conditions for Sustainability</h3>
+      <ul>
+        <li><strong>Internal capacity:</strong> The school or system has the human, material, and organizational capacity to sustain the reform without external support.</li>
+        <li><strong>Cultural alignment:</strong> The reform aligns with — or has successfully shifted — the professional values and norms of the teaching community.</li>
+        <li><strong>Evidence of impact:</strong> Stakeholders can see that the reform is producing the outcomes they care about.</li>
+        <li><strong>Adaptive management:</strong> The reform is flexible enough to be modified in response to implementation learning without losing its essential character.</li>
+      </ul>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Think of a reform initiative at your school that did not sustain. Using the sustainability framework above, identify where it broke down: Was it an initiation problem (insufficient buy-in)? An implementation problem (insufficient support)? An institutionalization problem (never embedded in routines)? What would you do differently now?</p>
+    </div>`
+  },
+  {
+    title: "Institutional Autonomy Model",
+    content: `
+    <div class="content-block">
+      <h3>Autonomy and Accountability</h3>
+      <p>NEP 2020 calls for greater institutional autonomy at every level of the system — from universities choosing their own faculty to schools designing local curriculum components. This decentralization is based on a compelling logic: decisions are best made by those closest to the context, and professional autonomy is essential for attracting, retaining, and developing capable educators.</p>
+      <p>But autonomy without accountability produces fragmentation and inequity. Schools in advantaged communities, with more engaged parents and more experienced teachers, will use autonomy to excel. Schools in disadvantaged communities may lack the capacity to leverage autonomy constructively. Institutional autonomy must therefore be coupled with strong support systems and transparent accountability mechanisms.</p>
+    </div>
+    <div class="concept-diagram">Autonomy-Accountability Balance
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HIGH Accountability + HIGH Autonomy = Productive Freedom
+HIGH Accountability + LOW Autonomy  = Compliance Culture
+LOW  Accountability + HIGH Autonomy = Fragmentation
+LOW  Accountability + LOW Autonomy  = Bureaucratic Inertia
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Designing Institutional Autonomy</h3>
+      <p>Effective institutional autonomy requires clear boundaries: what must remain standardized (core competency goals, equity requirements, qualification thresholds) and what can be locally determined (curriculum enrichment, pedagogical approaches, community engagement strategies, co-curricular programs).</p>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>What decisions at your school could be made locally but are currently made centrally? What capacity would need to be built to make those decisions well locally? What accountability mechanisms would ensure that local decision-making serves all students equitably?</p>
+    </div>`
+  },
+  {
+    title: "Monitoring & Evaluation Stack",
+    content: `
+    <div class="content-block">
+      <h3>The M&E Architecture</h3>
+      <p>Monitoring and Evaluation (M&E) is the nervous system of educational reform — the mechanism by which a complex system maintains awareness of its own state, detects deviations from intended pathways, and triggers corrective responses. Without robust M&E, reform becomes an act of faith rather than an evidence-informed process.</p>
+      <p>The M&E stack in a well-designed educational architecture operates at multiple timescales: daily (classroom observation, formative assessment), weekly (teacher team meetings, progress monitoring), monthly (school-level data review), quarterly (district reporting), and annually (systemic evaluation).</p>
+    </div>
+    <div class="concept-diagram">M&E Stack — Multi-Level Architecture
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Level     Frequency   Focus               Actor
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Classroom Daily       Student learning    Teacher
+Team      Weekly      Pedagogy review     PLCs
+School    Monthly     Performance trends  Principal
+District  Quarterly   Reform fidelity     Officer
+State     Annual      System outcomes     Dept.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>From Data Collection to Decision Making</h3>
+      <p>The most common failure in educational M&E is data collection without use. Schools and systems collect enormous amounts of data — attendance registers, exam results, observation records — that rarely translate into improved practice. The bottleneck is not data but analytical capacity and decision-making culture.</p>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Map your school's current M&E practices against the multi-level stack. Which levels are functioning? Which are absent or dysfunctional? What one change — at the classroom level, team level, or school level — would most improve your M&E system's ability to drive improvement?</p>
+    </div>`
+  },
+  {
+    title: "Digital Minimalism & Offline Equity",
+    content: `
+    <div class="content-block">
+      <h3>The Digital Divide in Education</h3>
+      <p>The rapid digitization of educational systems during and after COVID-19 revealed a stark paradox: technology can either amplify equity or devastate it, depending on how it is designed and deployed. Systems that assumed universal connectivity and device access excluded hundreds of millions of learners. Systems that designed for the margin — for learners with basic phones, intermittent connectivity, and low digital literacy — served everyone.</p>
+      <p>This platform embodies the philosophy of digital minimalism: using only the technology that is necessary, designing for the least-connected user, and ensuring that the absence of internet connectivity is never a barrier to quality learning. Every feature of this platform works fully offline, on any device with a browser, with no downloads required beyond the initial file.</p>
+    </div>
+    <div class="concept-diagram">Offline-First Design Principles
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Design for ZERO connectivity first
+Add connectivity as enhancement, not requirement
+Store all data locally (LocalStorage/IndexedDB)
+Use deterministic algorithms, not cloud AI
+Export/import for data sharing without internet
+Print-friendly design for analog fallback
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>Technology for Educational Equity</h3>
+      <p>The right question for educational technology is not "what is the most sophisticated technology available?" but "what technology can reliably reach every learner in our context?" In Kashmir's mountain schools, Jharkhand's tribal areas, or Rajasthan's desert communities, the most equitable educational technology may be a well-designed offline HTML file on a shared classroom device.</p>
+      <p>This insight drives every design decision in this platform. The entire system — 20 framework pages, 8 modules, dashboard analytics, simulation engine, report generator — operates as a single HTML file that can be shared via USB drive, Bluetooth, or WhatsApp, requiring no internet connection whatsoever.</p>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Reflection Exercise</h4>
+      <p>Audit the digital resources your school currently uses: Which require internet? Which require specific devices? Which require trained users? For each, ask: Could this be redesigned for offline use? If you had to design your entire school's technology infrastructure for a community with no reliable internet, what would it look like? What would you prioritize?</p>
+    </div>`
+  },
+  {
+    title: "Future-Ready Education Architecture",
+    content: `
+    <div class="content-block">
+      <h3>Designing for the Futures We Cannot Predict</h3>
+      <p>The ultimate challenge for educational architecture is designing systems robust enough to prepare learners for futures that are fundamentally uncertain. The World Economic Forum estimates that 65% of today's primary school children will work in jobs that do not yet exist. The knowledge economy is giving way to the creativity economy. Automation is transforming the labor landscape. Climate change is reshaping geographies, economies, and social orders.</p>
+      <p>In this context, the most dangerous thing an educational system can do is optimize for the past — teaching to yesterday's exams, preparing for yesterday's economy, reproducing yesterday's social structures. Future-ready architecture must develop the capacities that remain distinctively human: creativity, empathy, ethical reasoning, adaptive learning, collaborative intelligence, and meaning-making.</p>
+    </div>
+    <div class="concept-diagram">Future-Ready Competency Framework
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Cognitive:    Critical Thinking · Systems Thinking
+Creative:     Innovation · Design · Imagination
+Social:       Empathy · Collaboration · Communication
+Ethical:      Moral Reasoning · Civic Commitment
+Adaptive:     Learning Agility · Resilience
+Digital:      Technology Fluency · Data Literacy
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+    <div class="content-block">
+      <h3>The Lifelong Learning Architecture</h3>
+      <p>Future-ready education does not end at Grade 12. It must cultivate a love of learning, a capacity for self-directed growth, and a disposition toward continuous reinvention. NEP 2020's vision of education as a lifelong journey — from early childhood through adult learning — reflects this understanding. The architecture must serve the learner through every transition: from school to college, from college to work, from work to reskilling, and throughout active citizenship.</p>
+      <p>This platform is itself an expression of that vision. It is designed to be used not just by students but by teachers who are also learners, administrators who are also designers, and policymakers who are also practitioners. The boundary between learning and leading, between knowing and designing, is deliberately blurred — because in a truly future-ready system, everyone is always a learner.</p>
+    </div>
+    <div class="reflection-box">
+      <h4>🔍 Final Reflection Exercise</h4>
+      <p>Looking across all 20 pages of this architectural framework: What is the single most important insight you are carrying forward? What will you do differently in your practice, your institution, or your advocacy starting next week? Share your commitment with a colleague, write it down, or enter it in your digital portfolio. Architecture begins with vision, but it becomes real through action.</p>
+    </div>
+    <div style="text-align:center; padding:2rem 1rem; background:rgba(200,168,75,0.06); border:1px solid var(--border); border-radius:6px; margin-top:1.5rem;">
+      <div style="font-family:var(--font-display); font-size:1.2rem; color:var(--white); margin-bottom:0.5rem;">🎓 Framework Complete</div>
+      <p style="color:var(--text); font-size:0.85rem; line-height:1.8;">You have completed all 20 pages of the Systemic Framework Foundation. You are now ready to explore the modules, simulate reform scenarios, and generate institutional reports.</p>
+      <button class="btn-primary" style="margin-top:1rem;" onclick="showScreen('modules-screen')">→ Explore Modules</button>
+    </div>`
+  }
+];
+
+/* ==============================
+   FRAMEWORK PAGE LOADER
+============================== */
+let currentFwPage = 1;
+function loadFrameworkPage(n) {
+  currentFwPage = n;
+  const container = document.getElementById('fw-pages-container');
+  const page = frameworkPages[n-1];
+  if (!page) return;
+
+  container.innerHTML = `
+    <div class="framework-page active">
+      <div class="page-header">
+        <div class="page-number">Page ${n} of 20 · Systemic Framework Foundation</div>
+        <h2 class="page-title">${page.title}</h2>
+      </div>
+      ${page.content}
+      <div class="page-nav-btns">
+        ${n > 1 ? `<button class="btn-secondary" onclick="loadFrameworkPage(${n-1})">← Previous: ${frameworkPages[n-2].title.substring(0,30)}...</button>` : '<div></div>'}
+        ${n < 20 ? `<button class="btn-primary" onclick="loadFrameworkPage(${n+1})">Next: ${frameworkPages[n].title.substring(0,30)}... →</button>` : `<button class="btn-primary" onclick="showScreen('modules-screen')">Complete → Explore Modules</button>`}
+      </div>
+    </div>`;
+
+  // Update progress
+  const pct = Math.round((n/20)*100);
+  document.getElementById('fw-progress').style.width = pct + '%';
+  document.getElementById('fw-page-indicator').textContent = `Page ${n} of 20 (${pct}% complete)`;
+
+  // Update buttons
+  for(let i=1; i<=20; i++) {
+    const btn = document.getElementById(`pg-btn-${i}`);
+    if (btn) btn.classList.toggle('active', i === n);
+  }
+  window.scrollTo(0, 200);
+}
+
+/* ==============================
+   MODULES DATA
+============================== */
+const modules = [
+  {
+    id: 'fln', icon: '🔤', name: 'FLN Diagnostic Engine',
+    desc: 'Foundational Literacy & Numeracy diagnostic with competency mapping for Grades 1-5.',
+    fields: ['Reading Level', 'Phonemic Awareness', 'Comprehension', 'Basic Numeracy', 'Number Sense'],
+    type: 'diagnostic'
+  },
+  {
+    id: 'competency', icon: '🗺️', name: 'Competency Mapping Studio',
+    desc: 'Map student competencies across NCF 2023 domains with gap analysis and growth projections.',
+    fields: ['Language Arts', 'Mathematics', 'Science', 'Social Studies', 'Arts', 'Life Skills'],
+    type: 'mapping'
+  },
+  {
+    id: 'adaptive', icon: '⚡', name: 'Adaptive Learning Engine',
+    desc: 'Deterministic rule-based learning path generator that adapts to student performance data.',
+    fields: ['Current Level', 'Target Level', 'Learning Style', 'Gap Areas', 'Preferred Modality'],
+    type: 'adaptive'
+  },
+  {
+    id: 'mentor', icon: '🧑‍🏫', name: 'Teacher Mentoring Lab',
+    desc: 'Structured coaching and CPD tracking system for teacher professional development.',
+    fields: ['Observation Score', 'CPD Hours', 'Subject Mastery', 'Pedagogy Rating', 'Reflection Quality'],
+    type: 'mentoring'
+  },
+  {
+    id: 'analytics', icon: '📊', name: 'Academic Analytics System',
+    desc: 'School-level analytics for performance trends, cohort tracking, and intervention prioritization.',
+    fields: ['Class Average', 'Pass Rate', 'At-Risk Students', 'Top Performers', 'Attendance Rate'],
+    type: 'analytics'
+  },
+  {
+    id: 'leadership', icon: '🏛️', name: 'Leadership Decision Simulator',
+    desc: 'Scenario-based leadership development tool with risk modeling and outcome projection.',
+    fields: ['Decision Scenario', 'Resource Level', 'Stakeholder Alignment', 'Risk Tolerance', 'Timeline'],
+    type: 'simulation'
+  },
+  {
+    id: 'policy', icon: '📜', name: 'Policy Modeling Lab',
+    desc: 'Model policy interventions and project their systemic impact over 3, 5, and 10-year horizons.',
+    fields: ['Policy Type', 'Implementation Speed', 'Coverage', 'Budget', 'Teacher Readiness'],
+    type: 'policy'
+  },
+  {
+    id: 'cognitive', icon: '🧠', name: 'Cognitive Science Studio',
+    desc: 'Apply evidence-based cognitive principles to lesson design, sequencing, and assessment.',
+    fields: ['Lesson Topic', 'Prior Knowledge', 'Cognitive Load', 'Practice Type', 'Retrieval Mode'],
+    type: 'cognitive'
+  }
+];
+
+function initModules() {
+  const grid = document.getElementById('modules-grid');
+  if (grid.children.length > 0) return;
+  grid.innerHTML = modules.map(m => `
+    <div class="module-card" onclick="openModule('${m.id}')">
+      <div class="module-icon">${m.icon}</div>
+      <div class="module-name">${m.name}</div>
+      <div class="module-desc">${m.desc}</div>
+      <button class="module-btn">Open Module →</button>
+    </div>`).join('');
+
+  document.getElementById('module-details-container').innerHTML = modules.map(m => `
+    <div class="module-detail" id="md-${m.id}">
+      <div style="margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:1rem;">
+        <span style="font-size:2rem">${m.icon}</span>
+        <div>
+          <h3 style="color:var(--white); font-family:var(--font-display); font-size:1.2rem;">${m.name}</h3>
+          <p style="color:var(--text); font-size:0.82rem;">${m.desc}</p>
+        </div>
+        <button class="btn-secondary" style="margin-left:auto; flex-shrink:0;" onclick="closeModule('${m.id}')">✕ Close</button>
+      </div>
+      <div class="card-grid-2">
+        ${m.fields.map(f => `
+          <div class="card">
+            <div class="card-title" style="margin-bottom:0.8rem;">📌 ${f}</div>
+            <input type="range" min="0" max="100" value="${Math.floor(40+Math.random()*50)}"
+              class="module-slider" id="slider-${m.id}-${f.replace(/\s+/g,'-')}"
+              oninput="updateModuleScore('${m.id}')">
+            <div style="display:flex; justify-content:space-between; margin-top:0.5rem;">
+              <span style="color:var(--text); font-size:0.72rem;">0%</span>
+              <span style="color:var(--accent); font-size:0.78rem; font-family:var(--font-mono);"
+                id="val-${m.id}-${f.replace(/\s+/g,'-')}">—</span>
+              <span style="color:var(--text); font-size:0.72rem;">100%</span>
+            </div>
+          </div>`).join('')}
+      </div>
+      <div style="margin-top:1.5rem; display:flex; align-items:center; gap:1.5rem; background:var(--card-bg); border:1px solid var(--border); border-radius:6px; padding:1.2rem;">
+        <div>
+          <div style="color:var(--text); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.3rem;">Module Score</div>
+          <div style="font-family:var(--font-display); font-size:2.2rem; color:var(--accent-light);" id="mod-score-${m.id}">—</div>
+        </div>
+        <div style="flex:1;">
+          <div id="mod-rec-${m.id}" style="color:var(--text-light); font-size:0.82rem; line-height:1.7;"></div>
+        </div>
+        <button class="btn-primary" onclick="saveModuleData('${m.id}')">💾 Save Data</button>
+      </div>
+    </div>`).join('');
+
+  // Init slider display values
+  modules.forEach(m => updateModuleScore(m.id));
+}
+
+function openModule(id) {
+  document.querySelectorAll('.module-detail').forEach(d => d.classList.remove('active'));
+  document.getElementById('md-'+id).classList.add('active');
+  document.getElementById('md-'+id).scrollIntoView({ behavior: 'smooth' });
+}
+function closeModule(id) {
+  document.getElementById('md-'+id).classList.remove('active');
+}
+function updateModuleScore(moduleId) {
+  const m = modules.find(x => x.id === moduleId);
+  if (!m) return;
+  let total = 0, count = 0;
+  m.fields.forEach(f => {
+    const key = `slider-${moduleId}-${f.replace(/\s+/g,'-')}`;
+    const el = document.getElementById(key);
+    if (el) {
+      const v = parseInt(el.value);
+      total += v; count++;
+      const valEl = document.getElementById(`val-${moduleId}-${f.replace(/\s+/g,'-')}`);
+      if (valEl) valEl.textContent = v + '%';
+    }
+  });
+  const score = count > 0 ? Math.round(total/count) : 0;
+  const scoreEl = document.getElementById(`mod-score-${moduleId}`);
+  const recEl = document.getElementById(`mod-rec-${moduleId}`);
+  if (scoreEl) scoreEl.textContent = score + '%';
+  if (recEl) {
+    let rec = '';
+    if (score < 50) rec = '⚠️ Critical attention needed. Immediate targeted intervention recommended across all dimensions. Focus on foundational gaps before advancing.';
+    else if (score < 70) rec = '📋 Developing stage. Structured support and monitoring required. Prioritize highest-impact dimensions for improvement.';
+    else if (score < 85) rec = '✅ Good standing. Continue current trajectory. Identify remaining gaps for focused enrichment.';
+    else rec = '🏆 Excellent performance. Ready for advanced challenges and peer mentoring responsibilities.';
+    recEl.textContent = rec;
+  }
+}
+function saveModuleData(id) {
+  showToast(`✅ ${modules.find(m => m.id === id)?.name} data saved locally`);
+  saveState();
+}
+
+/* ==============================
+   DASHBOARD
+============================== */
+function initDashboard() {
+  const metrics = [
+    { label: 'Student Competency Index', value: unifiedState.studentLayer.competencyIndex, trend: '+4.2%', icon: '🎓' },
+    { label: 'Teacher Growth Index', value: unifiedState.teacherLayer.growthIndex, trend: '+2.8%', icon: '🧑‍🏫' },
+    { label: 'School Reform Index', value: unifiedState.schoolLayer.reformIndex, trend: '+5.1%', icon: '🏫' },
+    { label: 'Equity Index', value: unifiedState.systemLayer.equityIndex, trend: '+1.9%', icon: '⚖️' },
+    { label: 'Sustainability Index', value: unifiedState.schoolLayer.sustainability, trend: '+3.3%', icon: '♻️' },
+    { label: 'Cognitive Mastery Index', value: Math.round((unifiedState.studentLayer.subjects.reduce((a,b)=>a+b)/unifiedState.studentLayer.subjects.length)), trend: '+2.1%', icon: '🧠' }
+  ];
+
+  const grid = document.getElementById('dashboard-metrics');
+  grid.innerHTML = metrics.map(m => `
+    <div class="metric-card">
+      <div style="font-size:1.5rem; margin-bottom:0.4rem;">${m.icon}</div>
+      <div class="metric-value">${m.value}</div>
+      <div class="metric-label">${m.label}</div>
+      <div class="metric-trend">↑ ${m.trend} this term</div>
+    </div>`).join('');
+
+  drawRadarChart();
+  drawTrendChart();
+  drawHeatmap();
+}
+
+function drawRadarChart() {
+  const canvas = document.getElementById('radarChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W/2, cy = H/2;
+  const r = Math.min(W,H)*0.38;
+  const labels = ['Curriculum','Assessment','Teachers','Students','Leadership','Equity'];
+  const values = [72,68,74,72,69,76];
+  const angles = labels.map((_,i) => (i/labels.length)*Math.PI*2 - Math.PI/2);
+
+  ctx.clearRect(0,0,W,H);
+
+  // Grid circles
+  [0.25,0.5,0.75,1].forEach(f => {
+    ctx.beginPath();
+    ctx.arc(cx,cy,r*f,0,Math.PI*2);
+    ctx.strokeStyle = 'rgba(200,168,75,0.15)';
+    ctx.stroke();
+  });
+
+  // Grid lines
+  angles.forEach(a => {
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+r*Math.cos(a), cy+r*Math.sin(a));
+    ctx.strokeStyle = 'rgba(200,168,75,0.1)';
+    ctx.stroke();
+  });
+
+  // Data polygon
+  ctx.beginPath();
+  values.forEach((v,i) => {
+    const x = cx + (r*v/100)*Math.cos(angles[i]);
+    const y = cy + (r*v/100)*Math.sin(angles[i]);
+    i === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(200,168,75,0.15)';
+  ctx.fill();
+  ctx.strokeStyle = '#c8a84b';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Points
+  values.forEach((v,i) => {
+    const x = cx + (r*v/100)*Math.cos(angles[i]);
+    const y = cy + (r*v/100)*Math.sin(angles[i]);
+    ctx.beginPath();
+    ctx.arc(x,y,4,0,Math.PI*2);
+    ctx.fillStyle = '#e8c96a';
+    ctx.fill();
+  });
+
+  // Labels
+  ctx.fillStyle = '#b8c8e0';
+  ctx.font = '11px Segoe UI';
+  ctx.textAlign = 'center';
+  labels.forEach((l,i) => {
+    const lx = cx + (r+22)*Math.cos(angles[i]);
+    const ly = cy + (r+22)*Math.sin(angles[i]);
+    ctx.fillText(l, lx, ly);
+  });
+}
+
+function drawTrendChart() {
+  const canvas = document.getElementById('trendChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = 40;
+
+  const years = ['2021','2022','2023','2024','2025'];
+  const student = [55,61,65,69,72];
+  const system = [48,55,60,65,69];
+
+  ctx.clearRect(0,0,W,H);
+
+  const xStep = (W-pad*2)/(years.length-1);
+  const toY = v => H - pad - ((v-40)/(40))*(H-pad*2);
+
+  // Grid
+  [50,60,70,80].forEach(v => {
+    const y = toY(v);
+    ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(W-pad,y);
+    ctx.strokeStyle = 'rgba(200,168,75,0.1)'; ctx.stroke();
+    ctx.fillStyle = '#6a7f9a'; ctx.font = '10px monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText(v, pad-5, y+4);
+  });
+
+  // Lines
+  [[student,'#c8a84b'],[system,'#4a8fd4']].forEach(([data, color]) => {
+    ctx.beginPath();
+    data.forEach((v,i) => {
+      const x = pad + i*xStep, y = toY(v);
+      i === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    });
+    ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.stroke();
+    data.forEach((v,i) => {
+      ctx.beginPath();
+      ctx.arc(pad+i*xStep, toY(v), 4, 0, Math.PI*2);
+      ctx.fillStyle = color; ctx.fill();
+    });
+  });
+
+  // X labels
+  ctx.fillStyle = '#6a7f9a'; ctx.font = '10px Segoe UI'; ctx.textAlign = 'center';
+  years.forEach((y,i) => ctx.fillText(y, pad+i*xStep, H-10));
+
+  // Legend
+  ctx.fillStyle = '#c8a84b'; ctx.fillRect(pad, 10, 12, 4);
+  ctx.fillStyle = '#b8c8e0'; ctx.textAlign = 'left'; ctx.font = '10px Segoe UI';
+  ctx.fillText('Student Index', pad+16, 15);
+  ctx.fillStyle = '#4a8fd4'; ctx.fillRect(pad+130, 10, 12, 4);
+  ctx.fillStyle = '#b8c8e0'; ctx.fillText('System Index', pad+146, 15);
+}
+
+function drawHeatmap() {
+  const canvas = document.getElementById('heatmapChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  const subjects = ['Lang','Math','Science','SSt','Arts','Voc'];
+  const grades = ['Gr.1','Gr.2','Gr.3','Gr.4','Gr.5','Gr.6','Gr.7','Gr.8'];
+  const cellW = (W-80)/(grades.length);
+  const cellH = (H-30)/(subjects.length);
+
+  ctx.clearRect(0,0,W,H);
+
+  subjects.forEach((s,si) => {
+    ctx.fillStyle = '#6a7f9a'; ctx.font = '10px Segoe UI';
+    ctx.textAlign = 'right';
+    ctx.fillText(s, 72, 30 + si*cellH + cellH/2 + 4);
+
+    grades.forEach((g,gi) => {
+      const v = Math.floor(45 + Math.random()*50);
+      const alpha = v/100;
+      const r = Math.round(200*alpha + 15*(1-alpha));
+      const gch = Math.round(168*alpha + 40*(1-alpha));
+      const b = Math.round(75*alpha + 107*(1-alpha));
+      ctx.fillStyle = `rgb(${r},${gch},${b})`;
+      ctx.fillRect(80 + gi*cellW + 1, 30 + si*cellH + 1, cellW-2, cellH-2);
+
+      ctx.fillStyle = v > 65 ? '#0a1628' : '#dce6f4';
+      ctx.font = '9px monospace'; ctx.textAlign = 'center';
+      ctx.fillText(v, 80+gi*cellW+cellW/2, 30+si*cellH+cellH/2+3);
+    });
+  });
+
+  ctx.fillStyle = '#6a7f9a'; ctx.font = '10px Segoe UI'; ctx.textAlign = 'center';
+  grades.forEach((g,i) => ctx.fillText(g, 80+i*cellW+cellW/2, 22));
+}
+
+function refreshDashboard() {
+  // Slightly vary values
+  unifiedState.studentLayer.competencyIndex = Math.min(95, unifiedState.studentLayer.competencyIndex + Math.floor(Math.random()*3));
+  saveState();
+  initDashboard();
+  showToast('📊 Dashboard refreshed with latest data');
+}
+function exportDashboardData() {
+  const data = JSON.stringify(unifiedState, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'uetap_state_backup.json';
+  a.click();
+  showToast('💾 State exported to uetap_state_backup.json');
+}
+function importDashboardData() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        unifiedState = {...unifiedState, ...JSON.parse(ev.target.result)};
+        saveState();
+        initDashboard();
+        showToast('📂 State imported successfully');
+      } catch(err) { showToast('❌ Invalid state file'); }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+/* ==============================
+   SIMULATION
+============================== */
+let simYear = 3;
+function initSimulation() {}
+function showYear(y, btn) {
+  simYear = y;
+  document.querySelectorAll('.year-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderProjections();
+}
+function updateSimulation() {
+  ['reform','budget','teacher','policy','comm'].forEach(id => {
+    const slider = document.getElementById(id+'-slider');
+    const val = document.getElementById(id+'-val');
+    if (slider && val) val.textContent = slider.value + '%';
+  });
+  renderProjections();
+  renderCoherence();
+}
+
+function getSimParams() {
+  return {
+    reform: parseInt(document.getElementById('reform-slider')?.value || 65),
+    budget: parseInt(document.getElementById('budget-slider')?.value || 55),
+    teacher: parseInt(document.getElementById('teacher-slider')?.value || 70),
+    policy: parseInt(document.getElementById('policy-slider')?.value || 60),
+    comm: parseInt(document.getElementById('comm-slider')?.value || 50)
+  };
+}
+
+function projectValue(base, params, years) {
+  const avgParam = (params.reform*0.25 + params.budget*0.2 + params.teacher*0.3 + params.policy*0.15 + params.comm*0.1)/100;
+  return Math.min(98, Math.round(base + (avgParam * years * 4.2)));
+}
+
+function renderProjections() {
+  const p = getSimParams();
+  const y = simYear;
+  const projections = [
+    { label: 'Student Competency Index', base: unifiedState.studentLayer.competencyIndex },
+    { label: 'Teacher Growth Index', base: unifiedState.teacherLayer.growthIndex },
+    { label: 'School Reform Index', base: unifiedState.schoolLayer.reformIndex },
+    { label: 'Equity Index', base: unifiedState.systemLayer.equityIndex },
+    { label: 'Sustainability Index', base: unifiedState.schoolLayer.sustainability },
+    { label: 'Policy Coherence', base: unifiedState.systemLayer.policyScore }
+  ];
+
+  const container = document.getElementById('projection-results');
+  if (!container) return;
+  container.innerHTML = projections.map(proj => {
+    const projected = projectValue(proj.base, p, y);
+    return `
+      <div class="projection-bar">
+        <div class="proj-label">${proj.label}</div>
+        <div class="proj-track"><div class="proj-fill" style="width:${projected}%"></div></div>
+        <div class="proj-val">${projected}%</div>
+      </div>`;
+  }).join('');
+}
+
+function renderCoherence() {
+  const p = getSimParams();
+  const score = Math.round((p.reform*0.2 + p.budget*0.15 + p.teacher*0.3 + p.policy*0.25 + p.comm*0.1));
+  const el = document.getElementById('coherence-score');
+  if (el) el.textContent = score;
+}
+
+function runSimulation() {
+  renderProjections();
+  renderCoherence();
+  showToast('🔮 Simulation complete — projections updated for all year horizons');
+}
+
+/* ==============================
+   VISUALIZER
+============================== */
+const archLayers = [
+  { id: 'cognitive-layer', icon: '🧠', name: 'Cognitive Layer', badge: 'Learning Science', badgeColor: 'rgba(46,204,113,0.15)', badgeText: '#2ecc71',
+    desc: 'The cognitive layer encompasses all aspects of how students process, encode, store, and retrieve knowledge. It is grounded in cognitive load theory, working memory research, dual-coding theory, and metacognitive science. Every instructional decision should be informed by an understanding of cognitive architecture.',
+    impacts: ['Working Memory Optimization', 'Spaced Practice Schedules', 'Retrieval Practice Integration', 'Metacognitive Development', 'Schema Building', 'Transfer Learning'] },
+  { id: 'pedagogical-layer', icon: '📚', name: 'Pedagogical Layer', badge: 'Teaching-Learning', badgeColor: 'rgba(52,152,219,0.15)', badgeText: '#3498db',
+    desc: 'The pedagogical layer defines how teaching and learning are organized, enacted, and supported. It includes instructional strategies, classroom environment design, learning material development, and the teacher-student relationship. NCF 2023 emphasizes experiential, inquiry-based, and collaborative pedagogies.',
+    impacts: ['Inquiry-Based Learning', 'Collaborative Structures', 'Differentiated Instruction', 'Formative Assessment Cycles', 'Universal Design for Learning', 'Cultural Responsiveness'] },
+  { id: 'assessment-layer', icon: '📝', name: 'Assessment Layer', badge: 'Feedback & Validation', badgeColor: 'rgba(230,126,34,0.15)', badgeText: '#e67e22',
+    desc: 'The assessment layer converts learning evidence into diagnostic intelligence. It includes formative checks, summative evaluations, portfolio documentation, and competency validation. NEP 2020 calls for a fundamental redesign of this layer — away from high-stakes gatekeeping toward continuous, meaningful feedback.',
+    impacts: ['Competency Validation', 'Learning Gap Diagnosis', 'Growth Documentation', 'Intervention Triggering', 'Portfolio Evidence', 'Systemic Reporting'] },
+  { id: 'governance-layer', icon: '🏛️', name: 'Governance Layer', badge: 'Leadership & Management', badgeColor: 'rgba(155,89,182,0.15)', badgeText: '#9b59b6',
+    desc: 'The governance layer encompasses all institutional structures, decision-making processes, resource allocation mechanisms, and accountability systems that shape how schools function. Effective governance distributes leadership, uses data for decisions, and creates conditions for continuous improvement.',
+    impacts: ['Distributed Leadership', 'Data-Informed Decisions', 'Resource Optimization', 'Professional Culture Building', 'Community Engagement', 'Reform Sustainability'] },
+  { id: 'policy-layer', icon: '📜', name: 'Policy Layer', badge: 'Strategic Direction', badgeColor: 'rgba(200,168,75,0.15)', badgeText: '#c8a84b',
+    desc: 'The policy layer establishes the macro-level framework within which all other layers operate. NEP 2020 and NCF 2023 represent the current policy layer for Indian education. Policies shape what is possible at every other layer — what teachers can teach, how students can be assessed, what resources are available.',
+    impacts: ['Curriculum Standards', 'Assessment Mandates', 'Teacher Qualification Norms', 'Resource Allocation Formulas', 'Equity Obligations', 'Accountability Frameworks'] }
+];
+
+function initVisualizer() {
+  const container = document.getElementById('arch-layers-container');
+  if (container.children.length > 0) return;
+  container.innerHTML = archLayers.map(l => `
+    <div class="arch-layer" id="${l.id}" onclick="toggleLayer('${l.id}')">
+      <div class="arch-layer-header">
+        <span class="arch-layer-icon">${l.icon}</span>
+        <span class="arch-layer-name">${l.name}</span>
+        <span class="arch-layer-badge" style="background:${l.badgeColor}; color:${l.badgeText}">${l.badge}</span>
+        <span class="arch-layer-expand">▼</span>
+      </div>
+      <div class="arch-layer-body">
+        <p>${l.desc}</p>
+        <div class="impact-tags">${l.impacts.map(i => `<span class="impact-tag">${i}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleLayer(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
+/* ==============================
+   EQUITY MONITOR
+============================== */
+const equityItems = [
+  { name: 'Inclusion Index', key: 'inclusion', color: '#2ecc71' },
+  { name: 'Gender Parity Index', key: 'gender', color: '#3498db' },
+  { name: 'Access Equity Index', key: 'access', color: '#e67e22' },
+  { name: 'Digital Inclusion Index', key: 'digital', color: '#9b59b6' },
+  { name: 'Rural Equity Index', key: 'rural', color: '#1abc9c' },
+  { name: 'Minority Inclusion Index', key: 'minority', color: '#f39c12' }
+];
+
+function initEquity() {
+  const grid = document.getElementById('equity-grid-container');
+  if (grid.children.length > 0) { recalcEquity(); return; }
+  grid.innerHTML = equityItems.map(e => `
+    <div class="equity-item">
+      <div class="equity-name">${e.name}</div>
+      <div class="equity-score" id="eq-score-${e.key}" style="color:${e.color}">${unifiedState.equity[e.key]}</div>
+      <div class="equity-bar">
+        <div class="equity-bar-fill" id="eq-bar-${e.key}" style="width:${unifiedState.equity[e.key]}%; background:${e.color}"></div>
+      </div>
+      <div class="equity-note" id="eq-note-${e.key}">—</div>
+    </div>`).join('');
+  recalcEquity();
+}
+
+function recalcEquity() {
+  const vals = Object.values(unifiedState.equity);
+  const avg = Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+
+  equityItems.forEach(e => {
+    const v = unifiedState.equity[e.key];
+    const scoreEl = document.getElementById(`eq-score-${e.key}`);
+    const barEl = document.getElementById(`eq-bar-${e.key}`);
+    const noteEl = document.getElementById(`eq-note-${e.key}`);
+    if (scoreEl) scoreEl.textContent = v;
+    if (barEl) barEl.style.width = v + '%';
+    if (noteEl) noteEl.textContent = v < 60 ? '⚠️ Critical gap — immediate attention required' : v < 75 ? '📋 Developing — targeted support needed' : '✅ Good standing — monitor and sustain';
+  });
+
+  const ethicsEl = document.getElementById('ethics-score');
+  if (ethicsEl) ethicsEl.textContent = avg;
+}
+
+/* ==============================
+   FORMULAS
+============================== */
+const formulaData = [
+  {
+    name: 'Unified Education Index (UEI)',
+    expr: 'UEI = (0.30 × SCI) + (0.25 × TGI) + (0.20 × SRI) + (0.15 × PI) + (0.10 × EI)',
+    desc: 'The Unified Education Index combines Student Competency Index (SCI), Teacher Growth Index (TGI), School Reform Index (SRI), Policy Index (PI), and Equity Index (EI) using evidence-weighted coefficients. Teacher quality is weighted highest, reflecting research on its outsized impact.'
+  },
+  {
+    name: 'System Coherence Score (SCS)',
+    expr: 'SCS = 1 - √[(σ₁² + σ₂² + σ₃² + σ₄²) / 4] / 100',
+    desc: 'Coherence measures alignment between system layers. It is computed as 1 minus the normalized standard deviation across four layer indices: curriculum alignment, assessment alignment, teacher development alignment, and policy alignment. Higher coherence means layers are pulling in the same direction.'
+  },
+  {
+    name: 'Reform Sustainability Index (RSI)',
+    expr: 'RSI = (CP × 0.35) + (IC × 0.25) + (CE × 0.2) + (AM × 0.2)',
+    desc: 'Reform Sustainability Index weighs Cultural Permeation (CP) — how deeply the reform has changed professional norms — with Internal Capacity (IC), Community Engagement (CE), and Adaptive Management quality (AM). Reforms with low CP are vulnerable to reversal when leadership changes.'
+  },
+  {
+    name: 'Competency Continuum Score (CCS)',
+    expr: 'CCS = Σ(LO_achieved × weight_i) / Σ(weight_i) × 100',
+    desc: 'The Competency Continuum Score is a weighted average of Learning Outcomes (LOs) achieved, where each LO is weighted by its complexity level (Level 1 = 1.0, Level 6 = 2.5). This gives more credit for higher-order competency achievement than for lower-order recall.'
+  },
+  {
+    name: 'Integration Efficiency Ratio (IER)',
+    expr: 'IER = (Cross-module data utilization events) / (Total available integration triggers) × 100',
+    desc: 'IER measures how effectively the platform\'s modules share data with each other. An IER of 100% means every diagnostic finding from one module triggers appropriate updates in all connected modules. Low IER indicates siloed module operation and wasted diagnostic intelligence.'
+  },
+  {
+    name: 'Equity Balance Score (EBS)',
+    expr: 'EBS = [Σ(domain_score_i) / n] × [1 - (max_gap / 100)]',
+    desc: 'EBS combines the mean equity score across all domains with a gap penalty: the maximum gap between the highest and lowest domain scores reduces the overall score. This ensures that high average equity cannot mask extreme disparities in specific domains — a school cannot "average away" a severe digital divide.'
+  }
+];
+
+function initFormulas() {
+  const container = document.getElementById('formulas-container');
+  if (container.children.length > 0) return;
+  container.innerHTML = formulaData.map(f => `
+    <div class="formula-card">
+      <div class="formula-name">${f.name}</div>
+      <div class="formula-expr">${f.expr}</div>
+      <div class="formula-desc">${f.desc}</div>
+    </div>`).join('');
+
+  // Compute live values
+  const p = unifiedState;
+  const uei = Math.round(p.studentLayer.competencyIndex*0.30 + p.teacherLayer.growthIndex*0.25 + p.schoolLayer.reformIndex*0.20 + p.systemLayer.policyScore*0.15 + p.systemLayer.equityIndex*0.10);
+  const liveVals = `// Live Computed Values (${new Date().toLocaleDateString()})
+const UEI = ${uei};   // Unified Education Index
+const SCS = ${unifiedState.systemLayer.coherence}; // System Coherence Score
+const RSI = ${unifiedState.schoolLayer.sustainability}; // Reform Sustainability Index
+const EBS = ${Math.round(Object.values(p.equity).reduce((a,b)=>a+b)/Object.values(p.equity).length)}; // Equity Balance Score
+
+// computeUEI(state) → returns weighted composite of all 5 layer indices
+function computeUEI(s) {
+  return Math.round(
+    s.studentLayer.competencyIndex * 0.30 +
+    s.teacherLayer.growthIndex     * 0.25 +
+    s.schoolLayer.reformIndex      * 0.20 +
+    s.systemLayer.policyScore      * 0.15 +
+    s.systemLayer.equityIndex      * 0.10
+  );
+}`;
+
+  document.getElementById('json-schema-display').textContent =
+`// architectureSchema.json — Unified Data Schema
+{
+  "student": {
+    "id": "STU_001",
+    "name": "Sample Student",
+    "grade": 7,
+    "competencies": {
+      "language": 72, "mathematics": 65, "science": 78,
+      "social_studies": 70, "arts": 80, "life_skills": 68
+    },
+    "fln": { "literacy": 75, "numeracy": 65, "level": "Proficient" },
+    "portfolio_count": 12,
+    "last_assessment": "2025-12-01"
+  },
+  "teacher": {
+    "id": "TCH_001",
+    "name": "Sample Teacher",
+    "subject": "Mathematics",
+    "cpd_hours_this_year": 42,
+    "observation_score": 78,
+    "growth_index": 74
+  },
+  "school": {
+    "name": "Govt. High School",
+    "district": "Baramulla",
+    "reform_index": 69,
+    "sustainability_score": 73,
+    "equity_score": 76
+  }
+}
+
+${liveVals}`;
+}
+
+/* ==============================
+   REPORT GENERATOR
+============================== */
+function generateReport() {
+  const inst = document.getElementById('inst-name').value || 'School Name Not Provided';
+  const type = document.getElementById('report-type').value;
+  const year = document.getElementById('acad-year').value || '2025–26';
+  const principal = document.getElementById('principal-name').value || 'Not Specified';
+  const uei = Math.round(unifiedState.studentLayer.competencyIndex*0.30 + unifiedState.teacherLayer.growthIndex*0.25 + unifiedState.schoolLayer.reformIndex*0.20 + unifiedState.systemLayer.policyScore*0.15 + unifiedState.systemLayer.equityIndex*0.10);
+
+  const reportTypes = {
+    transformation: {
+      title: 'Institutional Transformation Report',
+      content: `
+        <strong>1. Executive Summary</strong><br>
+        ${inst} has demonstrated ${unifiedState.schoolLayer.reformIndex}% reform implementation for Academic Year ${year}. The Unified Education Index stands at ${uei}/100, reflecting a developing institutional trajectory aligned with NEP 2020 reform goals.<br><br>
+        <strong>2. Key Performance Indicators</strong><br>
+        • Student Competency Index: ${unifiedState.studentLayer.competencyIndex}/100<br>
+        • Teacher Growth Index: ${unifiedState.teacherLayer.growthIndex}/100<br>
+        • School Reform Index: ${unifiedState.schoolLayer.reformIndex}/100<br>
+        • Equity Index: ${unifiedState.systemLayer.equityIndex}/100<br><br>
+        <strong>3. Strategic Priorities for Coming Year</strong><br>
+        Based on index analysis, priority areas are: (1) Strengthening FLN outcomes in early grades, (2) Expanding teacher CPD coverage, (3) Improving equity index through targeted inclusion initiatives.<br><br>
+        <strong>4. Certification</strong><br>
+        Prepared by: ${principal} | Date: ${new Date().toLocaleDateString()}`
+    },
+    competency: {
+      title: 'Unified Competency Report',
+      content: `
+        <strong>Competency Distribution Report — ${inst}</strong><br>
+        Academic Year: ${year}<br><br>
+        <strong>Subject-wise Competency Indices:</strong><br>
+        • Language Arts: ${unifiedState.studentLayer.subjects[0]}%<br>
+        • Mathematics: ${unifiedState.studentLayer.subjects[1]}%<br>
+        • Science: ${unifiedState.studentLayer.subjects[2]}%<br>
+        • Social Studies: ${unifiedState.studentLayer.subjects[3]}%<br>
+        • Arts & Crafts: ${unifiedState.studentLayer.subjects[4]}%<br>
+        • Life Skills: ${unifiedState.studentLayer.subjects[5]}%<br><br>
+        <strong>Competency Continuum Score: ${Math.round(unifiedState.studentLayer.subjects.reduce((a,b)=>a+b)/unifiedState.studentLayer.subjects.length)}/100</strong><br><br>
+        Prepared by: ${principal}`
+    },
+    sustainability: {
+      title: 'Reform Sustainability Report',
+      content: `
+        <strong>Reform Sustainability Analysis — ${inst}</strong><br>
+        Year: ${year} | Sustainability Index: ${unifiedState.schoolLayer.sustainability}/100<br><br>
+        <strong>Sustainability Dimensions:</strong><br>
+        • Cultural Permeation: ${Math.round(unifiedState.schoolLayer.sustainability * 0.9)}%<br>
+        • Internal Capacity: ${Math.round(unifiedState.teacherLayer.growthIndex * 0.95)}%<br>
+        • Community Engagement: ${Math.round(unifiedState.systemLayer.equityIndex * 0.8)}%<br>
+        • Adaptive Management: ${Math.round(unifiedState.systemLayer.coherence * 1.05)}%<br><br>
+        <strong>Sustainability Projection:</strong><br>
+        At current trajectory, reform sustainability is projected to reach ${Math.min(95, unifiedState.schoolLayer.sustainability + 8)}% in 2 years with continued CPD investment.<br><br>
+        Certified by: ${principal}`
+    },
+    policy: {
+      title: 'Policy Impact Summary',
+      content: `
+        <strong>NEP 2020 Policy Implementation Summary</strong><br>
+        ${inst} | Year: ${year}<br><br>
+        <strong>Implementation Status:</strong><br>
+        • Competency-based curriculum: In Progress (${unifiedState.schoolLayer.reformIndex}%)<br>
+        • Assessment reform: Initiated (${unifiedState.teacherLayer.growthIndex}%)<br>
+        • FLN integration: ${unifiedState.studentLayer.fln}% complete<br>
+        • Teacher development alignment: ${unifiedState.teacherLayer.cpd}%<br>
+        • Equity interventions: ${unifiedState.systemLayer.equityIndex}% coverage<br><br>
+        <strong>Policy Coherence Score: ${unifiedState.systemLayer.policyScore}/100</strong><br><br>
+        Submitted by: ${principal} | ${new Date().toLocaleDateString()}`
+    }
+  };
+
+  const report = reportTypes[type];
+  document.getElementById('report-preview').innerHTML = `
+    <div style="border:1px solid var(--border); border-radius:4px; padding:1.5rem; background:rgba(15,32,68,0.5);">
+      <div style="text-align:center; border-bottom:1px solid var(--border); padding-bottom:1rem; margin-bottom:1rem;">
+        <div style="font-family:var(--font-display); color:var(--white); font-size:1rem; margin-bottom:0.3rem;">${report.title}</div>
+        <div style="color:var(--text); font-size:0.78rem;">${inst}</div>
+        <div style="color:var(--accent); font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase;">NEP 2020 | NCF 2023 | Developed by Mateen Yousuf</div>
+      </div>
+      <div style="color:var(--text-light); font-size:0.82rem; line-height:1.9;">${report.content}</div>
+    </div>`;
+  showToast('📄 Report generated successfully');
+}
+
+function printReport() {
+  const preview = document.getElementById('report-preview').innerHTML;
+  const win = window.open('','_blank');
+  win.document.write(`<html><head><title>UETAP Report</title>
+    <style>body{font-family:Georgia,serif;padding:2rem;color:#000;line-height:1.8;}</style>
+    </head><body>${preview}</body></html>`);
+  win.print();
+}
+
+/* ==============================
+   VISION SCREEN
+============================== */
+function initVision() {
+  const flowData = [
+    { n: 1, title: 'Adaptive Learning identifies gap', desc: 'The FLN Diagnostic Engine detects a gap in foundational numeracy for a group of Grade 3 students. The gap is classified as Level 2 (Emerging) in Number Sense competency.' },
+    { n: 2, title: 'Curriculum Mapper updates plan', desc: 'The Competency Mapping Studio automatically flags the relevant curriculum sequence and suggests inserting a 2-week remediation unit before the next chapter.' },
+    { n: 3, title: 'Teacher Mentoring suggests strategy', desc: 'The Teacher Mentoring Lab recommends three specific instructional strategies (manipulative-based learning, peer tutoring, visual number line) aligned to the diagnosed gap.' },
+    { n: 4, title: 'Portfolio updates evidence', desc: 'Student portfolios are flagged for additional evidence collection during the remediation period. Teachers are prompted to document progress using structured observation notes.' },
+    { n: 5, title: 'Analytics dashboard updates', desc: 'The Academic Analytics System updates cohort tracking to monitor whether the intervention is closing the identified gap. Weekly progress indicators are set.' },
+    { n: 6, title: 'Leadership dashboard adjusts priority', desc: 'The Leadership Decision Simulator flags this cohort as a priority for resource allocation decisions in the next planning cycle, with a 4-week review checkpoint.' }
+  ];
+
+  const flowContainer = document.getElementById('integration-flow');
+  if (flowContainer.children.length === 0) {
+    flowContainer.innerHTML = flowData.map(f => `
+      <div class="flow-step">
+        <div class="flow-dot">${f.n}</div>
+        <div class="flow-body">
+          <h4>${f.title}</h4>
+          <p>${f.desc}</p>
+        </div>
+      </div>`).join('');
+  }
+
+  const diagramEl = document.getElementById('integration-diagram');
+  if (diagramEl) diagramEl.textContent = `
+Integration Rule Engine — Cross-Module Data Flow
+═══════════════════════════════════════════════════════════════
+
+  [FLN Engine]  →  gap_detected(student_id, competency, level)
+       ↓
+  [Curriculum Mapper]  →  update_sequence(grade, competency)
+       ↓
+  [Teacher Mentoring]  →  suggest_strategy(teacher_id, gap_type)
+       ↓
+  [Portfolio System]   →  flag_evidence_collection(student_id)
+       ↓
+  [Analytics Dashboard] → update_cohort_tracker(class_id)
+       ↓
+  [Leadership Sim]     →  adjust_priority(school_id, resource_flag)
+
+Rule: IF gap_level ≤ 2 AND cohort_size > 20%
+      THEN escalate_to_school_intervention = TRUE
+      AND  notify_cluster_resource_teacher = TRUE
+
+═══════════════════════════════════════════════════════════════`;
+}
+
+/* ==============================
+   APK GUIDE
+============================== */
+function initApkGuide() {
+  const container = document.getElementById('apk-steps-container');
+  if (container.children.length > 0) return;
+  const steps = [
+    {
+      title: 'Step 1: Build Your Static Files',
+      text: 'Save index.html, manifest.json, service-worker.js, and author.jpg into a folder named <code>jkbose-class9-science-app</code>. This is your complete app.',
+      code: 'mkdir jkbose-class9-science-app\ncp index.html manifest.json service-worker.js author.jpg ./jkbose-class9-science-app/'
+    },
+    {
+      title: 'Step 2: Set Up PWA Manifest',
+      text: 'Create manifest.json with app metadata, icons, and display settings. The "display: standalone" property makes it behave like a native app without browser chrome.',
+      code: '// manifest.json\n{\n  "name": "UETAP",\n  "short_name": "UETAP",\n  "start_url": "./index.html",\n  "display": "standalone",\n  "theme_color": "#0a1628"\n}'
+    },
+    {
+      title: 'Step 3: Register Service Worker',
+      text: 'Add the service worker registration script at the bottom of index.html. This enables offline caching so the app works without internet after first load.',
+      code: '// Add before <\/body>:\n<scr'+'ipt>\nif ("serviceWorker" in navigator) {\n  navigator.serviceWorker.register("./service-worker.js")\n    .then(() => console.log("SW registered"));\n}\n<\/scr'+'ipt>'
+    },
+    {
+      title: 'Step 4: Install to Android (PWA Method)',
+      text: 'Open index.html in Chrome on Android. Tap the 3-dot menu → "Add to Home Screen". The app will install like a native app with its own icon, splash screen, and standalone window.',
+      code: '// No code required — Chrome handles this automatically\n// Works on any Android device running Chrome 67+'
+    },
+    {
+      title: 'Step 5: Create APK via Android Studio (Advanced)',
+      text: 'For a proper APK, create a new Android Studio project, select "Empty Activity", replace the WebView URL with your local HTML file path bundled as an asset.',
+      code: '// In MainActivity.java:\nWebView webView = new WebView(this);\nwebView.getSettings().setJavaScriptEnabled(true);\nwebView.loadUrl("file:///android_asset/index.html");\nsetContentView(webView);'
+    }
+  ];
+  container.innerHTML = steps.map(s => `
+    <div class="step-item">
+      <h4>${s.title}</h4>
+      <p>${s.text}</p>
+      <pre class="code-snippet">${s.code}</pre>
+    </div>`).join('');
+}
+
+/* ==============================
+   TOAST
+============================== */
+let toastTimer = null;
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+/* ==============================
+   PWA SERVICE WORKER REGISTRATION
+============================== */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(() => {})
+      .catch(() => {});
+  });
+}
+
+/* ==============================
+   INIT
+============================== */
+function buildPageButtons() {
+  const container = document.getElementById('fw-page-btns');
+  if (!container) return;
+  let html = '';
+  for (let i = 1; i <= 20; i++) {
+    html += '<button class="year-tab" id="pg-btn-' + i + '" onclick="loadFrameworkPage(' + i + ')">' + i + '</button>';
+  }
+  container.innerHTML = html;
+}
+
+window.addEventListener('load', () => {
+  buildPageButtons();
+  setTimeout(() => {
+    const loading = document.getElementById('loading-screen');
+    loading.style.opacity = '0';
+    loading.style.transition = 'opacity 0.5s ease';
+    setTimeout(() => loading.style.display = 'none', 500);
+    loadFrameworkPage(1);
+    showToast('🎓 UETAP Platform loaded · All systems operational');
+  }, 1200);
+});
+</script>
+
+</body>
+</html>
